@@ -24,3 +24,16 @@ Route::get('profile', 'PagesController@profile');
 
 // about page
 Route::get('about', 'PagesController@about');
+
+
+
+
+// AUTHENTICATION
+
+Route::get('/auth/facebook', 'Auth\AuthController@authRedirectToFacebook');
+Route::get('/auth/facebook/login-callback', 'Auth\AuthController@handleFacebookCallback');
+
+Route::get('/auth/google', 'Auth\AuthController@authRedirectToGoogle');
+Route::get('/auth/google/login-callback', 'Auth\AuthController@handleGoogleCallback');
+
+Route::get('/checkAuth', 'Auth\AuthController@showValidated');

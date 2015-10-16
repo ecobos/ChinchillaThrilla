@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
+
 class AuthController extends Controller
 {
     /*
@@ -61,5 +64,62 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    /**
+     * Redirect the user to the Facebook authentication page.
+     *
+     * @return Response
+     */
+    public function authRedirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Facebook.
+     *
+     * @return Response
+     */
+    public function handleFacebookCallback()
+    {
+
+        $user = Socialite::driver('facebook')->user();
+        print $user->getName() .'\n';
+        print $user->getEmail().'\n';
+        print $user->getAvatar();
+
+        // $user->token;
+    }
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return Response
+     */
+    public function authRedirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return Response
+     */
+    public function handleGoogleCallback()
+    {
+
+        $user = Socialite::driver('google')->user();
+        print_r($user);
+        // $user->token;
+    }
+
+    public function showValidated(Request $request){
+        //$authUser = Auth::user();
+
+        $authUser = $request->user();
+        var_dump($authUser);
+        return view('validationTest', compact('authUser'));
     }
 }
