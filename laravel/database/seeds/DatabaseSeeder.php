@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -14,8 +15,29 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(UserTableSeeder::class);
+        $this->call(BrandTableSeeder::class);
+        $this->call(CategoryTableSeeder::class);
 
         Model::reguard();
+    }
+}
+
+
+class BrandTableSeeder extends Seeder 
+{
+    public function run()
+    {
+        DB::table('brands')->delete();
+        App\Brand::create(['brand_name' => 'Bose']);
+    }
+}
+
+
+class CategoryTableSeeder extends Seeder 
+{
+    public function run()
+    {
+        DB::table('categories')->delete();
+        App\Category::create(['category_name' => 'Headphones']);
     }
 }

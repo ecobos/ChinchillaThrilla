@@ -12,7 +12,7 @@ class CreateReviewTable extends Migration
      */
     public function up()
     {
-        Schema::create('review', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('user_id')->on('user');
@@ -34,6 +34,6 @@ class CreateReviewTable extends Migration
      */
     public function down()
     {
-        Schema::drop('review');
+        Schema::drop('reviews');
     }
 }

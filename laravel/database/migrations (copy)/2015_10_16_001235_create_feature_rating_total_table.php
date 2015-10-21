@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeatureRatingTable extends Migration
+class CreateFeatureRatingTotalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,7 @@ class CreateFeatureRatingTable extends Migration
      */
     public function up()
     {
-        Schema::create('feature_ratings', function (Blueprint $table) {
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('user_id')->on('user');
+        Schema::create('feature_rating_total', function (Blueprint $table) {
 
             $table->integer('prod_id')->unsigned();
             $table->foreign('prod_id')->references('prod_id')->on('product');
@@ -23,9 +20,10 @@ class CreateFeatureRatingTable extends Migration
             $table->integer('feature_id')->unsigned();
             $table->foreign('feature_id')->references('feature_id')->on('feature');
 
-            $table->primary(['user_id', 'prod_id', 'feature_id']);  // composite PK
+            $table->primary(['prod_id', 'feature_id']);  // composite PK
 
-            $table->integer('rating')->default($value = 0);
+            $table->bigInteger('score'); // values can be neg or pos
+            $table->unsignedBigInteger('total_votes');  // We assume that total votes can't be negative
             $table->timestamps();
         });
     }
@@ -37,6 +35,6 @@ class CreateFeatureRatingTable extends Migration
      */
     public function down()
     {
-        Schema::drop('feature_ratings');
+        Schema::drop('feature_rating_total');
     }
 }
