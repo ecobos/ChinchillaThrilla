@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeatureTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,12 @@ class CreateFeatureTable extends Migration
      */
     public function up()
     {
-        Schema::create('features', function (Blueprint $table) {
-            $table->increments('feature_id');
-            $table->string('feature_name');
+        Schema::create('user', function (Blueprint $table) {
+            $table->increments('user_id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password', 60);
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateFeatureTable extends Migration
      */
     public function down()
     {
-        Schema::drop('features');
+        Schema::drop('user');
     }
 }

@@ -6,14 +6,15 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'CreateBrandsTable' => $baseDir . '/database/migrations/2015_10_16_000637_create_brand_table.php',
+    'CreateBrandTable' => $baseDir . '/database/migrations/2015_10_16_000637_create_brand_table.php',
+    'CreateBrandsTable' => $baseDir . '/database/migrations/2015_10_21_004759_create_brands_table.php',
     'CreateCategoryTable' => $baseDir . '/database/migrations/2015_10_16_000653_create_category_table.php',
     'CreateFeatureRatingTable' => $baseDir . '/database/migrations/2015_10_16_001153_create_feature_rating_table.php',
     'CreateFeatureRatingTotalTable' => $baseDir . '/database/migrations/2015_10_16_001235_create_feature_rating_total_table.php',
     'CreateFeatureTable' => $baseDir . '/database/migrations/2015_10_16_000724_create_feature_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
-    'CreateProductsTable' => $baseDir . '/database/migrations/2015_10_16_000618_create_product_table.php',
-    'CreateReviewsTable' => $baseDir . '/database/migrations/2015_10_16_001106_create_review_table.php',
+    'CreateProductTable' => $baseDir . '/database/migrations/2015_10_16_000618_create_product_table.php',
+    'CreateReviewTable' => $baseDir . '/database/migrations/2015_10_16_001106_create_review_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

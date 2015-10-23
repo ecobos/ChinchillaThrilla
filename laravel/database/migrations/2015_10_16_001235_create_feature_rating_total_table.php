@@ -12,7 +12,7 @@ class CreateFeatureRatingTotalTable extends Migration
      */
     public function up()
     {
-        Schema::create('feature_rating_total', function (Blueprint $table) {
+        Schema::create('feature_rating_totals', function (Blueprint $table) {
 
             $table->integer('prod_id')->unsigned();
             $table->foreign('prod_id')->references('prod_id')->on('product');
@@ -35,6 +35,6 @@ class CreateFeatureRatingTotalTable extends Migration
      */
     public function down()
     {
-        Schema::drop('feature_rating_total');
+        Schema::drop('feature_rating_totals');
     }
 }

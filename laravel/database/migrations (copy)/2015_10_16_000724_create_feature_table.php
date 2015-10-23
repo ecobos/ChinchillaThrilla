@@ -12,7 +12,7 @@ class CreateFeatureTable extends Migration
      */
     public function up()
     {
-        Schema::create('features', function (Blueprint $table) {
+        Schema::create('feature', function (Blueprint $table) {
             $table->increments('feature_id');
             $table->string('feature_name');
             $table->timestamps();
@@ -26,6 +26,6 @@ class CreateFeatureTable extends Migration
      */
     public function down()
     {
-        Schema::drop('features');
+        Schema::drop('feature');
     }
 }

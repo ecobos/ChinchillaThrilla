@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeatureRatingTable extends Migration
+class CreateReviewTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateFeatureRatingTable extends Migration
      */
     public function up()
     {
-        Schema::create('feature_ratings', function (Blueprint $table) {
+        Schema::create('review', function (Blueprint $table) {
 
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('user_id')->on('user');
@@ -20,13 +20,10 @@ class CreateFeatureRatingTable extends Migration
             $table->integer('prod_id')->unsigned();
             $table->foreign('prod_id')->references('prod_id')->on('product');
 
-            $table->integer('feature_id')->unsigned();
-            $table->foreign('feature_id')->references('feature_id')->on('feature');
+            $table->primary(['user_id', 'prod_id']);  // composite PK
 
-            $table->primary(['user_id', 'prod_id', 'feature_id']);  // composite PK
-
-            $table->integer('rating')->default($value = 0);
-            $table->timestamps();
+            $table->string('review_text');  // string because review is limited to up to 254 chars
+            $table->timestamps();  // same as date
         });
     }
 
@@ -37,6 +34,6 @@ class CreateFeatureRatingTable extends Migration
      */
     public function down()
     {
-        Schema::drop('feature_ratings');
+        Schema::drop('review');
     }
 }

@@ -12,7 +12,7 @@ class CreateBrandTable extends Migration
      */
     public function up()
     {
-        Schema::create('brand', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->increments('brand_id');
             $table->string('brand_name');
             $table->timestamps();
@@ -26,6 +26,6 @@ class CreateBrandTable extends Migration
      */
     public function down()
     {
-        Schema::drop('brand');
+        Schema::drop('brands');
     }
 }
