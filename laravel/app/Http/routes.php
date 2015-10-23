@@ -37,3 +37,15 @@ Route::get('/auth/google', 'Auth\AuthController@authRedirectToGoogle');
 Route::get('/auth/google/login-callback', 'Auth\AuthController@handleGoogleCallback');
 
 Route::get('/checkAuth', 'Auth\AuthController@showValidated');
+
+
+// PRODUCT ROUTES
+Route::group(['prefix'=>'product'], function()
+{
+	Route::get('',['uses'=>'ProductController@getProducts']); 
+	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
+	Route::post('', ['uses'=>'ProductController@create']); 
+	Route::put('{id}', ['uses'=>'ProductController@update']); 
+	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
+	
+});
