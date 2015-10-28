@@ -56,5 +56,5 @@ Route::group(['prefix'=>'search'], function()
 {
 		Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
 		Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
-		//Route::get('brand/{query}', 	['uses'=>'SearchController@getProductByBrand']);
+		Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
