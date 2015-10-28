@@ -37,3 +37,15 @@ Route::get('/auth/logout', ['middleware' => 'ifAuth', function(){
 }]);
 
 Route::get('/checkAuth', 'Auth\AuthController@showValidated');
+
+
+// PRODUCT ROUTES
+Route::group(['prefix'=>'product'], function()
+{
+	Route::get('',['uses'=>'ProductController@getProducts']); 
+	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
+	Route::post('', ['uses'=>'ProductController@create']); 
+	Route::put('{id}', ['uses'=>'ProductController@update']); 
+	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
+	
+});
