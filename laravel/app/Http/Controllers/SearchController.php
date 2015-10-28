@@ -27,7 +27,7 @@ class SearchController extends Controller
                 $results[] = $r;
         }
 
-        return var_dump($results);
+        return json_encode($results);
     }
 
     public function getProductsByCategory ($query)

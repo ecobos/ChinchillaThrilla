@@ -58,3 +58,12 @@ Route::group(['prefix'=>'search'], function()
 		Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
 		Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
+
+
+// REVIEW ROUTES
+Route::group(['prefix'=>'reviews'], function()
+{
+	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
+	Route::post('', ['uses'=>'ReviewController@createReview']);
+});
+
