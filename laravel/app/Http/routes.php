@@ -17,16 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// route gets called by going to  http://localhost:8000/profile
-// calls profile function in PagesController
-// profile function within PagesController then calls the view within resources/views
 Route::get('profile', 'PagesController@profile');
 
 // about page
 Route::get('about', 'PagesController@about');
-
-
-
 
 // AUTHENTICATION
 
@@ -35,5 +29,11 @@ Route::get('/auth/facebook/login-callback', 'Auth\AuthController@handleFacebookC
 
 Route::get('/auth/google', 'Auth\AuthController@authRedirectToGoogle');
 Route::get('/auth/google/login-callback', 'Auth\AuthController@handleGoogleCallback');
+
+Route::get('/auth/logout', ['middleware' => 'ifAuth', function(){
+
+        Auth::logout();
+        return "<b> Logged out </b>";
+}]);
 
 Route::get('/checkAuth', 'Auth\AuthController@showValidated');

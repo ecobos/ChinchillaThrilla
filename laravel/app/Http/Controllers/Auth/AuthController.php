@@ -7,6 +7,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
@@ -36,35 +38,6 @@ class AuthController extends Controller
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
-    }
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
-    }
 
     /**
      * Redirect the user to the Facebook authentication page.
@@ -83,13 +56,42 @@ class AuthController extends Controller
      */
     public function handleFacebookCallback()
     {
+        try{
+            $user = Socialite::driver('facebook')->user();
+        } catch (Exception $e){
+            return Redirect::to('auth/facebook');
+        }
 
-        $user = Socialite::driver('facebook')->user();
-        print $user->getName() .'\n';
-        print $user->getEmail().'\n';
-        print $user->getAvatar();
 
-        // $user->token;
+        $authUser = $this->findOrCreateUser($user, 'facebook');
+
+        Auth::login($authUser, true);
+
+        $name = $authUser->name;
+        $email = $authUser->email;
+        $avatar = $authUser->avatar;
+
+        return view('profile', compact('name', 'email', 'avatar'));
+    }
+
+    /**
+     *
+     * @param $aUser
+     * @return static
+     */
+    private function findOrCreateUser($aUser, $authProvider){
+
+        if($authUser = User::where('app_id', $aUser->id)->where('auth_provider', $authProvider)->first()){
+            return $authUser;
+        }
+
+        return User::create([
+            'auth_provider' => $authProvider,
+            'app_id' => $aUser->id,
+            'name' => $aUser->name,
+            'email' => $aUser->email,
+            'avatar' => $aUser->avatar
+        ]);
     }
 
     /**
@@ -110,16 +112,17 @@ class AuthController extends Controller
     public function handleGoogleCallback()
     {
 
-        $user = Socialite::driver('google')->user();
-        print_r($user);
-        // $user->token;
-    }
+        try{
+            $user = Socialite::driver('google')->user();
+        } catch (Exception $e){
+            return Redirect::to('auth/google');
+        }
 
-    public function showValidated(Request $request){
-        //$authUser = Auth::user();
 
-        $authUser = $request->user();
-        var_dump($authUser);
-        return view('validationTest', compact('authUser'));
+        $authUser = $this->findOrCreateUser($user, 'google');
+
+        Auth::login($authUser, true);
+
+        return Redirect::to('/');
     }
 }

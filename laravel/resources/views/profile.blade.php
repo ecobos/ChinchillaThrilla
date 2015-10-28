@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>User Account Page: {{ $first }} {{ $last }}</title>
+	<title>User Account Page: {{ $name }}</title>
 	<style type="text/css">
 		/* USER PROFILE PAGE */
 		.card {
@@ -97,9 +97,9 @@
 	            <!-- http://lorempixel.com/850/280/people/9/ -->
 	        </div>
 	        <div class="useravatar">
-	            <img alt="" src="http://lorempixel.com/100/100/people/9/">
+	            <img alt="" src="{{$avatar}}">
 	        </div>
-	        <div class="card-info"> <span class="card-title"> {{ $first }} {{ $last }} {{$email}} </span>
+	        <div class="card-info"> <span class="card-title"> {{ $name }} {{$email}} </span>
 
 	        </div>
 	    </div>

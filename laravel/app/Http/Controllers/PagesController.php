@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
     // returns faux profile page
     public function profile()
     {
-    	//$name = 'Kelby Sapien';
-    	//$user = []
-    	//$user['first'] = 'Jane';
-    	//$user['last'] = 'Doe';
-    	//$user['email'] = 'jdoe@gmail.com';
-    	$first = 'Jane';
-    	$last = 'Doe';
-    	$email = 'jdoe@gmail.com';
-    	//return view('user_account'->with('name', $name);
-    	return view('user_account', compact('first', 'last', 'email'));
+        $name = "Yo Mama";
+        $email = "sadpanda@gmail.com";
+        $avatar = "";
+
+        if(Auth::user()){
+            $user = Auth::user();
+            $name = $user->name;
+            $email = $user->email;
+            $avatar = $user->avatar;
+        }
+
+    	return view('profile', compact('name', 'email', 'avatar'));
     }
 
     // returns page with passed in $page_name
