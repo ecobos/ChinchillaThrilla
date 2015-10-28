@@ -5,13 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 
-class RedirectIfAuthenticated
+class RedirectIfNotAuthenticated
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
+
     protected $auth;
 
     /**
@@ -26,7 +22,7 @@ class RedirectIfAuthenticated
     }
 
     /**
-     * Handle an incoming request before the middleware
+     * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -34,8 +30,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
+
         // bool check(): determine if the current user is authenticated
-        if ($this->auth->check()) {
+        if (!$this->auth->check()) {
             return redirect('/');
         }
 
