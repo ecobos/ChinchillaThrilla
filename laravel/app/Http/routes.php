@@ -62,3 +62,15 @@ Route::group(['prefix'=>'brand'], function()
 	Route::delete('{id}', ['uses'=>'BrandController@delete']); 
 	
 });
+
+// CATEGORY ROUTES
+Route::group(['prefix'=>'category'], function()
+{
+	Route::get('',['uses'=>'CategoryController@getCategories']); 
+	Route::get('{id}', ['uses'=>'CategoryController@getCategory']); 
+	Route::get('/name/{name}', ['uses'=>'CategoryController@getCategoryByName']);
+	Route::post('', ['uses'=>'CategoryController@create']); 
+	Route::put('{id}', ['uses'=>'CategoryController@update']); 
+	Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
+	
+});

@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Brand;
+use App\Category;
 use Illuminate\Http\Response;
 use DB;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,36 +21,37 @@ class BrandController extends Controller
         //
     }
 
-    // get list of brands based on search name
-    public function getBrandByName($name) {
-        $brands = Brand::where('brand_name', 'like', '%' . $name . '%')->get();
-        if(empty($brands)) {
+    // get list of categories based on search name
+    public function getCategoryByName($name) {
+        $categories = Category::where('category_name', 'like', '%' . $name . '%')->get();
+        if(empty($categories)) {
             return new Response('Product not found', 404);
         }
 
-        return $brands->toArray();
+        return $categories->toArray();
     }
 
-    // get specific brand based on ID
-    public function getBrand($id) {
-        $brand = Brand::find($id);
+    // get specific category based on ID
+    public function getCategory($id) {
+        $cat = Category::find($id);
 
-        if(empty($brand)) {
+        if(empty($cat)) {
             return new Response('Product not found', 404);
         }
 
         // get each field if passing over to view
-        $brand_name = $brand->brand_name;
+        $cat_name = $cat->category_name;
 
         // else return the entire object
-        return $brand;
+        return $cat;
     }
 
-    // get all brands in database
-    public function getBrands() {
-        $brands = Brand::all();
-        return $brands->toArray();
+    // get all categories in database
+    public function getCategories() {
+        $categories = Category::all();
+        return $categories->toArray();
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -60,12 +61,12 @@ class BrandController extends Controller
     public function create(Request $request)
     {
         // get the data from the POST request
-        $brand_name = $request->input("brand_name");
+        $cat_name = $request->input("category_name");
 
-        // POST new brand
-        $new_brand = new Brand; // 
-        $new_brand->brand_name = $brand_name;
-        $new_brand->save();
+        // POST new category
+        $new_category = new Category; 
+        $new_category->category_name = $cat_name;
+        $new_category->save();
     }
 
     /**
@@ -76,7 +77,7 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
@@ -110,15 +111,14 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // find brand to update
-        $brand = Brand::find($id);
-        
-        if(empty($brand)) {
+        // find cat to update
+        $cat = Category::find($id);
+        if(empty($cat)) {
             return new Response('Product not found', 404);
         }
         // Update brand
-        $brand->brand_name = $request->input("brand_name");
-        $brand->save();
+        $cat->category_name = $request->input("category_name");
+        $cat->save();    
     }
 
     /**
@@ -129,10 +129,10 @@ class BrandController extends Controller
      */
     public function delete($id)
     {
-        $brand = Brand::find($id);
-        if(empty($brand)) {
+        $cat = Category::find($id);
+        if(empty($cat)) {
             return new Response('Product not found', 404);
         }
-        $brand->delete();
+        $cat->delete();
     }
 }
