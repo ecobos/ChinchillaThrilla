@@ -44,8 +44,21 @@ Route::group(['prefix'=>'product'], function()
 {
 	Route::get('',['uses'=>'ProductController@getProducts']); 
 	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
+	Route::get('/name/{name}', ['uses'=>'ProductController@getProductByName']);
 	Route::post('', ['uses'=>'ProductController@create']); 
 	Route::put('{id}', ['uses'=>'ProductController@update']); 
 	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
+	
+});
+
+// BRAND ROUTES
+Route::group(['prefix'=>'brand'], function()
+{
+	Route::get('',['uses'=>'BrandController@getBrands']); 
+	Route::get('{id}', ['uses'=>'BrandController@getBrand']); 
+	Route::get('/name/{name}', ['uses'=>'BrandController@getBrandByName']);
+	Route::post('', ['uses'=>'BrandController@create']); 
+	Route::put('{id}', ['uses'=>'BrandController@update']); 
+	Route::delete('{id}', ['uses'=>'BrandController@delete']); 
 	
 });
