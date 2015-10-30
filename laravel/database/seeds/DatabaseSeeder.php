@@ -72,10 +72,7 @@ class ProductTableSeeder extends Seeder
 {
     public function run()
     {
-        // Delete current products
-        DB::table('products')->delete();
 
-        // Bose - Headphones
         $brand_id = DB::table('brands')->where('brand_name', 'Bose')->first()->brand_id;
         $category_id = DB::table('categories')->where('category_name', 'Headphones')->first()->category_id ;
         Product::create(
