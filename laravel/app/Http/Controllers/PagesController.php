@@ -35,4 +35,22 @@ class PagesController extends Controller
 
         return view('welcome');
     }
+
+    public function searchResult() {
+
+        $page_name = 'Product Search';
+        return view('search_results');
+    }
+
+    public function product() {
+
+        $page_name = 'Product Page';
+        return view('product_page');
+    }
+
+    public function productLoggedIn() {
+
+        $page_name = 'Product Logged In Page';
+        return view('product_page_log');
+    }
 }
