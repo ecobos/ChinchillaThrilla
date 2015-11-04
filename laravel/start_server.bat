@@ -1,2 +1,3 @@
-php artisan serve
+php artisan serve;
+iceweasel http://localhost:8000
 

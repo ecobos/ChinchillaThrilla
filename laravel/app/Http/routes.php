@@ -42,6 +42,28 @@ Route::get('/checkAuth', 'Auth\AuthController@showValidated');
 // PRODUCT ROUTES
 Route::group(['prefix'=>'product'], function()
 {
+
+        Route::get('',['uses'=>'ProductController@getProducts']); 
+        Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
+        Route::post('', ['uses'=>'ProductController@create']); 
+        Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
+        Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+
+});
+
+/*
+// SEARCH ROUTES
+Route::group(['prefix'=>'search'], function()
+{
+		Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
+		Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
+		Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
+});
+
+
+// REVIEW ROUTES
+Route::group(['prefix'=>'reviews'], function()
+{
 	Route::get('',['uses'=>'ProductController@getProducts']); 
 	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
 	Route::get('/name/{name}', ['uses'=>'ProductController@getProductByName']);
@@ -50,6 +72,7 @@ Route::group(['prefix'=>'product'], function()
 	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
 	
 });
+*/
 
 // BRAND ROUTES
 Route::group(['prefix'=>'brand'], function()
@@ -73,4 +96,22 @@ Route::group(['prefix'=>'category'], function()
 	Route::put('{id}', ['uses'=>'CategoryController@update']); 
 	Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
 	
+});
+
+// SEARCH ROUTES
+Route::group(['prefix'=>'search'], function()
+{
+		Route::get('', ['uses'=>'SearchController@index']);
+		Route::get('results', 	['uses'=>'SearchController@getProducts']);
+		// Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
+		// Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
+		// Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
+});
+
+
+// REVIEW ROUTES
+Route::group(['prefix'=>'reviews'], function()
+{
+	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
+	Route::post('', ['uses'=>'ReviewController@createReview']);
 });
