@@ -22,6 +22,15 @@ Route::get('profile', 'PagesController@profile');
 // about page
 Route::get('about', 'PagesController@about');
 
+// search results page
+Route::get('search', 'PagesController@searchResult');
+
+// product page
+Route::get('product', 'PagesController@product');
+
+// product page
+Route::get('productLoggedIn', 'PagesController@productLoggedIn');
+
 // AUTHENTICATION
 
 Route::get('/auth/facebook', 'Auth\AuthController@authRedirectToFacebook');
