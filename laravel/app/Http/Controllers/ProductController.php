@@ -12,6 +12,17 @@ use DB;
 // 'php artisan tinker' to test the model classes
 class ProductController extends Controller
 {
+    // get list of products based on search name
+    public function getProductByName($name) {
+        $products = Product::where('prod_name', 'like', '%' . $name . '%')->get();
+        if(empty($products)) {
+            return new Response('Product not found', 404);
+        }
+
+        return $products->toArray();
+    }
+
+
     // Returns product with specified ID
     public function getProduct($id) {
         $product = Product::find($id);
@@ -60,7 +71,7 @@ class ProductController extends Controller
     public function create(Request $request)
     {   
         var_dump($request);
-        // get the data from the POST request
+        // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
         $name = $request->input("prod_name");
         print $name;
         $model = $request->input("prod_model");
@@ -171,7 +182,10 @@ class ProductController extends Controller
      */
     public function delete($id)
     {
-         $product = Product::find($id);
-         $product->delete();
+        $product = Product::find($id);
+        if(empty($product)) {
+            return new Response('Product not found', 404);
+        }
+        $product->delete();
     }
 }
