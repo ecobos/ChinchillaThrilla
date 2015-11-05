@@ -29,13 +29,14 @@ class Review extends Model
         return $datas; 
     }
 
-    static function getProductReviews($product_id, $limit=10)
+    static function getProductReviews($product_id, $skip)
     {
     	$datas = DB::table('reviews')
     			-> join('users', 'users.user_id', '=', 'reviews.user_id')
     			-> select('review_text', 'name', 'users.user_id', 'users.avatar')
     			-> where('prod_id', $product_id)
-    			-> take($limit)
+                -> skip($skip)
+    			-> take(3)
     			-> get();
     	return $datas;   			
     }

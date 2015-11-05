@@ -41,11 +41,11 @@ class ReviewController extends Controller
         return $data;
     }
 
-    public function getProductReviews($product_id) 
+    public function getProductReviews($product_id, $skip) 
     {
         //Note: this function also contains an implicit parameter "$limit"
-        $data = Review::getProductReviews($product_id);
-        return $data;
+        $data = Review::getProductReviews($product_id, $skip);
+        return json_encode($data);
     }
 
     public function createReview(Request $request)

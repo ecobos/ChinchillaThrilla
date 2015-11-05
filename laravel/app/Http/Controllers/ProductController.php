@@ -49,6 +49,7 @@ class ProductController extends Controller
         }
 
         // get all data to pass on over to view
+        $prod_id = $id;
         $name = $product->prod_name;
         $model = $product->prod_model;
         $brand = $product->prod_brand;
@@ -58,10 +59,10 @@ class ProductController extends Controller
         $img_path = $product->prod_img_path;
 
         //user reviews for a product
-        $reviews = Review::getProductReviews($id);
+        //$reviews = Review::getProductReviews($id);
 
         // return product page for this product
-        return view('product_page', compact('brand', 'name', 'model', 'desc', 'rating', 'img_path', 'reviews'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path'));
     }
 
     // Returns array of products

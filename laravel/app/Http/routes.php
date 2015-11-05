@@ -115,7 +115,7 @@ Route::group(['prefix'=>'reviews'], function()
 		['uses'=>'ReviewController@index']
 	);
 	// Get the reviews for a product
-	Route::get('product/{product_id}',
+	Route::get('product/{product_id}/{skip}',
 		['uses'=>'ReviewController@getProductReviews']
 	);
 	// Get the reviews from a user
