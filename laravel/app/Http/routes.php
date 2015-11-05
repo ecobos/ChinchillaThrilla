@@ -68,19 +68,6 @@ Route::group(['prefix'=>'search'], function()
 		Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
 		Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
-
-
-// REVIEW ROUTES
-Route::group(['prefix'=>'reviews'], function()
-{
-	Route::get('',['uses'=>'ProductController@getProducts']); 
-	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
-	Route::get('/name/{name}', ['uses'=>'ProductController@getProductByName']);
-	Route::post('', ['uses'=>'ProductController@create']); 
-	Route::put('{id}', ['uses'=>'ProductController@update']); 
-	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
-	
-});
 */
 
 // BRAND ROUTES
@@ -112,15 +99,26 @@ Route::group(['prefix'=>'search'], function()
 {
 		Route::get('', ['uses'=>'SearchController@index']);
 		Route::get('results', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
-		// Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
 
 
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
-	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
-	Route::post('', ['uses'=>'ReviewController@createReview']);
+	// Test form for review creation
+	Route::get('',	
+		['uses'=>'ReviewController@index']
+	);
+	// Get the reviews for a product
+	Route::get('product/{product_id}',
+		['uses'=>'ReviewController@getProductReviews']
+	);
+	// Get the reviews from a user
+	Route::get('user/{user_id}',
+		['uses'=>'ReviewController@getUserReviews']
+	);
+	// Create a new Review for ($prod_id, $user_id)
+	Route::post('', 
+		['uses'=>'ReviewController@createReview']
+	);
 });
