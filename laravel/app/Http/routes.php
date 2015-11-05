@@ -51,12 +51,17 @@ Route::get('/checkAuth', 'Auth\AuthController@showValidated');
 // PRODUCT ROUTES
 Route::group(['prefix'=>'product'], function()
 {
-
+	Route::group(['prefix'=>'api'], function()
+	{
         Route::get('',['uses'=>'ProductController@getProducts']); 
         Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
         Route::post('', ['uses'=>'ProductController@create']); 
         Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
         Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+    });
+
+	Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+
 
 });
 

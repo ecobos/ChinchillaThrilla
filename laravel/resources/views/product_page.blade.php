@@ -90,7 +90,21 @@
                 background:#81AAD9;
                 color:#FFF;
             }
+            .avatar {
+                /*width: 100%;*/
+                max-height: 180px;
+                max-width: 160px;
+            }
         </style>
+        <script>
+
+            
+            function getReviews()
+            {
+                return 0;
+            }
+
+        </script>
     </head>
     <body> 
             <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
@@ -124,12 +138,12 @@
                     <div class="col-md-1 col-lg-1">
                     </div>
                     <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
-                        <img src="http://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata" class="img-responsive" align="middle">
+                        <img src= {{$img_path}} class="img-responsive" align="middle">
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="title" align="center"><h1>Huawei - Nexus 6P</h1></div>
+                                <div class="title" align="center"><h1>{{ $brand }} - {{ $name }} {{ $model }}</h1></div>
                             </div>
                             <div class="col-xs-11 col-sm-10 col-md-12 col-lg-12">
                                 <div class="rating" >
@@ -144,7 +158,8 @@
                             <br/>
                             <br/>
                             <div class="col-xs-11 col-sm-12 col-md-12 col-lg-12">
-                                <p align="center">Lorem lorem quisque nec, fusce nascetur in vulputate vehicula, porttitor lectus, convallis id viverra amet, sit diam dapibus proin nunc. Fermentum est dignissim placerat. Quis tortor dolore et, in nostrum elit amet. Bibendum dui et platea, curabitur adipiscing vestibulum. Dolor lectus dolor laoreet nec pellentesque ut, est tellus mauris vestibulum interdum justo, etiam nulla lectus eros mauris. Pulvinar sit in duis at luctus vitae, ac magna etiam sed, lectus pellentesque orci accumsan metus metus enim, congue risus ac. 
+                                <p align="center">
+                                {{ $desc }}
                                 </p>
                                 </div>
                         </div>                        
@@ -190,11 +205,29 @@
                                     </tr> 
                             </thead>
                             <tbody>
-                                <tr>
+                            
+                                    
+                            
+                            @foreach ($reviews as $review)
+                                 <tr>
                                     <td bgcolor="#F2F2F2">
                                         <div class="row">
                                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
+                                                <img src="{{$review->avatar}}" class="avatar" align="middle" >
+                                            </div>
+                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <p class="textStyle"><a href="profile">{{$review->name}}</a></p>
+                                                <p class="textStyle" vertical-align="center">{{$review->review_text}}</p>
+                                            </div>
+                                        </div>                                      
+                                    </td>
+                                </tr>
+                            @endforeach
+<!--                                 <tr>
+                                    <td bgcolor="#F2F2F2">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
+                                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="avatar" align="middle" >
                                             </div>
                                             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                                 <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
@@ -204,23 +237,8 @@
                                             </div>
                                         </div>                                      
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td bgcolor="#F2F2F2">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
-                                            </div>
-                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
-                                                <p class="textStyle">
-                                                    Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper. 
-                                                </p>
-                                            </div>
-                                        </div>                                      
-                                    </td>
-                                </tr>
-                            </tbody>
+                                </tr> -->
+                        </tbody>
                     </table>
                 </div>    
             </div>

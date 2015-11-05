@@ -33,10 +33,11 @@ class Review extends Model
     {
     	$datas = DB::table('reviews')
     			-> join('users', 'users.user_id', '=', 'reviews.user_id')
-    			-> select('review_text', 'name', 'users.user_id')
+    			-> select('review_text', 'name', 'users.user_id', 'users.avatar')
     			-> where('prod_id', $product_id)
     			-> take($limit)
     			-> get();
     	return $datas;   			
     }
+
 }
