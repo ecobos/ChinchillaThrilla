@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -14,6 +15,14 @@ class ReviewController extends Controller
     {
         return Redirect::to('/');
     }
+
+
+    public getReview($user_id, $prod_id) {
+        $reviews = DB::table('reviews')
+                    ->select('*')
+                    ->where();
+    }
+
 
     public function getProductReviews($product_id) 
     {
