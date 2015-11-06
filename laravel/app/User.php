@@ -25,8 +25,6 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $table = 'users';
 
-    // specifiy our primary key field
-    protected $primaryKey = 'user_id'; 
 
     /**
      * The attributes that are mass assignable.
@@ -40,5 +38,10 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $hidden = ['remember_token'];
+    protected $hidden = ['auth_provider', 'app_id', 'remember_token'];
+
+    public function isAdmin(){
+        $check = $this->hasOne('App\Admin')->first();
+        return is_null($check) ? false : true;
+    }
 }
