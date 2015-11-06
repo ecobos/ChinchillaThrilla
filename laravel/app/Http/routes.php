@@ -15,8 +15,10 @@
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
+
 Route::group(['prefix' => 'profile'], function(){
 	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
+
 
 	Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
@@ -44,6 +46,7 @@ Route::group(['prefix'=>'product'], function()
 	Route::put('{id}', ['uses'=>'ProductController@updateProduct']);
 	Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']);
 });
+
 
 // BRAND ROUTES
 Route::group(['prefix'=>'brand'], function()
@@ -74,15 +77,31 @@ Route::group(['prefix'=>'search'], function()
 {
 		Route::get('/', ['uses'=>'SearchController@index']);
 		Route::get('results', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
-		// Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
 
 
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
+
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
+
+	// Test form for review creation
+	Route::get('',	
+		['uses'=>'ReviewController@index']
+	);
+	// Get the reviews for a product
+	Route::get('product/{product_id}',
+		['uses'=>'ReviewController@getProductReviews']
+	);
+	// Get the reviews from a user
+	Route::get('user/{user_id}',
+		['uses'=>'ReviewController@getUserReviews']
+	);
+	// Create a new Review for ($prod_id, $user_id)
+	Route::post('', 
+		['uses'=>'ReviewController@createReview']
+	);
+
 });

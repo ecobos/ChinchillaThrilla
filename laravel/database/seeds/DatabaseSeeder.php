@@ -25,10 +25,13 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        // All these classes are defined below
         $this->call(BrandTableSeeder::class);
         $this->call(CategoryTableSeeder::class);
         $this->call(ProductTableSeeder::class);
         $this->call(FeatureTableSeeder::class);
+        $this->call(UserTableSeeder::class);
+        $this->call(ReviewTableSeeder::class);
         Model::reguard();
     }
 }
@@ -72,6 +75,8 @@ class ProductTableSeeder extends Seeder
 {
     public function run()
     {
+        //Delete current categories
+        DB::table('products')->delete();
 
         $brand_id = DB::table('brands')->where('brand_name', 'Bose')->first()->brand_id;
         $category_id = DB::table('categories')->where('category_name', 'Headphones')->first()->category_id ;
@@ -234,4 +239,80 @@ class FeatureTableSeeder extends Seeder
         );
     }
 }
+
+
+// -- Users -- //
+class UserTableSeeder extends Seeder 
+{
+    public function run() 
+    {
+        DB::table('users')->delete();
+
+        DB::table('users')->insert([
+            'user_id'       =>  100,
+            'auth_provider' =>  'google',
+            'app_id'        =>  1000,
+            'name'          =>  'jim johnson',
+            'email'         =>  'pancakes@google.com',
+            'avatar'        =>  'https://upload.wikimedia.org/wikipedia/commons/c/cd/Panda_Cub_from_Wolong,_Sichuan,_China.JPG'
+        ]);
+
+        DB::table('users')->insert([
+            'user_id'       =>  101,
+            'auth_provider' =>  'facebook',
+            'app_id'        =>  1001,
+            'name'          =>  'john jimson',
+            'email'         =>  'waffles@google.com',
+            'avatar'        =>  'https://upload.wikimedia.org/wikipedia/commons/8/81/2012_Suedchinesischer_Tiger.JPG'
+        ]);
+
+        DB::table('users')->insert([
+            'user_id'       =>  102,
+            'auth_provider' =>  'google',
+            'app_id'        =>  1002,
+            'name'          =>  'jan jenson',
+            'email'         =>  'toast@google.com',
+            'avatar'        =>  'https://upload.wikimedia.org/wikipedia/commons/c/ce/Noaa-walrus22.jpg'
+        ]);
+
+        DB::table('users')->insert([
+            'user_id'       =>  103,
+            'auth_provider' =>  'facebook',
+            'app_id'        =>  1003,
+            'name'          =>  'jen janson',
+            'email'         =>  'crepes@google.com',
+            'avatar'        =>  'https://upload.wikimedia.org/wikipedia/commons/1/13/DuskyDolphin.jpg'
+        ]);
+    }
+}
+
+
+// -- Reviews -- //
+class ReviewTableSeeder extends Seeder 
+{
+    public function run() 
+    {
+        DB::table('reviews')->delete();
+
+        $users = DB::table('users')->select('*')->get();
+        $products = DB::table('products')->select('*')->get();
+
+        $lorem_ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+        foreach($products as $product)
+        {
+            foreach ($users as $user) {
+                DB::table('reviews')->insert([
+                    'user_id'   =>  $user->user_id,
+                    'prod_id'   =>  $product->prod_id,
+                    'total_usefulness' => 100,
+                    'review_text'   =>  $lorem_ipsum
+                ]);
+            }
+        }
+    }
+}
+
+
+
 

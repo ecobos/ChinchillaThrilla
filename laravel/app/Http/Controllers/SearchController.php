@@ -17,8 +17,6 @@ class SearchController extends Controller
         return view('search');
     }
 
-
-
     /*
         Searches database for products
         - Input:
@@ -44,7 +42,7 @@ class SearchController extends Controller
             if($request->input('type') == "product")        
             {
                 $db_result = DB::table('products')
-                        -> select('prod_name', 'prod_id')
+                        -> select('*')
                         -> where('prod_name', 'LIKE', "%{$w}%")
                         -> get();
             }
@@ -55,7 +53,7 @@ class SearchController extends Controller
                 // Getting DB result
                 $db_result = DB::table('products')
                             -> join('categories', 'products.prod_category', '=', 'categories.category_id')
-                            -> select('products.prod_name','categories.category_name', 'products.prod_id')
+                            -> select('products.*','categories.category_name', 'products.prod_id')
                             -> where('category_name', 'LIKE', "%{$w}%")
                             -> get();
             }
@@ -66,7 +64,7 @@ class SearchController extends Controller
                 // Getting DB result
                 $db_result = DB::table('products')
                             -> join('brands', 'products.prod_brand', '=', 'brands.brand_id')
-                            -> select('products.prod_name','brands.brand_name', 'products.prod_id')
+                            -> select('products.*','brands.brand_name')
                             -> where('brand_name', 'LIKE', "%{$w}%")
                             -> get();
             }

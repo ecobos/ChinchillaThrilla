@@ -22,5 +22,6 @@ class PagesController extends Controller
 
     public function pageNotFound(){
         return view('404');
+
     }
 }
