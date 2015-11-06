@@ -27,6 +27,8 @@ class CreateProductTable extends Migration
             $table->integer('overall_rating');
             $table->string('prod_img_path');
 
+            // Defines if the product needs admin approval before being published onto the live site
+            $table->boolean('isPublished')->default(false); // all new products need to be manually published by an admin
 
             $table->timestamps();
         });

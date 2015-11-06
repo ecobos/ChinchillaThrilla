@@ -6,8 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'BrandTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'CategoryTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'CreateAdminsTable' => $baseDir . '/database/migrations/2015_11_04_025924_create_admins_table.php',
     'CreateBrandTable' => $baseDir . '/database/migrations/2015_10_16_000637_create_brand_table.php',
-    'CreateBrandsTable' => $baseDir . '/database/migrations/2015_10_21_004759_create_brands_table.php',
+    'CreateBrandsTable' => $baseDir . '/database/migrations (copy)/2015_10_21_004759_create_brands_table.php',
     'CreateCategoryTable' => $baseDir . '/database/migrations/2015_10_16_000653_create_category_table.php',
     'CreateFeatureRatingTable' => $baseDir . '/database/migrations/2015_10_16_001153_create_feature_rating_table.php',
     'CreateFeatureRatingTotalTable' => $baseDir . '/database/migrations/2015_10_16_001235_create_feature_rating_total_table.php',
@@ -15,8 +18,11 @@ return array(
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateProductTable' => $baseDir . '/database/migrations/2015_10_16_000618_create_product_table.php',
     'CreateReviewTable' => $baseDir . '/database/migrations/2015_10_16_001106_create_review_table.php',
+    'CreateReviewUsefulnessVotesTable' => $baseDir . '/database/migrations/2015_11_04_040357_create_review_usefulness_votes_table.php',
+    'CreateTagsTable' => $baseDir . '/database/migrations/2015_11_04_032153_create_tags_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'FeatureTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
@@ -484,6 +490,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+    'ProductTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'SebastianBergmann\\Comparator\\ArrayComparator' => $vendorDir . '/sebastian/comparator/src/ArrayComparator.php',
     'SebastianBergmann\\Comparator\\Comparator' => $vendorDir . '/sebastian/comparator/src/Comparator.php',
     'SebastianBergmann\\Comparator\\ComparisonFailure' => $vendorDir . '/sebastian/comparator/src/ComparisonFailure.php',
