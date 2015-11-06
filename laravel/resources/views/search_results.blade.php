@@ -21,8 +21,9 @@
             }
 
             img {
-                height: 50%;
-                width: 50%;
+                /*height: 50%;*/
+                /*width: 50%;*/
+                max-height: 200px; 
             }
 
             table {
@@ -96,8 +97,8 @@
                     </div>
                     <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">                       
                         <div class="form-group">
-                            <label for="inputlg"></label>
-                            <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product">
+                            <label for="search-box"></label>
+                            <input class="form-control input-lg" id="search-box" type="text" placeholder="Search for a Product">
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-2 col-lg-3">
@@ -106,7 +107,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                         <br/><br/>
-                        <h3>Displaying Search Results for: "ITEM"</h3>
+                        <h3>Displaying Search Results for: "<?php echo $query; ?>"</h3>
                     </div>
                 </div>
                 <div class="row" >
@@ -150,16 +151,33 @@
                                         <th>Product Results:</th>
                                     </tr>  
                             </thead>
+                            <?php foreach ($results as $result) :?>
                             <tbody>
                                 <tr>
                                     <td>
                                     <div class="row">
-                                        <div class="col-xs-6 col-sm-8 col-md-8 col-lg-6">
-                                            <img src="http://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata" class="img-responsive" align="middle" >
-                                        </div>
-                                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-6" align="center">
-                                            <p class="textStyle"><a>Nexus 6P</a></p>
-                                        </div>
+                                        
+                                            <div class="col-xs-6 col-sm-8 col-md-8 col-lg-6">
+                                                <img src="<?php echo $result->prod_img_path?>" class="img-responsive" align="middle" >
+                                            </div>
+                                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-6" align="center">
+                                                <p class="textStyle"><a href="<?php echo $result->url; ?>"><?php echo $result->prod_name; ?></a></p>
+                                            </div> 
+                                    </div>
+                                    </td>
+                                </tr>
+                            </tbody>    
+                         <?php endforeach; ?>
+<!-- 
+
+ 
+                                    <div class="col-xs-6 col-sm-8 col-md-8 col-lg-6">
+                                                <img src="http://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata" class="img-responsive" align="middle" >
+                                            </div>
+                                            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-6" align="center">
+                                                <p class="textStyle"><a>Nexus 6P</a></p>
+
+                                    
                                     </div>
                                     </td>
                                 </tr>
@@ -177,13 +195,16 @@
                                     </div>
                                     </td>
                                 </tr>
-                            </tbody>
+                            </tbody> 
+                         </div> --> 
+
                         </table>
                     </div>
                 </div>
             </div>
-    </body>
 
+
+            <!-- Space --> <br><br><br><br><br><br>
     <div class="navbar navbar-default navbar-fixed-bottom">
     <br>
     <div class="row">
@@ -203,6 +224,9 @@
         </div>
     </div>
     </div>
+    </body>
+
+
 
     
     
