@@ -140,3 +140,16 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('', ['uses'=>'ReviewController@createReview']);
 });
+
+
+Route::group(['prefix'=>'apikeys'], function()
+{
+	// API routes
+	Route::group(['prefix'=>'/v1'], function() 
+	{
+        Route::get('{id}', ['uses'=>'APIController@get']); 
+        Route::post('', ['uses'=>'APIController@create']); 
+        Route::delete('{id}', ['uses'=>'APIController@delete']); 
+    });
+
+});
