@@ -31,7 +31,20 @@ class ProductController extends Controller
         $product = Product::find($id);
         
         if(empty($product)) {
+            // no product found, return 404 response
             return new Response('Product not found', 404);
+        }
+
+        // returns json data
+        return $product;
+    }
+
+    public function getProductView($id) {
+        $product = Product::find($id);
+        
+        if(empty($product)) {
+            // return 404 view
+            return view('404');
         }
 
         // get all data to pass on over to view
@@ -43,11 +56,8 @@ class ProductController extends Controller
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
 
-        // test data obtained
-        print $name . ' ' . $model . '---';
-
+        // return product page for this product
         return view('product_page', compact('brand', 'name', 'model', 'desc', 'rating', 'img_path'));
-        //return $product;
     }
 
     // Returns array of products

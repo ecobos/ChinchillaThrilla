@@ -11,6 +11,8 @@
 |
 */
 
+// if php artisan serve doesn't work, try: php -S localhost:8000 -t public
+
 // home page
 // no Controller called, just returns static page
 Route::get('/', function () {
@@ -51,12 +53,19 @@ Route::get('/checkAuth', 'Auth\AuthController@showValidated');
 // PRODUCT ROUTES
 Route::group(['prefix'=>'products'], function()
 {
-
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() 
+	{
         Route::get('',['uses'=>'ProductController@getProducts']); 
         Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
         Route::post('', ['uses'=>'ProductController@create']); 
         Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
         Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+    });
+
+    // view routes
+    Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+    
 
 });
 
@@ -86,24 +95,30 @@ Route::group(['prefix'=>'reviews'], function()
 // BRAND ROUTES
 Route::group(['prefix'=>'brand'], function()
 {
-	Route::get('',['uses'=>'BrandController@getBrands']); 
-	Route::get('{id}', ['uses'=>'BrandController@getBrand']); 
-	Route::get('/name/{name}', ['uses'=>'BrandController@getBrandByName']);
-	Route::post('', ['uses'=>'BrandController@create']); 
-	Route::put('{id}', ['uses'=>'BrandController@update']); 
-	Route::delete('{id}', ['uses'=>'BrandController@delete']); 
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() {
+		Route::get('',['uses'=>'BrandController@getBrands']); 
+		Route::get('{id}', ['uses'=>'BrandController@getBrand']); 
+		Route::get('/name/{name}', ['uses'=>'BrandController@getBrandByName']);
+		Route::post('', ['uses'=>'BrandController@create']); 
+		Route::put('{id}', ['uses'=>'BrandController@update']); 
+		Route::delete('{id}', ['uses'=>'BrandController@delete']); 
+	});
 	
 });
 
 // CATEGORY ROUTES
 Route::group(['prefix'=>'category'], function()
 {
-	Route::get('',['uses'=>'CategoryController@getCategories']); 
-	Route::get('{id}', ['uses'=>'CategoryController@getCategory']); 
-	Route::get('/name/{name}', ['uses'=>'CategoryController@getCategoryByName']);
-	Route::post('', ['uses'=>'CategoryController@create']); 
-	Route::put('{id}', ['uses'=>'CategoryController@update']); 
-	Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() {
+		Route::get('',['uses'=>'CategoryController@getCategories']); 
+		Route::get('{id}', ['uses'=>'CategoryController@getCategory']); 
+		Route::get('/name/{name}', ['uses'=>'CategoryController@getCategoryByName']);
+		Route::post('', ['uses'=>'CategoryController@create']); 
+		Route::put('{id}', ['uses'=>'CategoryController@update']); 
+		Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
+	});
 	
 });
 
@@ -119,6 +134,7 @@ Route::group(['prefix'=>'search'], function()
 
 
 // REVIEW ROUTES
+// make API route
 Route::group(['prefix'=>'reviews'], function()
 {
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
