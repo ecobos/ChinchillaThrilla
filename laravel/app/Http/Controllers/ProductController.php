@@ -7,11 +7,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Response;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
 // 'php artisan tinker' to test the model classes
-class ProductController extends Controller
+class ProductController extends ApiGuardController
 {
+    // methods that don't need api key authentication
+    protected $apiMethods = [
+        'getProductView' => [
+            'keyAuthentication' => false
+        ],
+    ];
+
     // get list of products based on search name
     public function getProductByName($name) {
         $products = Product::where('prod_name', 'like', '%' . $name . '%')->get();
