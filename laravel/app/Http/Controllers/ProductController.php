@@ -24,6 +24,9 @@ class ProductController extends Controller
 
 
     // Returns product with specified ID
+    // returns view right now, make one for API calls and one for the internal pages returned
+    // or call the controller function internally
+    // once that happens... make call to review controller to get reviews for this product
     public function getProduct($id) {
         $product = Product::find($id);
         
@@ -43,7 +46,8 @@ class ProductController extends Controller
         // test data obtained
         print $name . ' ' . $model . '---';
 
-        return $product;
+        return view('product_page', compact('brand', 'name', 'model', 'desc', 'rating', 'img_path'));
+        //return $product;
     }
 
     // Returns array of products

@@ -49,7 +49,7 @@ Route::get('/checkAuth', 'Auth\AuthController@showValidated');
 
 
 // PRODUCT ROUTES
-Route::group(['prefix'=>'product'], function()
+Route::group(['prefix'=>'products'], function()
 {
 
         Route::get('',['uses'=>'ProductController@getProducts']); 
