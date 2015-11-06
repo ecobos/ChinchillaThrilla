@@ -25,6 +25,7 @@
             }
 
             h1, h3, th, thead {
+                font-weight: bold;
                 text-align: center;
             }
 
@@ -123,6 +124,7 @@
                 <div class="row">
                     <div class="col-md-1 col-lg-1">
                     </div>
+                    <div class="visible-xs col-xs-2"></div>
                     <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
                         <img src="http://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata" class="img-responsive" align="middle">
                     </div>
@@ -229,59 +231,18 @@
     </body>
 
     <div class="navbar navbar-default navbar-fixed-bottom">
-    <br>
-    <div class="row">
-        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-            <p >© 2015 - Site Built By Division Zero></p>
-        </div>
-        <div class="col-xs-6 col-sm-4 col-lg-4">
-            <p align="center">                
-                <a href="about">About</a>
-                <a href="contact"><span style="margin-left:2em">Contact</span></a>
-                <a href="privacyPolicy"><span style="margin-left:2em">PrivacyPolicy</span></a>
-            </p>
+        <br>
+        <div class="row">
+            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                <p >© 2015 - Site Built By Division Zero</p>
+            </div>
+            <div class="col-xs-6 col-sm-4 col-lg-4">
+                <p align="center">                
+                    <a href="about">About</a>
+                    <a href="contact"><span style="margin-left:2em">Contact</span></a>
+                    <a href="privacyPolicy"><span style="margin-left:2em">PrivacyPolicy</span></a>
+                </p>
+            </div>
         </div>
     </div>
-    </div>
-
-    
-    
 </html>
-
-<script type="text/javascript">
-    window.onload =  function(){ 
-
-        var checkBoxes = document.querySelectorAll("input[type=checkbox]");
-
-        for(var i = 0 ; i < checkBoxes.length ; i++){
-            checkBoxes[i].addEventListener("change", checkUncheck, false);
-        }
-
-        function checkUncheck(){        
-            for(var i = 0 ; i < checkBoxes.length ; i++){
-                if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
-                    checkBoxes[i].checked = false;
-                }
-            }
-        }
-
-    }
-</script>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-//  Check Radio-box
-    $(".rating input:radio").attr("checked", false);
-    $('.rating input').click(function () {
-        $(".rating span").removeClass('checked');
-        $(this).parent().addClass('checked');
-    });
-
-    $('input:radio').change(
-    function(){
-        var userRating = this.value;
-        alert(userRating);
-    }); 
-});
-</script>

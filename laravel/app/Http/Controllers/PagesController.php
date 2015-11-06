@@ -53,4 +53,28 @@ class PagesController extends Controller
         $page_name = 'Product Logged In Page';
         return view('product_page_log');
     }
+
+    public function addProduct() {
+
+        $page_name = 'Add Product';
+        return view('add_product');
+    }
+
+    public function userAccount() {
+
+        $page_name = 'User Account';
+        return view('user_account');
+    }
+
+    public function userAccountAdmin() {
+
+        $page_name = 'Admin User Account';
+        return view('user_account_admin');
+    }
+
+    public function userAccountPublic() {
+
+        $page_name = 'User Account Public';
+        return view('user_account_public');
+    }
 }

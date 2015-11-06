@@ -121,21 +121,21 @@
                                 <tr>
                                     <td>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="c1" value="yes" checked>Product Name</label>
+                                            <label><input type="checkbox" name="c1" value="yes" checked><b>Product Name</b></label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="c2" value="yes">Brand</label>
+                                            <label><input type="checkbox" name="c2" value="yes"><b>Brand</b></label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="c3" value="yes">Category</label>
+                                            <label><input type="checkbox" name="c3" value="yes"><b>Category</b></label>
                                         </div>
                                     </td>
                                 </tr>
@@ -188,7 +188,7 @@
     <br>
     <div class="row">
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <p >© 2015 - Site Built By Division Zero></p>
+            <p >© 2015 - Site Built By Division Zero</p>
         </div>
         <div class="col-xs-8 col-sm-4 col-lg-4">
             <p align="center">                

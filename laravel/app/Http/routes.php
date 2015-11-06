@@ -31,5 +31,17 @@ Route::get('search', 'PagesController@searchResult');
 // product page
 Route::get('product', 'PagesController@product');
 
-// product page
+// add product page
+Route::get('addProduct', 'PagesController@addProduct');
+
+// product page logged in
 Route::get('productLoggedIn', 'PagesController@productLoggedIn');
+
+// user account
+Route::get('userAccount', 'PagesController@userAccount');
+
+// user account admin
+Route::get('userAccountAdmin', 'PagesController@userAccountAdmin');
+
+// user account public
+Route::get('userAccountPublic', 'PagesController@userAccountPublic');
