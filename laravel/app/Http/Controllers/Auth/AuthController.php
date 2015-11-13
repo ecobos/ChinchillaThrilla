@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -35,7 +36,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'doLogout']);
     }
 
 
@@ -71,7 +72,7 @@ class AuthController extends Controller
         $email = $authUser->email;
         $avatar = $authUser->avatar;
 
-        return view('profile', compact('name', 'email', 'avatar'));
+        return Redirect::to('/profile');
     }
 
     /**
@@ -123,6 +124,11 @@ class AuthController extends Controller
 
         Auth::login($authUser, true);
 
-        return Redirect::to('/');
+        return Redirect::to('/profile');
+    }
+
+    public function doLogout(){
+        Auth::logout();
+        return "<b> Logged out </b>";
     }
 }

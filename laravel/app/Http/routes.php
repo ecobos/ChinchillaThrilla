@@ -11,17 +11,26 @@
 |
 */
 
+
 // if php artisan serve doesn't work, try: php -S localhost:8000 -t public (where public is the directory where you want your server to look in)
+
 
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
+
+
 Route::group(['prefix' => 'profile'], function(){
 	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
+
+
 	Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
 	});
+
 	Route::get('/{user_id?}', 'ProfileController@profile');
+
+
 });
 
 // AUTHENTICATION
@@ -33,10 +42,10 @@ Route::group(['prefix' => 'auth'], function(){
 	Route::get('logout', 'Auth\AuthController@doLogout');
 });
 
-
 // PRODUCT ROUTES
 Route::group(['prefix'=>'products'], function()
 {
+
 	// API routes
 	Route::group(['prefix'=>'api/v1/json'], function() 
 	{
@@ -65,12 +74,14 @@ Route::group(['prefix'=>'brand'], function()
 		Route::put('{id}', ['uses'=>'BrandController@update']); 
 		Route::delete('{id}', ['uses'=>'BrandController@delete']); 
 	});
+
 	
 });
 
 // CATEGORY ROUTES
 Route::group(['prefix'=>'category'], function()
 {
+
 	// API routes
 	Route::group(['prefix'=>'api/v1/json'], function() {
 		Route::get('',['uses'=>'CategoryController@getCategories']); 
@@ -80,6 +91,7 @@ Route::group(['prefix'=>'category'], function()
 		Route::put('{id}', ['uses'=>'CategoryController@update']); 
 		Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
 	});
+
 	
 });
 
@@ -94,8 +106,10 @@ Route::group(['prefix'=>'search'], function()
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
+
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
+
 	// Test form for review creation
 	Route::get('',	
 		['uses'=>'ReviewController@index']
@@ -112,6 +126,7 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('', 
 		['uses'=>'ReviewController@createReview']
 	);
+
 });
 
 

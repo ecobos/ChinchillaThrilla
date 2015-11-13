@@ -3,26 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use Illuminate\Support\Facades\Auth;
 
 class PagesController extends Controller
 {
-    // returns faux profile page
-    public function profile()
-    {
-        $name = "Yo Mama";
-        $email = "sadpanda@gmail.com";
-        $avatar = "";
-
-        if(Auth::user()){
-            $user = Auth::user();
-            $name = $user->name;
-            $email = $user->email;
-            $avatar = $user->avatar;
-        }
-
-    	return view('profile', compact('name', 'email', 'avatar'));
-    }
 
     // returns page with passed in $page_name
     public function about() {
@@ -37,21 +20,8 @@ class PagesController extends Controller
         return view('welcome');
     }
 
-    public function searchResult() {
+    public function pageNotFound(){
+        return view('404');
 
-        $page_name = 'Product Search';
-        return view('search_results');
-    }
-
-    public function product() {
-
-        $page_name = 'Product Page';
-        return view('product_page');
-    }
-
-    public function productLoggedIn() {
-
-        $page_name = 'Product Logged In Page';
-        return view('product_page_log');
     }
 }

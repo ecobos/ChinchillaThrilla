@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+<<<<<<< HEAD
     'App\\Brand' => $baseDir . '/app/Brand.php',
     'App\\Category' => $baseDir . '/app/Category.php',
     'App\\Console\\Commands\\Inspire' => $baseDir . '/app/Console/Commands/Inspire.php',
@@ -66,8 +67,13 @@ return array(
     'Collective\\Html\\HtmlBuilder' => $vendorDir . '/laravelcollective/html/src/HtmlBuilder.php',
     'Collective\\Html\\HtmlFacade' => $vendorDir . '/laravelcollective/html/src/HtmlFacade.php',
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
+=======
+    'BrandTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'CategoryTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+    'CreateAdminsTable' => $baseDir . '/database/migrations/2015_11_04_025924_create_admins_table.php',
+>>>>>>> 5e566a7cf60757ec4999380ce4d17b725dbd7ad0
     'CreateBrandTable' => $baseDir . '/database/migrations/2015_10_16_000637_create_brand_table.php',
-    'CreateBrandsTable' => $baseDir . '/database/migrations/2015_10_21_004759_create_brands_table.php',
+    'CreateBrandsTable' => $baseDir . '/database/migrations (copy)/2015_10_21_004759_create_brands_table.php',
     'CreateCategoryTable' => $baseDir . '/database/migrations/2015_10_16_000653_create_category_table.php',
     'CreateFeatureRatingTable' => $baseDir . '/database/migrations/2015_10_16_001153_create_feature_rating_table.php',
     'CreateFeatureRatingTotalTable' => $baseDir . '/database/migrations/2015_10_16_001235_create_feature_rating_total_table.php',
@@ -75,6 +81,8 @@ return array(
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateProductTable' => $baseDir . '/database/migrations/2015_10_16_000618_create_product_table.php',
     'CreateReviewTable' => $baseDir . '/database/migrations/2015_10_16_001106_create_review_table.php',
+    'CreateReviewUsefulnessVotesTable' => $baseDir . '/database/migrations/2015_11_04_040357_create_review_usefulness_votes_table.php',
+    'CreateTagsTable' => $baseDir . '/database/migrations/2015_11_04_032153_create_tags_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -87,6 +95,7 @@ return array(
     'Cron\\MonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/MonthField.php',
     'Cron\\YearField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/YearField.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+<<<<<<< HEAD
     'Diff' => $vendorDir . '/phpspec/php-diff/lib/Diff.php',
     'Diff_Renderer_Abstract' => $vendorDir . '/phpspec/php-diff/lib/Diff/Renderer/Abstract.php',
     'Diff_Renderer_Html_Array' => $vendorDir . '/phpspec/php-diff/lib/Diff/Renderer/Html/Array.php',
@@ -419,6 +428,8 @@ return array(
     'Faker\\Provider\\zh_TW\\PhoneNumber' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/zh_TW/PhoneNumber.php',
     'Faker\\Provider\\zh_TW\\Text' => $vendorDir . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
     'Faker\\UniqueGenerator' => $vendorDir . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
+=======
+>>>>>>> 5e566a7cf60757ec4999380ce4d17b725dbd7ad0
     'FeatureTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
@@ -2114,6 +2125,7 @@ return array(
     'PHP_Token_XOR_EQUAL' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
     'PHP_Token_YIELD_FROM' => $vendorDir . '/phpunit/php-token-stream/src/Token.php',
+<<<<<<< HEAD
     'PhpSpec\\CodeAnalysis\\MagicAwareAccessInspector' => $vendorDir . '/phpspec/phpspec/src/PhpSpec/CodeAnalysis/MagicAwareAccessInspector.php',
     'PhpSpec\\CodeAnalysis\\VisibilityAccessInspector' => $vendorDir . '/phpspec/phpspec/src/PhpSpec/CodeAnalysis/VisibilityAccessInspector.php',
     'PhpSpec\\CodeGenerator\\GeneratorManager' => $vendorDir . '/phpspec/phpspec/src/PhpSpec/CodeGenerator/GeneratorManager.php',
@@ -2491,6 +2503,9 @@ return array(
     'Psy\\VarDumper\\Presenter' => $vendorDir . '/psy/psysh/src/Psy/VarDumper/Presenter.php',
     'Psy\\VarDumper\\PresenterAware' => $vendorDir . '/psy/psysh/src/Psy/VarDumper/PresenterAware.php',
     'ReviewTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+=======
+    'ProductTableSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
+>>>>>>> 5e566a7cf60757ec4999380ce4d17b725dbd7ad0
     'SebastianBergmann\\Comparator\\ArrayComparator' => $vendorDir . '/sebastian/comparator/src/ArrayComparator.php',
     'SebastianBergmann\\Comparator\\Comparator' => $vendorDir . '/sebastian/comparator/src/Comparator.php',
     'SebastianBergmann\\Comparator\\ComparisonFailure' => $vendorDir . '/sebastian/comparator/src/ComparisonFailure.php',
