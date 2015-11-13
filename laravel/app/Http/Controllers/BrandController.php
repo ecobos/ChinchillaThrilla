@@ -7,9 +7,10 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Brand;
 use Illuminate\Http\Response;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
-class BrandController extends Controller
+class BrandController extends ApiGuardController
 {
     /**
      * Display a listing of the resource.

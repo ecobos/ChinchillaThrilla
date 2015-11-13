@@ -124,12 +124,12 @@
                     <div class="col-md-1 col-lg-1">
                     </div>
                     <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
-                        <img src="http://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2015/09/nexus-6p-render.jpg?itok=S7a7qata" class="img-responsive" align="middle">
+                        <img src= {{$img_path}} class="img-responsive" align="middle">
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="title" align="center"><h1>Huawei - Nexus 6P</h1></div>
+                                <div class="title" align="center"><h1>{{ $brand }} - {{ $name }} {{ $model }}</h1></div>
                             </div>
                             <div class="col-xs-11 col-sm-10 col-md-12 col-lg-12">
                                 <div class="rating" >
@@ -144,7 +144,8 @@
                             <br/>
                             <br/>
                             <div class="col-xs-11 col-sm-12 col-md-12 col-lg-12">
-                                <p align="center">Lorem lorem quisque nec, fusce nascetur in vulputate vehicula, porttitor lectus, convallis id viverra amet, sit diam dapibus proin nunc. Fermentum est dignissim placerat. Quis tortor dolore et, in nostrum elit amet. Bibendum dui et platea, curabitur adipiscing vestibulum. Dolor lectus dolor laoreet nec pellentesque ut, est tellus mauris vestibulum interdum justo, etiam nulla lectus eros mauris. Pulvinar sit in duis at luctus vitae, ac magna etiam sed, lectus pellentesque orci accumsan metus metus enim, congue risus ac. 
+                                <p align="center">
+                                {{ $desc }}
                                 </p>
                                 </div>
                         </div>                        

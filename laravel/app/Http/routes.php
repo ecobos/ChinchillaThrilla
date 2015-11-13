@@ -12,8 +12,12 @@
 */
 
 
+// if php artisan serve doesn't work, try: php -S localhost:8000 -t public (where public is the directory where you want your server to look in)
+
+
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
+
 
 
 Route::group(['prefix' => 'profile'], function(){
@@ -25,6 +29,7 @@ Route::group(['prefix' => 'profile'], function(){
 	});
 
 	Route::get('/{user_id?}', 'ProfileController@profile');
+
 
 });
 
@@ -38,37 +43,55 @@ Route::group(['prefix' => 'auth'], function(){
 });
 
 // PRODUCT ROUTES
-Route::group(['prefix'=>'product'], function()
+Route::group(['prefix'=>'products'], function()
 {
-	Route::get('/',['uses'=>'ProductController@getProducts']);
-	Route::get('{id}', ['uses'=>'ProductController@getProduct']);
-	Route::post('/', ['uses'=>'ProductController@create']);
-	Route::put('{id}', ['uses'=>'ProductController@updateProduct']);
-	Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']);
-});
 
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() 
+	{
+        Route::get('',['uses'=>'ProductController@getProducts']); 
+        Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
+        Route::post('', ['uses'=>'ProductController@create']); 
+        Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
+        Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+    });
+
+    // view routes
+    Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+    
+
+});
 
 // BRAND ROUTES
 Route::group(['prefix'=>'brand'], function()
 {
-	Route::get('/',['uses'=>'BrandController@getBrands']);
-	Route::get('{id}', ['uses'=>'BrandController@getBrand']); 
-	Route::get('name/{name}', ['uses'=>'BrandController@getBrandByName']);
-	Route::post('/', ['uses'=>'BrandController@create']);
-	Route::put('{id}', ['uses'=>'BrandController@update']); 
-	Route::delete('{id}', ['uses'=>'BrandController@delete']); 
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() {
+		Route::get('',['uses'=>'BrandController@getBrands']); 
+		Route::get('{id}', ['uses'=>'BrandController@getBrand']); 
+		Route::get('/name/{name}', ['uses'=>'BrandController@getBrandByName']);
+		Route::post('', ['uses'=>'BrandController@create']); 
+		Route::put('{id}', ['uses'=>'BrandController@update']); 
+		Route::delete('{id}', ['uses'=>'BrandController@delete']); 
+	});
+
 	
 });
 
 // CATEGORY ROUTES
 Route::group(['prefix'=>'category'], function()
 {
-	Route::get('/',['uses'=>'CategoryController@getCategories']);
-	Route::get('{id}', ['uses'=>'CategoryController@getCategory']); 
-	Route::get('name/{name}', ['uses'=>'CategoryController@getCategoryByName']);
-	Route::post('/', ['uses'=>'CategoryController@create']);
-	Route::put('{id}', ['uses'=>'CategoryController@update']); 
-	Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
+
+	// API routes
+	Route::group(['prefix'=>'api/v1/json'], function() {
+		Route::get('',['uses'=>'CategoryController@getCategories']); 
+		Route::get('{id}', ['uses'=>'CategoryController@getCategory']); 
+		Route::get('/name/{name}', ['uses'=>'CategoryController@getCategoryByName']);
+		Route::post('', ['uses'=>'CategoryController@create']); 
+		Route::put('{id}', ['uses'=>'CategoryController@update']); 
+		Route::delete('{id}', ['uses'=>'CategoryController@delete']); 
+	});
+
 	
 });
 
@@ -103,5 +126,18 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('', 
 		['uses'=>'ReviewController@createReview']
 	);
+
+});
+
+
+Route::group(['prefix'=>'apikeys'], function()
+{
+	// API routes
+	Route::group(['prefix'=>'/v1'], function() 
+	{
+        Route::get('{id}', ['uses'=>'APIController@get']); 
+        Route::post('', ['uses'=>'APIController@create']); 
+        Route::delete('{id}', ['uses'=>'APIController@delete']); 
+    });
 
 });

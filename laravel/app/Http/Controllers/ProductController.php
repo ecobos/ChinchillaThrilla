@@ -7,11 +7,19 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Response;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
 // 'php artisan tinker' to test the model classes
-class ProductController extends Controller
+class ProductController extends ApiGuardController
 {
+    // methods that don't need api key authentication
+    protected $apiMethods = [
+        'getProductView' => [
+            'keyAuthentication' => false
+        ],
+    ];
+
     // get list of products based on search name
     public function getProductByName($name) {
         $products = Product::where('prod_name', 'like', '%' . $name . '%')->get();
@@ -24,11 +32,27 @@ class ProductController extends Controller
 
 
     // Returns product with specified ID
+    // returns view right now, make one for API calls and one for the internal pages returned
+    // or call the controller function internally
+    // once that happens... make call to review controller to get reviews for this product
     public function getProduct($id) {
         $product = Product::find($id);
         
         if(empty($product)) {
+            // no product found, return 404 response
             return new Response('Product not found', 404);
+        }
+
+        // returns json data
+        return $product;
+    }
+
+    public function getProductView($id) {
+        $product = Product::find($id);
+        
+        if(empty($product)) {
+            // return 404 view
+            return view('404');
         }
 
         // get all data to pass on over to view
@@ -40,10 +64,8 @@ class ProductController extends Controller
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
 
-        // test data obtained
-        print $name . ' ' . $model . '---';
-
-        return $product;
+        // return product page for this product
+        return view('product_page', compact('brand', 'name', 'model', 'desc', 'rating', 'img_path'));
     }
 
     // Returns array of products
