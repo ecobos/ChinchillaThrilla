@@ -11,43 +11,27 @@
 |
 */
 
-// if php artisan serve doesn't work, try: php -S localhost:8000 -t public
+// if php artisan serve doesn't work, try: php -S localhost:8000 -t public (where public is the directory where you want your server to look in)
 
-// home page
-// no Controller called, just returns static page
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('profile', 'PagesController@profile');
-
-// about page
+Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
-// search results page
-Route::get('search', 'PagesController@searchResult');
-
-// product page
-Route::get('product', 'PagesController@product');
-
-// product page
-Route::get('productLoggedIn', 'PagesController@productLoggedIn');
+Route::group(['prefix' => 'profile'], function(){
+	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
+	Route::group(['prefix' => 'admin'], function(){
+		Route::get('/', 'ProfileController@adminPanel');
+	});
+	Route::get('/{user_id?}', 'ProfileController@profile');
+});
 
 // AUTHENTICATION
-
-Route::get('/auth/facebook', 'Auth\AuthController@authRedirectToFacebook');
-Route::get('/auth/facebook/login-callback', 'Auth\AuthController@handleFacebookCallback');
-
-Route::get('/auth/google', 'Auth\AuthController@authRedirectToGoogle');
-Route::get('/auth/google/login-callback', 'Auth\AuthController@handleGoogleCallback');
-
-Route::get('/auth/logout', ['middleware' => 'ifAuth', function(){
-
-        Auth::logout();
-        return "<b> Logged out </b>";
-}]);
-
-Route::get('/checkAuth', 'Auth\AuthController@showValidated');
+Route::group(['prefix' => 'auth'], function(){
+	Route::get('facebook', 'Auth\AuthController@authRedirectToFacebook');
+	Route::get('facebook/login-callback', 'Auth\AuthController@handleFacebookCallback');
+	Route::get('google', 'Auth\AuthController@authRedirectToGoogle');
+	Route::get('google/login-callback', 'Auth\AuthController@handleGoogleCallback');
+	Route::get('logout', 'Auth\AuthController@doLogout');
+});
 
 
 // PRODUCT ROUTES
@@ -68,29 +52,6 @@ Route::group(['prefix'=>'products'], function()
     
 
 });
-
-/*
-// SEARCH ROUTES
-Route::group(['prefix'=>'search'], function()
-{
-		Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
-		Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
-		Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
-});
-
-
-// REVIEW ROUTES
-Route::group(['prefix'=>'reviews'], function()
-{
-	Route::get('',['uses'=>'ProductController@getProducts']); 
-	Route::get('{id}', ['uses'=>'ProductController@getProduct']); 
-	Route::get('/name/{name}', ['uses'=>'ProductController@getProductByName']);
-	Route::post('', ['uses'=>'ProductController@create']); 
-	Route::put('{id}', ['uses'=>'ProductController@update']); 
-	Route::delete('{id}', ['uses'=>'ProductController@delete']); 
-	
-});
-*/
 
 // BRAND ROUTES
 Route::group(['prefix'=>'brand'], function()
@@ -125,20 +86,32 @@ Route::group(['prefix'=>'category'], function()
 // SEARCH ROUTES
 Route::group(['prefix'=>'search'], function()
 {
-		Route::get('', ['uses'=>'SearchController@index']);
+		Route::get('/', ['uses'=>'SearchController@index']);
 		Route::get('results', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('product/{query}', 	['uses'=>'SearchController@getProducts']);
-		// Route::get('category/{query}', 	['uses'=>'SearchController@getProductsByCategory']);
-		// Route::get('brand/{query}', 	['uses'=>'SearchController@getProductsByBrand']);
 });
 
 
 // REVIEW ROUTES
-// make API route
 Route::group(['prefix'=>'reviews'], function()
 {
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
-	Route::post('', ['uses'=>'ReviewController@createReview']);
+	Route::post('/', ['uses'=>'ReviewController@createReview']);
+	// Test form for review creation
+	Route::get('',	
+		['uses'=>'ReviewController@index']
+	);
+	// Get the reviews for a product
+	Route::get('product/{product_id}',
+		['uses'=>'ReviewController@getProductReviews']
+	);
+	// Get the reviews from a user
+	Route::get('user/{user_id}',
+		['uses'=>'ReviewController@getUserReviews']
+	);
+	// Create a new Review for ($prod_id, $user_id)
+	Route::post('', 
+		['uses'=>'ReviewController@createReview']
+	);
 });
 
 
