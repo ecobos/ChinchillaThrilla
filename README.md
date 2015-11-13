@@ -5,13 +5,14 @@
 <h2>API Key support added</h2>
 To test simply add the X-Authorization header to your request. Views do not require an API key since any user should be able to look at products and things
 of that such.
-Use this key for now: d73b0980ede66de272fff14353a2084e59dea7a5
+Use this key for now: <strong>d73b0980ede66de272fff14353a2084e59dea7a5</strong>
 
 If you want to create a key for yourself, simply run this command:
-php artisan api-key:generate --user-id=1 where 1 is the userID you are tying that key to.
+<em>php artisan api-key:generate --user-id=1 </em> where 1 is the userID you are tying that key to.
 
 <em>I've gone and created a way to give people API keys</em>
-The controller is called APIController... but that requires a special key. Only we should be able to give out keys. 
+
+The controller is called APIController... but that requires a special key. Only we should be able to give out keys.
 
 
 Put all this in your wamp folder. To test the controllers, user these URI's:
