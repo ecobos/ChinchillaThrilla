@@ -21,6 +21,9 @@ Route::get('about', 'PagesController@about');
 
 
 Route::group(['prefix' => 'profile'], function(){
+	// testing user account page
+	Route::get('/account/{user_id}', 'ProfileController@userAccount');
+
 	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
 
 
@@ -141,3 +144,4 @@ Route::group(['prefix'=>'apikeys'], function()
     });
 
 });
+

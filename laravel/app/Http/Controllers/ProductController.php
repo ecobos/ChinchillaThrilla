@@ -52,7 +52,7 @@ class ProductController extends ApiGuardController
         
         if(empty($product)) {
             // return 404 view
-            return view('404');
+            return view('product404');
         }
 
         // get all data to pass on over to view
