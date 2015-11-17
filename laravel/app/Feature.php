@@ -13,6 +13,17 @@ class Feature extends Model
     protected $primaryKey = 'feature_id';
 
 
+    // Get feature names and scores
+    public static function getFeatures ($prod_id)
+    {
+        return DB::table('feature_rating_totals')
+            ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
+            ->select(['feature_name', 'score', 'total_votes'])
+            ->where('prod_id', '=', $prod_id)
+            ->get();
+    }
+
+
     // Insert a new feature into the Feature table
     public static function createFeature($feature_name)
     {

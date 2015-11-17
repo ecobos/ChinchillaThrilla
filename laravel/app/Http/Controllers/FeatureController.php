@@ -10,6 +10,12 @@ use App\Feature;
 
 class FeatureController extends Controller
 {
+
+	public function getFeatures($prod_id)
+	{
+		return Feature::getFeatures($prod_id);
+	}
+
 	public function rate (Request $request)
 	{
 		$user_id 	= $request->input('user_id');
@@ -27,4 +33,5 @@ class FeatureController extends Controller
 		Feature::createProductFeature($prod_id, $feature_id);
 		return "Should be new product feature";
 	}
+
 }

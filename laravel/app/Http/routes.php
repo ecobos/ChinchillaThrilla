@@ -135,6 +135,9 @@ Route::group(['prefix'=>'feature'], function()
 	// Test form for review creation
 	Route::post('createProductFeature',['uses'=>'FeatureController@createProductFeature']);
 
-	// Get the reviews for a product
+	// Used for a user rating a product feature
 	Route::post('rate',['uses'=>'FeatureController@rate']);
+
+	// Used for getting product feature stats
+	Route::get('{prod_id}',['uses'=>'FeatureController@getFeatures']);
 });
