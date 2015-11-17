@@ -106,7 +106,7 @@
                 getReviews(next);
             }
 
-            function getReviews(skip, scroll=true)
+            function getReviews(skip, scroll)
             {
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function() {
@@ -308,11 +308,11 @@
                 </div> 
                 <div id="review-nav">
                     <h1>
-                        <a href="javascript:void(0);" onclick="getReviews(1)">1</a> | 
-                        <a href="javascript:void(0);" onclick="getReviews(2)">2</a> | 
-                        <a href="javascript:void(0);" onclick="getReviews(3)">3</a> |
-                        <a href="javascript:void(0);" onclick="getReviews(4)">4</a> |
-                        <a href="javascript:void(0);" onclick="getReviews(5)">5</a> |
+                        <a href="javascript:void(0);" onclick="getReviews(1, true)">1</a> | 
+                        <a href="javascript:void(0);" onclick="getReviews(2, true)">2</a> | 
+                        <a href="javascript:void(0);" onclick="getReviews(3, true)">3</a> |
+                        <a href="javascript:void(0);" onclick="getReviews(4, true)">4</a> |
+                        <a href="javascript:void(0);" onclick="getReviews(5, true)">5</a> |
                         <a href="javascript:void(0);" onclick="getNext()">Next</a>
                     </h1>
                     <br><br>

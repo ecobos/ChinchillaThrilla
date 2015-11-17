@@ -39,38 +39,55 @@ class Feature extends Model
     //		$rating = a value that is either -1 OR 1 ONLY
     public static function rate ($user_id, $prod_id, $feature_id, $rating)
     {
-    	if($rating != -1 || $rating != 1)
-    		return;
-
-    	// Check if user already voted on this feature
-    	$score_inc = $rating;
-    	$history = Feature_Rating::where([
-	    						"prod_id" 	 =>	$prod_id,
-	    						"user_id" 	 =>	$user_id,
-	    						"feature_id" => $feature_id])
-    						->first();
-    	
-    	//	update old history
-    	if($history->count())
+        $rating = intval($rating);
+    	if($rating == -1 || $rating = 1)
     	{
-    		$score_inc -= $history->rating; //erase old   		
-    		$history->rating = $rating;
-    		$history->save();
-    	}
-    	else
-    	{
-    		$featRating = new Feature_Rating;
-    		$featRating->user_id = $user_id;
-    		$featRating->prod_id = $prod_id;
-    		$featRating->feature_id = $feature_id;
-    		$featRating->rating = $rating;
-    		$featRating->save();
-    	}
+            // Check if user already voted on this feature
+        	$score_inc = $rating;
+        	$history = Feature_Rating::where([
+    	    						"prod_id" 	 =>	$prod_id,
+    	    						"user_id" 	 =>	$user_id,
+    	    						"feature_id" => $feature_id])
+        						      ->first();       	  
 
-    	// Update totals
-    	$total = Feature_Rating_Total::where(['prod_id' => $prod_id, 'feature_id' => $feature_id])->first();
-    	$total->score = $total->score + $total_inc;
-    	$total->total_votes = ($history ? $total->total_votes : $total->total_votes+1);
-    	$total->save();
+        	//	update old history
+        	if($history)
+        	{
+        		$score_inc -= $history->rating; //erase old vote
+                Feature_Rating::where([
+                                    "prod_id"    => $prod_id,
+                                    "user_id"    => $user_id,
+                                    "feature_id" => $feature_id])
+                                    ->update(['rating' => $rating]);		
+        	}
+        	else
+        	{
+        		$featRating = new Feature_Rating;
+        		$featRating->user_id = $user_id;
+        		$featRating->prod_id = $prod_id;
+        		$featRating->feature_id = $feature_id;
+        		$featRating->rating = $rating;
+        		$featRating->save();
+        	}
+
+        	// Update totals
+            $total_score = Feature_Rating_Total::where(['prod_id' => $prod_id, 'feature_id' => $feature_id])->first()->score + $score_inc;
+            $total_votes = Feature_Rating_Total::where(['prod_id' => $prod_id, 'feature_id' => $feature_id])->first()->total_votes;
+
+            if($history == null){
+                $total_votes += 1;
+            }
+
+            Feature_Rating_Total::where(['prod_id' => $prod_id, 'feature_id' => $feature_id])
+                ->update
+                ([
+                    'score'         => (int)$total_score,
+                    'total_votes'   => (int)$total_votes
+                ]);
+
+            return "$total_score, $total_votes";
+        }
+        else 
+            return $rating;
     } 
 }

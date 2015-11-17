@@ -16,8 +16,8 @@ class FeatureController extends Controller
 		$prod_id 	= $request->input('prod_id');
 		$feature_id = $request->input('feature_id');
 		$rating 	= $request->input('rating');
-		Feature::rate($user_id, $prod_id, $feature_id, $rating);
-		return "Should be new rating";
+		var_dump( Feature::rate($user_id, $prod_id, $feature_id, $rating));
+		//return "Should be new rating";
 	}
 
 	public function createProductFeature(Request $request)
