@@ -127,3 +127,14 @@ Route::group(['prefix'=>'reviews'], function()
 		['uses'=>'ReviewController@createReview']
 	);
 });
+
+
+// Feature Stuff
+Route::group(['prefix'=>'feature'], function()
+{
+	// Test form for review creation
+	Route::post('createProductFeature',['uses'=>'FeatureController@createProductFeature']);
+
+	// Get the reviews for a product
+	Route::post('rate',['uses'=>'FeatureController@rate']);
+});

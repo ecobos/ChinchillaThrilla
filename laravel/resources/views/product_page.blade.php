@@ -99,7 +99,14 @@
         </style>
         <script>
 
-            function getReviews(skip)
+        var next = 1;
+
+            function getNext()
+            {
+                getReviews(next);
+            }
+
+            function getReviews(skip, scroll=true)
             {
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function() {
@@ -122,10 +129,16 @@
                                 appendReviewElement(user, image, review);
                             }
                         }
+                        if(scroll)
+                            window.scrollBy(0, 1000);
+                        next = skip + 1;
                     }
                 }
                 xmlhttp.open('get', '/reviews/product/{{$prod_id}}/'+((skip-1)*3));
                 xmlhttp.send();
+
+                // Loading Image
+                document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50'/></div>";
             }
 
             function appendReviewElement(user, image, review)
@@ -300,7 +313,7 @@
                         <a href="javascript:void(0);" onclick="getReviews(3)">3</a> |
                         <a href="javascript:void(0);" onclick="getReviews(4)">4</a> |
                         <a href="javascript:void(0);" onclick="getReviews(5)">5</a> |
-                        <a href="javascript:void(0);">Next</a>
+                        <a href="javascript:void(0);" onclick="getNext()">Next</a>
                     </h1>
                     <br><br>
                     </div>
@@ -368,5 +381,5 @@ $(document).ready(function(){
 </script>
 
 <script>
-getReviews(1);
+getReviews(1, false);
 </script>

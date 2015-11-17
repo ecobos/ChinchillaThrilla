@@ -71,12 +71,25 @@
 
             <div class="content">
                 <div class="title">Lazer Reviews</div>
-            </div>
-            <div class="form-group">
-                <label for="inputlg"></label>
-                <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product" onchange="updateSearchBox()">
-                <div class="col-lg-12" id="dropdown-search"></div>
-            </div>
+            </div>            
+            <form method="GET" action="/search/results">
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <!-- <label for="inputlg"></label> -->
+                        <input class="form-control input-lg" id="inputlg" type="text" name="query" placeholder="Search for a Product" onchange="updateSearchBox()">
+                    </div>
+                    <div class="col-sm-2">
+                        <select name="type" class="form-control input-lg">
+                            <option value="product">Products</option>
+                            <option value="category">Categories</option>
+                            <option value="brand">Brands</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="submit" class="btn btn-default btn-block input-lg" value="Search"/>
+                    </div>
+                </div> 
+            </form>
         </div>
     </body>
 </html>

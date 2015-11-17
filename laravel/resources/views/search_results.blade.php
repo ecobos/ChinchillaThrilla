@@ -92,18 +92,42 @@
                         <div class="title"><h1>Lazer Reviews Search</h1></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-1 col-md-2 col-lg-3">
-                    </div>
-                    <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">                       
+
+
+
+                <form method="GET" action="/search/results">
+                    <div class="row">
                         <div class="form-group">
-                            <label for="search-box"></label>
-                            <input class="form-control input-lg" id="search-box" type="text" placeholder="Search for a Product">
+                            <div class="col-sm-8">
+                                <!-- <label for="inputlg"></label> -->
+                                <input class="form-control input-lg" id="inputlg" type="text" name="query" placeholder="Search for a Product" onchange="updateSearchBox()">
+                            </div>
+                            <div class="col-sm-2">
+                                <select name="type" class="form-control input-lg">
+                                    <option value="product">Products</option>
+                                    <option value="category">Categories</option>
+                                    <option value="brand">Brands</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="submit" class="btn btn-default btn-block input-lg" value="Search"/>
+                            </div>
+                        </div> 
+    <!--                     <div class="col-sm-1 col-md-2 col-lg-3">
                         </div>
+                        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">                       
+                            <div class="form-group">
+                                <input class="form-control input-lg" id="search-box" type="text" placeholder="Search for a Product">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-md-2 col-lg-3">
+                            <input class="form-control input-lg" type="submit" value="Search"/>
+                        </div> -->
                     </div>
-                    <div class="col-sm-1 col-md-2 col-lg-3">
-                    </div>
-                </div>
+                </form>
+
+
+
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                         <br/><br/>
@@ -120,6 +144,15 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>
+                                        <select name="type" class="form-control input-lg">
+                                            <option value="product">Products</option>
+                                            <option value="category">Categories</option>
+                                            <option value="brand">Brands</option>
+                                        </select>
+                                    </td>
+                                </tr>
+<!--                                 <tr>
                                     <td>
                                         <div class="checkbox">
                                             <label><input type="checkbox" name="c1" value="yes" checked>Product Name</label>
@@ -140,7 +173,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            </tbody>
+ -->                            </tbody>
                         </table>
                     </div>
 
