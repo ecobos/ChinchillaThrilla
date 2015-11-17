@@ -1,0 +1,5 @@
+{
+    "require": {
+        "chrisbjr/api-guard": "^2.3"
+    }
+}
