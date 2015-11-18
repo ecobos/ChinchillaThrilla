@@ -1,5 +1,6 @@
 {
     "require": {
-        "chrisbjr/api-guard": "^2.3"
+        "chrisbjr/api-guard": "^2.3",
+        "illuminate/html": "^5.0"
     }
 }

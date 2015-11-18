@@ -24,8 +24,9 @@
                 text-align: left;
             }
 
-            h1, h3, th, thead {
+            h1, h2, h3, th, thead {
                 text-align: center;
+                font-weight: bold;
             }
 
             th, tr {
@@ -129,7 +130,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="title" align="center"><h1>{{ $brand }} - {{ $name }} {{ $model }}</h1></div>
+                                <div class="title" align="center"><h1>{{ $brand }} - {{ $name }} </h1> <h2>{{ $model }}</h2> </div>
                             </div>
                             <div class="col-xs-11 col-sm-10 col-md-12 col-lg-12">
                                 <div class="rating" >
@@ -140,7 +141,7 @@
                                     <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
                                     <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
                                 </div>
-                                </div>
+                            </div>
                             <br/>
                             <br/>
                             <div class="col-xs-11 col-sm-12 col-md-12 col-lg-12">

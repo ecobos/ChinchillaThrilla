@@ -1,8 +1,13 @@
+<?php 
+    $api_key = 'd73b0980ede66de272fff14353a2084e59dea7a5';
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <title>Lazer Reviews</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
         {!! Html::style('css/bootstrap.min.css') !!}
         {!! Html::script('js/bootstrap.min.js') !!}
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
@@ -114,21 +119,24 @@
                         <div class="title"><h1>Add New Product</h1></div>
                     </div>
                 </div>
-                <form role="form">
+                
+
+
+                {!! Form::open(array('action' => array('ProductController@createWithAPIKey', $api_key))) !!}
                 <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <label for="email">Name:</label>
-                        <input type="email" class="form-control" id="name" placeholder="Enter name">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="prod_name" placeholder="Enter name">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label for="model">Model:</label>
-                        <input type="model" class="form-control" autocomplete="on" id="mdl" placeholder="Enter model">
+                        <input type="text" class="form-control" autocomplete="on" name="prod_model" placeholder="Enter model">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label for="brand">Brand:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" aria-label="..." placeholder="Enter Brand">
+                            <input type="text" class="form-control" aria-label="..." name="prod_brand" placeholder="Enter Brand">
                             <div class="input-group-btn">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
                                 <ul class="dropdown-menu dropdown-menu-right">
@@ -145,7 +153,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="dropdown">
                         <label for="ctg">Category:</label>
-                            <select class="form-control" id="sel1">
+                            <select class="form-control" name="prod_category">
                                 <option>Category 1</option>
                                 <option>Category 2</option>
                                 <option>Category 3</option>
@@ -218,7 +226,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                     <label>Brief Description</label><br></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                        <textarea class="form-control" rows="5" id="comment" placeholder="Here is some text input"></textarea>
+                        <textarea class="form-control" rows="5" name="prod_description" placeholder="Here is some text input"></textarea>
                     <br></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                     
@@ -227,7 +235,7 @@
                     </div>
                     </div>
                     
-                </form>
+                {!! Form::close() !!}
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                 <br><br><br><br></div>
 

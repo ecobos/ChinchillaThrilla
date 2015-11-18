@@ -26,7 +26,7 @@ class SearchController extends Controller
         -   A list of products found from search including:
         -       'prod_name', 'prod_id', 'url'
     */
-    public function getProducts (Request $request)
+    public functino getProducts (Request $request)
     {
         // Results to return
         $results = array ();

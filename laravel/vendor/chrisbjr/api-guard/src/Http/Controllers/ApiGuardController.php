@@ -68,6 +68,9 @@ class ApiGuardController extends Controller
             // This is the actual request object used
             $request = Route::getCurrentRequest();
 
+            // added this vardump
+            //var_dump($request);
+
             // Let's get the method
             Str::parseCallback(Route::currentRouteAction(), null);
 

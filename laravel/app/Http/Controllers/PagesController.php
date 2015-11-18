@@ -24,6 +24,10 @@ class PagesController extends Controller
         return view('404');
     }
 
-    public function 
+    // testing adding product page
+    public function addProduct() {
+        
+        return view('add_product');
+    }
 
 }

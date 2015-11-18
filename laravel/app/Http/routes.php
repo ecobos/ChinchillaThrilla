@@ -18,6 +18,8 @@
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
+// testing adding product page
+Route::get('addproduct', 'PagesController@addProduct');
 
 
 Route::group(['prefix' => 'profile'], function(){
@@ -31,7 +33,8 @@ Route::group(['prefix' => 'profile'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
 	});
 
-	Route::get('/{user_id?}', 'ProfileController@profile');
+	// no longer needed
+	//Route::get('/{user_id?}', 'ProfileController@profile');
 
 
 });
@@ -57,6 +60,7 @@ Route::group(['prefix'=>'products'], function()
         Route::post('', ['uses'=>'ProductController@create']); 
         Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
         Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+        Route::post('{api_key}', ['uses'=>'ProductController@createWithAPIKey']); 
     });
 
     // view routes
@@ -129,6 +133,11 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('', 
 		['uses'=>'ReviewController@createReview']
 	);
+
+	Route::post('{api_key}', 
+		['uses'=>'ReviewController@createReviewWithAPIKey']
+	);
+	
 
 });
 
