@@ -2,23 +2,23 @@
 <html>
     <head>
         <title>Lazer Reviews</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {!! Html::style('css/bootstrap.min.css') !!}
         {!! Html::script('js/bootstrap.min.js') !!}
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
-        
-        @include('css_style')   
+        @include('css_style')
     </head>
     <body> 
             <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
             <script src="js/bootstrap.js"></script>
-            
-            @include('header')
+            <div class="container-fluid">
+                @include('header')
+            </div>
             @include('footer')
 
-            <br/>
-            <br/>
             <div class="container">
+                <div class="container-fluid">
+                    @include('header')
+                </div>
                 <div class="row">
                     <div class="col-md-1 col-lg-1">
                     </div>
