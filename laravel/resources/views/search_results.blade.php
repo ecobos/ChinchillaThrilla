@@ -61,28 +61,10 @@
     <body> 
             <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
             <script src="js/bootstrap.js"></script>
-            <div class="navbar navbar-inverse navbar-static-top" role="navigation">
-                <a href="#" class="navbar-brand">Lazer Reviews</a>
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="collapse navbar-collapse navHeaderCollapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">MyAcount</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
+            
+            @include('header')
+            @include('footer')
+
             <br/>
             <br/>
             <div class="container">
@@ -182,29 +164,7 @@
                     </div>
                 </div>
             </div>
-    </body>
-
-    <div class="navbar navbar-default navbar-fixed-bottom">
-    <br>
-    <div class="row">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-            <p >© 2015 - Site Built By Division Zero</p>
-        </div>
-        <div class="col-xs-8 col-sm-4 col-lg-4">
-            <p align="center">                
-                <a href="#">About</a>
-                <a href="#"><span style="margin-left:2em">Contact</span></a>
-                <a href="#"><span style="margin-left:2em">PrivacyPolicy</span></a>
-            </p>
-        </div>
-        <div class="col-xs-2 col-sm-4 col-lg-4">
-            <a href="http://youtube.com" class="navbar-btn btn-danger btn pull-right">
-            <span class="glyphicon glyphicon-star"></span>  Subscribe</a>
-        </div>
-    </div>
-    </div>
-
-    
+    </body>   
     
 </html>
 
