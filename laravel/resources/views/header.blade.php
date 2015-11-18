@@ -13,11 +13,11 @@
 	                <a href="{{ url('/') }}" class="dropdown-toggle" data-toggle="dropdown">Options <b class="caret"></b></a>
 	                <ul class="dropdown-menu">
 	                    @if(Auth::check())
-                            <li><a href="{{ url('/profile') }}"><b>Go to my account</b></a></li>
-	                        <li><a href="{{ url('/auth/logout') }}"><b>Logout</b></a></li>
+                            <li>{{ link_to('/profile', 'Go to my account') }}</li>
+	                        <li>{{ link_to('/auth/logout', 'Logout') }}</li>
                         @else
-                            <li><a href="{{ url('/auth/facebook') }}"><b>Facebook Login</b></a></li>
-                            <li><a href="{{ url('/auth/google') }}"><b>Google Login</b></a></li>
+                            <li>{{ link_to('/auth/facebook', 'Facebook Login') }} </li>
+                            <li>{{ link_to('/auth/google', 'Google Login') }}</li>
                         @endif
 	                </ul>
 	            </li>
