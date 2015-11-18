@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
+use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
@@ -16,6 +17,9 @@ class ProductController extends ApiGuardController
     // methods that don't need api key authentication
     protected $apiMethods = [
         'getProductView' => [
+            'keyAuthentication' => false
+        ],
+        'createWithAPIKey' => [
             'keyAuthentication' => false
         ],
     ];
@@ -89,10 +93,11 @@ class ProductController extends ApiGuardController
 
     */
 
-    // Creates a product based on information received from POST request
+    // Creates a product based on information received from POST request  (Developer)
     public function create(Request $request)
     {   
-        var_dump($request);
+        //var_dump($request);
+
         // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
         $name = $request->input("prod_name");
         print $name;
@@ -102,6 +107,11 @@ class ProductController extends ApiGuardController
         $desc = $request->input("prod_description");
         $rating = $request->input("overall_rating");
         $img_path = $request->input("prod_img_path");
+
+
+
+        // don't forget to check for empty fields... throw error
+
 
         /*
         Product::create(["prod_name" => $name, 
@@ -124,6 +134,47 @@ class ProductController extends ApiGuardController
         $product->save();
 
     }
+
+// Creates a product based on information received from POST request (non-Developer)
+public function createWithAPIKey(Request $request, $api_key)
+{   
+    // workaround API key issue
+    print $api_key;
+    // check if authorized to POST 
+    $match_key = ApiKey::where('key', $api_key)->first();
+    print $match_key;
+
+    // not authorized to POST (public key in form)
+    if (empty($match_key)) {
+        return new Response('An invalid API key was provided with the API request', 401);
+    }
+
+
+    // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
+    $name = $request->input("prod_name");
+    print $name;
+    $model = $request->input("prod_model");
+    $brand = $request->input("prod_brand");
+    $category = $request->input("prod_category");
+    $desc = $request->input("prod_description");
+    //$rating = $request->input("overall_rating");
+    //$img_path = $request->input("prod_img_path");
+
+    // making rating and img_path dummy values until migrations are fixed
+    $rating = 5;
+    $img_path = 'http://www9.pcmag.com/media/images/301505-apple-iphone-5-at-t.jpg';
+
+    $product = new Product; // new instance of product
+    // populate fields of new product
+    $product->prod_name = $name;
+    $product->prod_model = $model;
+    $product->prod_brand = $brand;
+    $product->prod_category = $category;
+    $product->prod_description = $desc;
+    $product->overall_rating = $rating;
+    $product->prod_img_path = $img_path;
+    $product->save();
+}
 
     /**
      * Store a newly created resource in storage.
