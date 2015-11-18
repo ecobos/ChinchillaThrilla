@@ -67,8 +67,9 @@
 
     </head>
     <body>
-        <div class="container">
 
+        <div class="container">
+            @include('header')
             <div class="content">
                 <div class="title">Lazer Reviews</div>
             </div>
