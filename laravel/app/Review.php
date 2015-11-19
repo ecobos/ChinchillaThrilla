@@ -8,14 +8,19 @@ use DB;
 class Review extends Model
 {
 
-    static function createReview($product_id, $user_id, $review_text)
+    static function createReview($product_id, $user_id, $review_text, $overall_rating)
     {
         $review = new Review;
         $review->prod_id = $product_id;
         $review->user_id = $user_id;
         $review->review_text = $review_text;
-
+        $review->overall_rating = $overall_rating;
   		$review->save();
+    }
+
+    static function getOverallRating($product_id)
+    {
+        return DB::select('SELECT AVG(overal_rating) as rating, COUNT(var) as total FROM reviews where prod_id = ?', [$product_id]);
     }
 
     static function getUserReviews($user_id, $limit=10)

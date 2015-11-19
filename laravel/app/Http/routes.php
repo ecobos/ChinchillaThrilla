@@ -111,21 +111,19 @@ Route::group(['prefix'=>'search'], function()
 Route::group(['prefix'=>'reviews'], function()
 {
 	// Test form for review creation
-	Route::get('',	
-		['uses'=>'ReviewController@index']
-	);
+	Route::get('',['uses'=>'ReviewController@index']);
+
 	// Get the reviews for a product
-	Route::get('product/{product_id}/{skip}',
-		['uses'=>'ReviewController@getProductReviews']
-	);
+	Route::get('product/{product_id}/{skip}',['uses'=>'ReviewController@getProductReviews']);
+
 	// Get the reviews from a user
-	Route::get('user/{user_id}',
-		['uses'=>'ReviewController@getUserReviews']
-	);
+	Route::get('user/{user_id}',['uses'=>'ReviewController@getUserReviews']);
+
 	// Create a new Review for ($prod_id, $user_id)
-	Route::post('', 
-		['uses'=>'ReviewController@createReview']
-	);
+	Route::post('', ['uses'=>'ReviewController@createReview']);
+
+	// Get the overall rating for a product and the total number of votes
+	Route::get('{product_id}', ['uses'=>'ReviewController@getOverallRating']);
 });
 
 
