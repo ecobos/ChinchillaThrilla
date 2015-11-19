@@ -301,11 +301,13 @@ class ReviewTableSeeder extends Seeder
 
         foreach($products as $product)
         {
+            $rating = 1;
             foreach ($users as $user) {
                 DB::table('reviews')->insert([
                     'user_id'   =>  $user->user_id,
                     'prod_id'   =>  $product->prod_id,
                     'total_usefulness' => 100,
+                    'overal_rating' => $rating++,
                     'review_text'   =>  $lorem_ipsum
                 ]);
             }

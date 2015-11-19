@@ -56,9 +56,9 @@ class ReviewController extends Controller
         Review::createReview($product_id, $user_id, $review);
     }
 
-    public function getOverallRating($prod_id)
+    public function getOverallRating($product_id)
     {
-        var_dump(Review::getOverallRating($prod_id));
+        var_dump(Review::getOverallRating($product_id));
     }
 
 }

@@ -20,7 +20,7 @@ class Review extends Model
 
     static function getOverallRating($product_id)
     {
-        return DB::select('SELECT AVG(overal_rating) as rating, COUNT(var) as total FROM reviews where prod_id = ?', [$product_id]);
+        return DB::select('SELECT AVG(overal_rating) as rating, COUNT(overal_rating) as total FROM reviews where prod_id = ?', [$product_id]);
     }
 
     static function getUserReviews($user_id, $limit=10)

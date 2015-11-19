@@ -22,7 +22,9 @@ class Feature extends Model
             ->where('prod_id', '=', $prod_id)
             ->count();
 
-
+        if($count == 0)
+            return;
+        
         if($count <= 10)
         {
             $top = $count - floor($count/2);
