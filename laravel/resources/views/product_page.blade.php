@@ -256,33 +256,26 @@
                                 <table class="table table-responsive">
                                 <tr><td width="50%">
                                 <table width="100%" align="center">
-                                        @for ($i=0; $i<sizeof($features)/2; $i++)
+                                        @for ($i=0; $i<sizeof($features['pros']); $i++)
                                         <tr>
-                                           <td> {{ $features[$i]->feature_name }} </td>
+                                           <td> {{ $features['pros'][$i]->feature_name }} </td>
                                            <td align="right"> 
-                                                @if ($features[$i]->score < 0)
-                                                    {{ 0 }}
-                                                @else
-                                                    {{$features[$i]->score}}
-                                                @endif
-                                                /{{ $features[$i]->total_votes }} 
+                                                    {{$features['pros'][$i]->score}}
+                                                /{{ $features['pros'][$i]->total_votes }} 
                                             </td>
                                         </tr>
                                         @endfor
                                 </table>
                                 </td>
-                                <td width="50%">
+                                <td width="50%">    
                                 <table width="100%" align="center">
                                         @if (sizeof($features) > 1)
-                                            @for ($i=0; $i<(sizeof($features)/2)+1; $i++)
+                                            @for ($i=0; $i<sizeof($features['cons']); $i++)
                                             <tr>
-                                               <td> {{ $features[$i]->feature_name }} </td>
-                                               <td align="right"> @if ($features[$i]->score < 0)
-                                                        {{ 0 }}
-                                                    @else
-                                                        {{$features[$i]->score}}
-                                                    @endif
-                                                    /{{ $features[$i]->total_votes }} 
+                                               <td> {{ $features['cons'][$i]->feature_name }} </td>
+                                               <td align="right"> 
+                                                        {{$features['cons'][$i]->score}}
+                                                    /{{ $features['cons'][$i]->total_votes }} 
                                                 </td>
                                             </tr>
                                             @endfor
