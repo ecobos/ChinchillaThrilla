@@ -9,6 +9,7 @@ use App\Product;
 use Illuminate\Http\Response;
 use DB;
 use App\Review;
+use App\Feature;
 
 // 'php artisan tinker' to test the model classes
 class ProductController extends Controller
@@ -57,12 +58,21 @@ class ProductController extends Controller
         $desc = $product->prod_description;
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
+        $features = Feature::getFeatures($id);
 
+        // for($i=0; $i<sizeof($features); $i++)
+        // {
+        //     //var_dump((array)$features[$i]);
+        //     $features[$i] = (array)$features[$i];
+        // }
+        // $features = json_encode($features);
+
+        //var_dump($features);
         //user reviews for a product
         //$reviews = Review::getProductReviews($id);
 
         // return product page for this product
-        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features'));
     }
 
     // Returns array of products

@@ -101,10 +101,6 @@
 
         var next = 1;
 
-            function getNext()
-            {
-                getReviews(next);
-            }
 
             function getReviews(skip, scroll)
             {
@@ -178,7 +174,10 @@
 
             }
 
-
+            function getNext()
+            {
+                getReviews(next);
+            }
 
         </script>
     </head>
@@ -255,9 +254,44 @@
                             </thead>
                             <tbody> 
                                 <table class="table table-responsive">
-                                <tr>
-                                    <td>105/120</td>
-                                    <td>Screen</td>
+                                <tr><td width="50%">
+                                <table width="100%" align="center">
+                                        @for ($i=0; $i<sizeof($features)/2; $i++)
+                                        <tr>
+                                           <td> {{ $features[$i]->feature_name }} </td>
+                                           <td align="right"> 
+                                                @if ($features[$i]->score < 0)
+                                                    {{ 0 }}
+                                                @else
+                                                    {{$features[$i]->score}}
+                                                @endif
+                                                /{{ $features[$i]->total_votes }} 
+                                            </td>
+                                        </tr>
+                                        @endfor
+                                </table>
+                                </td>
+                                <td width="50%">
+                                <table width="100%" align="center">
+                                        @if (sizeof($features) > 1)
+                                            @for ($i=0; $i<(sizeof($features)/2)+1; $i++)
+                                            <tr>
+                                               <td> {{ $features[$i]->feature_name }} </td>
+                                               <td align="right"> @if ($features[$i]->score < 0)
+                                                        {{ 0 }}
+                                                    @else
+                                                        {{$features[$i]->score}}
+                                                    @endif
+                                                    /{{ $features[$i]->total_votes }} 
+                                                </td>
+                                            </tr>
+                                            @endfor
+                                        @else
+                                            <tr><td>&nbsp;</td></tr>
+                                        @endif
+                                </table>
+                                </td></tr>
+<!--                                     <td>Screen</td>
                                     <td>105/120</td>
                                     <td>Screen</td>
                                 </tr>
@@ -266,7 +300,7 @@
                                     <td>Weight</td>
                                     <td>35/90</td>
                                     <td>Weight</td>
-                                </tr>
+                                </tr> -->
                                 </table>
                             </tbody>
                         </table>
