@@ -1,11 +1,12 @@
 @extends('master_page')
 
+@section('specialized_css')
+    {!! Html::style('css/main_page.css') !!}
+@stop
+
 @section('content')
-        <div class="row">        
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <br><br><br><br><br><br><br><br><br></div>
-        </div>
-        <div class="row">        
+
+        <div id="main_label" class="row center-block">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="title" align="center">Lazer Reviews</div>
             </div>

@@ -17,7 +17,7 @@ return array(
     'CreateFeatureRatingTotalTable' => $baseDir . '/database/migrations/2015_10_16_001235_create_feature_rating_total_table.php',
     'CreateFeatureTable' => $baseDir . '/database/migrations/2015_10_16_000724_create_feature_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
-    'CreateProductTable' => $baseDir . '/database/migrations/2015_10_16_000618_create_product_table.php',
+    'CreateProductTable' => $baseDir . '/database/migrations/2015_10_16_000660_create_product_table.php',
     'CreateReviewTable' => $baseDir . '/database/migrations/2015_10_16_001106_create_review_table.php',
     'CreateReviewVotesTable' => $baseDir . '/database/migrations/2015_11_04_040357_create_review_votes_table.php',
     'CreateTagsTable' => $baseDir . '/database/migrations/2015_11_04_032153_create_tags_table.php',

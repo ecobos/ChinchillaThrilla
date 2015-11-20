@@ -23,6 +23,7 @@ class CreateReviewTable extends Migration
             $table->primary(['user_id', 'prod_id']);  // composite PK
 
             $table->integer('total_usefulness')->default(0); // Running upvote and downvote count. Initial count for all is zero
+            $table->smallInteger('overal_rating')->default(0);
             $table->string('review_text');  // string because review is limited to up to 254 chars
             $table->boolean('needsAdminReview')->default(false);
             $table->timestamps();  // same as date

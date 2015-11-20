@@ -1,4 +1,4 @@
-<style>
+
     html, body {
         height: 100%;
     }
@@ -192,8 +192,9 @@
         color:#FFF;
     }
 
-    #name_banner{
-        background-color: #d9edf7;
+    .navbar-static-bottom{
+        bottom: 0px;
+        width: 100%;
+        border-radius: 0px;
+        margin-bottom: 0px;
     }
-
-</style>

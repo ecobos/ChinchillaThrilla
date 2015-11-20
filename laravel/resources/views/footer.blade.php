@@ -1,5 +1,5 @@
 <div>
-    <div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="navbar navbar-default navbar-static-bottom">
 	    <br>
 	    <div class="row">
 	        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">

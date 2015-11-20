@@ -10,13 +10,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-3 col-sm-3">
-                </div>
+
                 <div class="col-xs-6 col-sm-6 col-md-12 col-lg-12" align="center">
                     <img src="{{$avatar_link}}" class="img-responsive" align="middle" height="350" width="300" >
                 </div>
-                <div class="col-xs-3 col-sm-3">
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-4">

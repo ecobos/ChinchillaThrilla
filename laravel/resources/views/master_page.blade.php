@@ -1,20 +1,23 @@
-<!-- This is the master page -->
+<!-- This is the master/base page -->
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- this is how you include your bootstrap files...-->
-	<!-- We could also use a CDN, CDN is better -->
-	{!! Html::style('css/bootstrap.min.css') !!}
+	<!-- JQuery include should be loaded first -->
+	{!! Html::script('https://code.jquery.com/jquery-2.1.3.js') !!}
 	{!! Html::script('js/bootstrap.min.js') !!}
-	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
-        
-	@include('css_style')
+
+	{!! Html::style('https://fonts.googleapis.com/css?family=Lato:100') !!}
+	{!! Html::style('css/bootstrap.min.css') !!}
+	{!! Html::style('css/base.css') !!}
+
+	@yield('specialized_css')
+
 </head>
 <body>
-    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-    <script src="js/bootstrap.js"></script>
+
 		@include('header')
-    	<div class="container">		
+
+		<div class="container">
     		@yield('content')
     	</div>
 		@include('footer')

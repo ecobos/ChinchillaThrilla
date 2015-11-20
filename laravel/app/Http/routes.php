@@ -44,16 +44,17 @@ Route::get('review', 'PagesController@review');
 
 
 Route::group(['prefix' => 'profile'], function(){
+	// Display the logged in user's profile, otherwise should redirect to login page
+	Route::get('/', 'ProfileController@profile');
+
+	/*
 	// testing user account page
 	Route::get('/account/{user_id}', 'ProfileController@userAccount');
-
-	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
-
+	*/
 
 	Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
 	});
-
 	Route::get('/{user_id?}', 'ProfileController@profile');
 
 
