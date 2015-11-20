@@ -14,6 +14,7 @@ class CreateApiKeysTable extends Migration
     public function up()
     {
         Schema::create('api_keys', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('key', 40);
@@ -30,6 +31,7 @@ class CreateApiKeysTable extends Migration
         });
 
         Schema::create('api_logs', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('api_key_id', false, true)->nullable();
             $table->string('route', 150);

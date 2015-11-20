@@ -7,6 +7,8 @@ use App\User;
 
 class Admin extends Model
 {
+    protected $primaryKey = 'admin_id';
+
     /**
      * The database table used by the model.
      *

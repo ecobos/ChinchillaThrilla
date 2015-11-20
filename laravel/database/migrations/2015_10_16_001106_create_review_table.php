@@ -13,12 +13,12 @@ class CreateReviewTable extends Migration
     public function up()
     {
         Schema::create('reviews', function (Blueprint $table) {
-
+            $table->engine = 'InnoDB';
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('user_id')->on('user');
+            $table->foreign('user_id')->references('user_id')->on('users');
 
             $table->integer('prod_id')->unsigned();
-            $table->foreign('prod_id')->references('prod_id')->on('product');
+            $table->foreign('prod_id')->references('prod_id')->on('products');
 
             $table->primary(['user_id', 'prod_id']);  // composite PK
 

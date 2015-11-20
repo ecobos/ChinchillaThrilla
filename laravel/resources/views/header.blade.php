@@ -1,4 +1,4 @@
-<div>
+
 	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <a href="#" class="navbar-brand"><b>Lazer Reviews</b></a>
 	    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -10,16 +10,17 @@
 	        <ul class="nav navbar-nav navbar-right">
 	            <li class="active"><a href="#"><b>Home</b></a></li>
 	            <li class="dropdown">
-	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options <b class="caret"></b></a>
+	                <a href="{{ url('/') }}" class="dropdown-toggle" data-toggle="dropdown">Options <b class="caret"></b></a>
 	                <ul class="dropdown-menu">
-	                    <li><a href="#"><b>MyAcount</b></a></li>
-	                    <li><a href="#"><b>Logout</b></a></li>
+	                    @if(Auth::check())
+                            <li>{{ link_to('/profile', 'Go to my account') }}</li>
+	                        <li>{{ link_to('/auth/logout', 'Logout') }}</li>
+                        @else
+                            <li>{{ link_to('/auth/facebook', 'Facebook Login') }} </li>
+                            <li>{{ link_to('/auth/google', 'Google Login') }}</li>
+                        @endif
 	                </ul>
 	            </li>
-	            <li><a href="#"><b>About</b></a></li>
-	            <li><a href="#"><b>Contact</b></a></li>
 	        </ul>
 	    </div>
     </div>
-</div>	
-<br><br>

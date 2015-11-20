@@ -26,8 +26,8 @@ class PagesController extends Controller
         return view('search_results');
     }
 
-    public function product() {
 
+    public function product() {
         $page_name = 'Product Page';
         return view('product_page');
     }
