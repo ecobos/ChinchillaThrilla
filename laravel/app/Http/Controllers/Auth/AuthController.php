@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -30,36 +36,99 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->middleware('guest', ['except' => 'doLogout']);
+    }
+
+
+    /**
+     * Redirect the user to the Facebook authentication page.
+     *
+     * @return Response
+     */
+    public function authRedirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Obtain the user information from Facebook.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return Response
      */
-    protected function validator(array $data)
+    public function handleFacebookCallback()
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
-        ]);
+        try{
+            $user = Socialite::driver('facebook')->user();
+        } catch (Exception $e){
+            return Redirect::to('auth/facebook');
+        }
+
+
+        $authUser = $this->findOrCreateUser($user, 'facebook');
+
+        Auth::login($authUser, true);
+
+        $name = $authUser->name;
+        $email = $authUser->email;
+        $avatar = $authUser->avatar;
+
+        return Redirect::to('/profile');
     }
 
     /**
-     * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return User
+     * @param $aUser
+     * @return static
      */
-    protected function create(array $data)
-    {
+    private function findOrCreateUser($aUser, $authProvider){
+
+        if($authUser = User::where('app_id', $aUser->id)->where('auth_provider', $authProvider)->first()){
+            return $authUser;
+        }
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'auth_provider' => $authProvider,
+            'app_id' => $aUser->id,
+            'name' => $aUser->name,
+            'email' => $aUser->email,
+            'avatar' => $aUser->avatar
         ]);
+    }
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return Response
+     */
+    public function authRedirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return Response
+     */
+    public function handleGoogleCallback()
+    {
+
+        try{
+            $user = Socialite::driver('google')->user();
+        } catch (Exception $e){
+            return Redirect::to('auth/google');
+        }
+
+
+        $authUser = $this->findOrCreateUser($user, 'google');
+
+        Auth::login($authUser, true);
+
+        return Redirect::to('/profile');
+    }
+
+    public function doLogout(){
+        Auth::logout();
+        return "<b> Logged out </b>";
     }
 }

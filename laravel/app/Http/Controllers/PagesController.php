@@ -2,26 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class PagesController extends Controller
 {
-    // returns faux profile page
-    public function profile()
-    {
-    	//$name = 'Kelby Sapien';
-    	//$user = []
-    	//$user['first'] = 'Jane';
-    	//$user['last'] = 'Doe';
-    	//$user['email'] = 'jdoe@gmail.com';
-    	$first = 'Jane';
-    	$last = 'Doe';
-    	$email = 'jdoe@gmail.com';
-    	//return view('user_account'->with('name', $name);
-    	return view('user_account', compact('first', 'last', 'email'));
-    }
 
     // returns page with passed in $page_name
     public function about() {
@@ -46,6 +30,12 @@ class PagesController extends Controller
 
         $page_name = 'Product Page';
         return view('product_page');
+    }
+
+    public function review() {
+
+        $page_name = 'Review Page';
+        return view('review_page');
     }
 
     public function productLoggedIn() {
@@ -76,5 +66,8 @@ class PagesController extends Controller
 
         $page_name = 'User Account Public';
         return view('user_account_public');
+    }
+    public function pageNotFound(){
+        return view('404');
     }
 }

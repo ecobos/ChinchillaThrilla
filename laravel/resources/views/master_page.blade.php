@@ -9,15 +9,14 @@
 	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
         
 	@include('css_style')
-
 </head>
 <body>
     <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
     <script src="js/bootstrap.js"></script>
-	@include('header')
-	<div class="container-fluid">
-		@yield('content')
-	</div>
-	@include('footer')
+		@include('header')
+    	<div class="container">		
+    		@yield('content')
+    	</div>
+		@include('footer')
 </body>
 </html>

@@ -1,5 +1,5 @@
 <div>
-	<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	    <a href="#" class="navbar-brand"><b>Lazer Reviews</b></a>
 	    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 	        <span class="icon-bar"></span>
@@ -22,3 +22,4 @@
 	    </div>
     </div>
 </div>	
+<br><br>

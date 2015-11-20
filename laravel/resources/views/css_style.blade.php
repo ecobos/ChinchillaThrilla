@@ -12,21 +12,75 @@
         font-family: 'Lato';
     }
 
+    img {
+        height: 50%;
+        width: 50%;
+    }
+
     p {
-       display: line; 
+        display: line; 
+        font-weight: bold;
+        text-align: center;
+    }
+
+    a {
+        font-weight: bold;
+        font-family: 'Lato';
     }
 
     table {
         text-align: left;
     }
 
-    h1, h3, th, thead, td {
+    h1, h3, h4, thead, td {
         font-weight: bold;
         text-align: center;
     }
 
-    th, tr {
+    th, tr, label, input {
+        font-weight: bold;
         font-size: 20px;
+    }
+
+    .trHeight {
+        width: 100%;
+        height:45px;                 
+    }
+
+    .tableHeight {
+        height:400px;              
+    }
+
+    .tbodyHeight {
+        overflow-y: auto;      
+        height: 300px;            
+        width: 100%;
+    }
+
+    .tdLeft {
+        text-align: left;
+        width: 83%;
+        vertical-align: middle;
+    }
+
+    .tdRight {
+        text-align: left;
+        width: 17%;
+        vertical-align: middle;
+    }
+
+    .thRight {
+        text-align: right;
+    }
+
+    .pGreen {
+        font-weight: bold;
+        color: #00ff00;
+    }
+
+    .pRed {
+        font-weight: bold;
+        color: #ff0000;
     }
 
     .inline {
@@ -35,7 +89,6 @@
 
     .container {
         text-align: center;
-        display: table-cell;
         vertical-align: middle;
     }
 
@@ -44,11 +97,20 @@
         display: inline-block;
     }
 
+    .vcenter {
+        position: absolute;
+        top: 40%;
+        left:50%;
+        transform: translate(-50%,-50%);
+    }
+
     .title {
+        text-align: center;
         font-size: 70px;
     }
 
     .textStyle {
+        text-align: left;
         font-weight: normal;
         font-size: 12px;
         font-family: 'verdana';
@@ -72,6 +134,29 @@
     {
         text-align:center;
         display:block;
+    }
+
+    .btn-file {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-file input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      background: red;
+      cursor: inherit;
+      display: block;
+    }
+    input[readonly] {
+      background-color: white !important;
+      cursor: text !important;
     }
 
     .rating {

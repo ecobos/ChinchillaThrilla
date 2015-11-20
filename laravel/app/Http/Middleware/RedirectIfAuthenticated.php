@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
     }
 
     /**
-     * Handle an incoming request.
+     * Handle an incoming request before the middleware
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -34,8 +34,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
+        // bool check(): determine if the current user is authenticated
         if ($this->auth->check()) {
-            return redirect('/home');
+            return redirect('/');
         }
 
         return $next($request);

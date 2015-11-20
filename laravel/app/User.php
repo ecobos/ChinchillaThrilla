@@ -16,6 +16,9 @@ class User extends Model implements AuthenticatableContract,
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
+    // specifiy our primary key field
+    protected $primaryKey = 'user_id'; 
+
     /**
      * The database table used by the model.
      *
@@ -23,17 +26,23 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $table = 'users';
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['auth_provider', 'app_id', 'name', 'email', 'avatar'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['auth_provider', 'app_id', 'remember_token'];
+
+    public function isAdmin(){
+        $check = $this->hasOne('App\Admin')->first();
+        return is_null($check) ? false : true;
+    }
 }
