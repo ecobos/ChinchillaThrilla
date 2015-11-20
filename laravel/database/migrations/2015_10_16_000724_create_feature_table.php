@@ -13,6 +13,7 @@ class CreateFeatureTable extends Migration
     public function up()
     {
         Schema::create('features', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('feature_id');
             $table->string('feature_name');
             $table->timestamps();

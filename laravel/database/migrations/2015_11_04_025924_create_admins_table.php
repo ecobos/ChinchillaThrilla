@@ -13,12 +13,14 @@ class CreateAdminsTable extends Migration
     public function up()
     {
         Schema::create('admins', function (Blueprint $table) {
-            $table->increments('id');
+            $table->engine = 'InnoDB';
 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('user_id')->on('user');
+            //$table->increments('admin_id');
 
-            $table->primary(['id', 'user_id']);
+            $table->integer('admin_id')->unsigned();
+            $table->foreign('admin_id')->references('user_id')->on('users');
+
+            //$table->unique('admin_id');
             $table->timestamps();
 
         });
