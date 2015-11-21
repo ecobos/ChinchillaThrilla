@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -138,6 +138,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
 
+
         /*
          * Application Service Providers...
          */
@@ -149,6 +150,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
+        GrahamCampbell\Flysystem\FlysystemServiceProvider::class,
 
     ],
 
@@ -201,6 +203,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Flysystem' => GrahamCampbell\Flysystem\Facades\Flysystem::class,
 
     ],
 

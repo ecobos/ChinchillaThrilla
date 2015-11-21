@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Product;
@@ -10,6 +11,9 @@ use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
+use App\Brand;
+use App\Category;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
 
 // 'php artisan tinker' to test the model classes
 class ProductController extends ApiGuardController
@@ -152,17 +156,63 @@ public function createWithAPIKey(Request $request, $api_key)
 
     // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
     $name = $request->input("prod_name");
-    print $name;
     $model = $request->input("prod_model");
     $brand = $request->input("prod_brand");
-    $category = $request->input("prod_category");
-    $desc = $request->input("prod_description");
-    //$rating = $request->input("overall_rating");
-    //$img_path = $request->input("prod_img_path");
 
-    // making rating and img_path dummy values until migrations are fixed
-    $rating = 5;
-    $img_path = 'http://www9.pcmag.com/media/images/301505-apple-iphone-5-at-t.jpg';
+    // if brand does not exist, add it to brands table first
+    $new_brand = Brand::where('brand_name', $brand)->first();
+    if(empty($new_brand)) {
+        print 'brand does not exist!';
+        $new_brand = new Brand;
+        $new_brand->brand_name = $brand;
+        $new_brand->save();
+    }
+
+    // update brandID on newly added product to be inserted into database
+    $brand = Brand::where('brand_name', $new_brand->brand_name)->first()->brand_id;
+    /*
+    $category_id    =   DB::table('categories')-> 
+                            where('category_name', 'Cell Phones')->
+                            first()->category_id ;
+    */
+
+    // if category does not exist, add it to category table
+    $category = $request->input("prod_category");
+
+    $new_cat = Category::where('category_name', $category)->first();
+    if(empty($new_cat)) {
+        print 'category does not exist';
+        $new_cat = new Category; 
+        $new_cat->category_name = $category;
+        $new_cat->save();
+    }
+
+    // update ID on category being inserted to database
+    $category = Category::where('category_name', $category)->first()->category_id;
+
+    $desc = $request->input("prod_description");
+
+    $image = '';
+    $image_url = '';
+
+    // check if user uploaded an image for the product
+    if($request->hasFile('image')) {
+        $image = $request->file("image");
+        $image_file_name = time() . '_' . $image->getClientOriginalName();
+
+        // create a new instance of s3 to upload to AWS server
+        \Storage::disk("s3")->put($image_file_name, file_get_contents($image), "public");
+
+        $bucket_name = "s3prod-images";
+        $region = "us-west-1";
+        // Generate URL
+        //https://s3-us-west-1.amazonaws.com/s3prod-images/Google-Nexus-10.jpg
+        $image_url = "https://s3-" . $region . ".amazonaws.com/" . $bucket_name . "/" . $image_file_name;      
+    }
+    else {
+        // set image path to default image
+        $image_url = 'http://www.trendmakina.com/wp-content/uploads/2014/05/empty-product-large.png';
+    }
 
     $product = new Product; // new instance of product
     // populate fields of new product
@@ -170,9 +220,8 @@ public function createWithAPIKey(Request $request, $api_key)
     $product->prod_model = $model;
     $product->prod_brand = $brand;
     $product->prod_category = $category;
-    $product->prod_description = $desc;
-    $product->overall_rating = $rating;
-    $product->prod_img_path = $img_path;
+    $product->prod_description = $desc;    
+    $product->prod_img_path = $image_url;
     $product->save();
 }
 

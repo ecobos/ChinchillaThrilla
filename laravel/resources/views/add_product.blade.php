@@ -1,5 +1,5 @@
 <?php 
-    $api_key = 'd73b0980ede66de272fff14353a2084e59dea7a5';
+    $api_key = '0720a8c75b24bc9de4d548587ac41c85de4d8020';
 ?>
 
 <!DOCTYPE html>
@@ -122,46 +122,38 @@
                 
 
 
-                {!! Form::open(array('action' => array('ProductController@createWithAPIKey', $api_key))) !!}
+                {!! Form::open(array('action' => array('ProductController@createWithAPIKey', $api_key), 'files' => true)) !!}
                 <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label for="name">Name:</label>
-                        <input type="text" class="form-control" name="prod_name" placeholder="Enter name">
+                        <input type="text" class="form-control" name="prod_name" placeholder="Enter name" required="true">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <label for="model">Model:</label>
-                        <input type="text" class="form-control" autocomplete="on" name="prod_model" placeholder="Enter model">
+                        <input type="text" class="form-control" autocomplete="on" name="prod_model" placeholder="Enter model" required="true">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <label for="brand">Brand:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" aria-label="..." name="prod_brand" placeholder="Enter Brand">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
-                                <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                </ul>
-                            </div><!-- /btn-group -->
-                        </div><!-- /input-group -->
-                    </div><!-- /.col-xs-12 -->
+                        <label for="brand" align="center">Brand:</label>
+                        <span class="input-group-addon">
+                            <input type="text" class="form-control" aria-label="..." name="prod_brand" id="brand_text" placeholder="Enter Brand" required="true">
+                        </span>
+                        <span class="input-group-addon">
+                        {!! 
+                            Form::select('select_brand', ($brands), null, 
+                            ['class' => 'form-control', 'id' => 'brand_select']); !!}
+                        </span>
+                    </div>
                     <div class="form-group" >
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="dropdown">
                         <label for="ctg">Category:</label>
-                            <select class="form-control" name="prod_category">
-                                <option>Category 1</option>
-                                <option>Category 2</option>
-                                <option>Category 3</option>
-                                <option>Category 4</option>
-                            </select>
-                        </div>
+                        {!! 
+                        Form::select('prod_category', ($categories), null, 
+                        ['class' => 'form-control first-disabled categories', 'required' => 'true']); !!}
                     </div>  
                 </div> 
+                    </div><!-- /.col-xs-12 -->
+                    
                 <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
                     <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -171,10 +163,7 @@
                     <img id="myImage" src="http://womensfooty.com/sites/all/modules/media_gallery/images/empty_gallery.png" class="img-portrait" max-width="200px" max-height="200px">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
-                        <br>
-                        <span class="btn btn-default btn-file">
-                            <b>Browse</b>&hellip; <input type="file" onchange="readURL(this);" accept="image/*">
-                        </span>
+                        {!! Form::file('image', ["class" => "btn btn-default btn-file"]) !!}
                     </div>   
                 </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -234,6 +223,8 @@
                         <button type="submit" class="btn btn-default"><b>Review & Submit</b></button>
                     </div>
                     </div>
+
+                    
                     
                 {!! Form::close() !!}
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
@@ -271,5 +262,18 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    $('.categories').children()[0].attr('disabled', 'true');
+    $('.categories').children()[0].attr('selected', 'true');
+    
+</script>
+
+<script type="text/javascript">
+    var mytextbox = document.getElementById('brand_text');
+    var mydropdown = document.getElementById('brand_select');
+
+    mydropdown.onchange = function(){
+          mytextbox.value = this.value; //to appened
     }
 </script>

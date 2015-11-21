@@ -12,6 +12,13 @@ use DB;
 
 class CategoryController extends ApiGuardController
 {
+    // methods that don't need api key authentication
+    protected $apiMethods = [
+        'getCategories' => [
+            'keyAuthentication' => false
+        ],
+    ];
+
     /**
      * Display a listing of the resource.
      *
