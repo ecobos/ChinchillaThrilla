@@ -15,16 +15,16 @@
         
         {!! Form::open(array('action' => array('ProductController@createWithAPIKey', $api_key), 'files' => true)) !!}
         <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" name="prod_name" placeholder="Enter name" required="true">
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
                 <label for="model">Model:</label>
                 <input type="text" class="form-control" autocomplete="on" name="prod_model" placeholder="Enter model" required="true">
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="left">
                 <label for="brand" align="center">Brand:</label>
                 <span class="input-group-addon">
                     <input type="text" class="form-control" aria-label="..." name="prod_brand" id="brand_text" placeholder="Enter Brand" required="true">
@@ -37,7 +37,7 @@
                 </span>
             </div>
             <div class="form-group" >
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="dropdown">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="dropdown" align="left">
                 <label for="category" align="center">Category:</label>
                 <span class="input-group-addon">
                     <input type="text" class="form-control" aria-label="..." name="prod_category" id="category_text" placeholder="Enter Category" required="true">
@@ -113,7 +113,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
             <label>Brief Description</label><br></div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                <textarea class="form-control" rows="5" name="prod_description" placeholder="Here is some text input"></textarea>
+                <textarea class="form-control" rows="5" name="prod_description" placeholder="Description ofthe product"></textarea>
             <br></div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
             
