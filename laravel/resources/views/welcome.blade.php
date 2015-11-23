@@ -1,56 +1,28 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Lazer Reviews</title>
-        {!! Html::style('css/bootstrap.min.css') !!}
-        {!! Html::script('js/bootstrap.min.js') !!}
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+@extends('master_page')
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+@section('specialized_css')
+    {!! Html::style('css/main_page.css') !!}
+@stop
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato';
-                color: black;
-            }
+@section('content')
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
+        <div id="main_label" class="row center-block">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="title" align="center">Lazer Reviews</div>
+            </div>
+        </div>
+        <div class="row">            
+            <div class="col-xs-1 col-sm-1 col-md-2 col-lg-3"></div>
+            <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
+                <div class="form-group">
+                    <label for="inputlg"></label>
+                    <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product" onchange="updateSearchBox()">
+                </div>
+            </div>
+            <div class="col-xs-1 col-sm-1 col-md-2 col-lg-3"></div>
+        </div>
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .title {
-                font-size: 70px;
-            }
-
-            .suggestion {
-                border-bottom: 1px solid #000;
-                border-left: 1px solid #000;
-                border-right: 1px solid #000;
-                text-align: left;
-            }
-
-            .suggestion:hover {
-                background: #F0F8FF;
-            }
-
-        </style>
-
-
-    <script>
+        <script>
         function updateSearchBox() 
         {            
             var query = document.getElementById('inputlg');
@@ -62,21 +34,6 @@
             dropdown.appendChild(div);
 
         }
-    </script>
+        </script>
+@stop
 
-
-    </head>
-    <body>
-        <div class="container">
-
-            <div class="content">
-                <div class="title">Lazer Reviews</div>
-            </div>
-            <div class="form-group">
-                <label for="inputlg"></label>
-                <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product" onchange="updateSearchBox()">
-                <div class="col-lg-12" id="dropdown-search"></div>
-            </div>
-        </div>
-    </body>
-</html>

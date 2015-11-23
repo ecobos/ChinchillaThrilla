@@ -44,7 +44,7 @@ class ProfileController extends Controller
         $email = isset($user->email) ? $user->email : $email_default;
         $avatar = isset($user->avatar) ? $user->avatar : $avatar_default;
 
-        return view('profile', compact('name', 'email', 'avatar'));
+        return view('user_account', compact('name', 'email', 'avatar'));
     }
 
     public function adminPanel(){

@@ -1,24 +1,25 @@
-<!-- This is the master page -->
+<!-- This is the master/base page -->
 <!DOCTYPE html>
 <html>
 <head>
-	<title> {{$page_name}}</title>
-	<!-- this is how you include your bootstrap files...-->
-	<!-- We could also use a CDN, CDN is better -->
-	{!! Html::style('css/bootstrap.min.css') !!}
+	<!-- JQuery include should be loaded first -->
+	{!! Html::script('https://code.jquery.com/jquery-2.1.3.js') !!}
 	{!! Html::script('js/bootstrap.min.js') !!}
-	<div class="page-header">
-		<h1>Consumer Reviews </h1>
-		<div class="input-group">
-		  <span class="input-group-addon" id="basic-addon1">@</span>
-		  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-		</div>
-		<span class="alert alert-success" role="alert">Objective Reviews You Can Trust</span>
-	</div>
+
+	{!! Html::style('https://fonts.googleapis.com/css?family=Lato:100') !!}
+	{!! Html::style('css/bootstrap.min.css') !!}
+	{!! Html::style('css/base.css') !!}
+
+	@yield('specialized_css')
+
 </head>
 <body>
-	<div class="container">
-		@yield('content')
-	</div>
+
+		@include('header')
+
+		<div class="container">
+    		@yield('content')
+    	</div>
+		@include('footer')
 </body>
 </html>

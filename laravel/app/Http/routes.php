@@ -18,23 +18,48 @@
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
-// testing adding product page
+
+// add product page
 Route::get('addproduct', 'PagesController@addProduct');
+
+// search results page
+Route::get('search', 'PagesController@searchResult');
+
+// product page
+Route::get('product', 'PagesController@product');
+
+// add product page
+Route::get('addProduct', 'PagesController@addProduct');
+
+// product page logged in
+Route::get('productLoggedIn', 'PagesController@productLoggedIn');
+
+// user account
+Route::get('userAccount', 'PagesController@userAccount');
+
+// user account admin
+Route::get('userAccountAdmin', 'PagesController@userAccountAdmin');
+
+// user account public
+Route::get('userAccountPublic', 'PagesController@userAccountPublic');
+
+// review page
+Route::get('review', 'PagesController@review');
 
 
 Route::group(['prefix' => 'profile'], function(){
+	// Display the logged in user's profile, otherwise should redirect to login page
+	Route::get('/', 'ProfileController@profile');
+
+	/*
 	// testing user account page
 	Route::get('/account/{user_id}', 'ProfileController@userAccount');
-
-	Route::get('/', 'ProfileController@profile'); //Display the logged in user's profile, otherwise should redirect to login page
-
+	*/
 
 	Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
 	});
-
-	// no longer needed
-	//Route::get('/{user_id?}', 'ProfileController@profile');
+	Route::get('/{user_id?}', 'ProfileController@profile');
 
 
 });

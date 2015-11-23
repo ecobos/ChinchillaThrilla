@@ -22,8 +22,10 @@ class PagesController extends Controller
         return view('welcome');
     }
 
-    public function pageNotFound(){
-        return view('404');
+    public function searchResult() {
+
+        $page_name = 'Product Search';
+        return view('search_results');
     }
 
     // testing adding product page
@@ -50,4 +52,41 @@ class PagesController extends Controller
         return view('add_product')->with('categories', $cat_array)->with('brands', $brand_array);
     }
 
+    public function product() {
+        $page_name = 'Product Page';
+        return view('product_page');
+    }
+
+    public function review() {
+
+        $page_name = 'Review Page';
+        return view('review_page');
+    }
+
+    public function productLoggedIn() {
+
+        $page_name = 'Product Logged In Page';
+        return view('product_page_log');
+    }
+
+    public function userAccount() {
+
+        $page_name = 'User Account';
+        return view('user_account');
+    }
+
+    public function userAccountAdmin() {
+
+        $page_name = 'Admin User Account';
+        return view('user_account_admin');
+    }
+
+    public function userAccountPublic() {
+
+        $page_name = 'User Account Public';
+        return view('user_account_public');
+    }
+    public function pageNotFound(){
+        return view('404');
+    }
 }

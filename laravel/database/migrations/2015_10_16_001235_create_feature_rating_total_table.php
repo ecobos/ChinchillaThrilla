@@ -13,12 +13,12 @@ class CreateFeatureRatingTotalTable extends Migration
     public function up()
     {
         Schema::create('feature_rating_totals', function (Blueprint $table) {
-
+            $table->engine = 'InnoDB';
             $table->integer('prod_id')->unsigned();
-            $table->foreign('prod_id')->references('prod_id')->on('product');
+            $table->foreign('prod_id')->references('prod_id')->on('products');
 
             $table->integer('feature_id')->unsigned();
-            $table->foreign('feature_id')->references('feature_id')->on('feature');
+            $table->foreign('feature_id')->references('feature_id')->on('features');
 
             $table->primary(['prod_id', 'feature_id']);  // composite PK
 
