@@ -164,12 +164,19 @@ public function createWithAPIKey(Request $request, $api_key)
     $prod_id;
 
     // get brand id to check for existing record in database
-    $brand_id = Brand::where('brand_name', $brand)->first()->brand_id;
+    $brand_obj = Brand::where('brand_name', $brand)->first();
+    $existing_product;
 
-    // check if the product already exists
-    $existing_product = Product::where(['prod_name' => $name,
+    // check if brand exists, check for product against database
+    if($brand_obj) {
+        // get brand_id
+        $brand_id = $brand_obj->brand_id;
+        // this brand exists, so we check if prod is in database already
+        $existing_product = Product::where(['prod_name' => $name,
                                         'prod_model' => $model,
                                         'prod_brand' => $brand_id])->first();
+    }
+    
     // produt does not exist, add it
     if(empty($existing_product)) {
 
