@@ -18,6 +18,10 @@
 Route::get('/', 'PagesController@home');
 Route::get('about', 'PagesController@about');
 
+
+// add product page
+Route::get('addproduct', 'PagesController@addProduct');
+
 // search results page
 Route::get('search', 'PagesController@searchResult');
 
@@ -81,6 +85,7 @@ Route::group(['prefix'=>'products'], function()
         Route::post('', ['uses'=>'ProductController@create']); 
         Route::put('{id}', ['uses'=>'ProductController@updateProduct']); 
         Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
+        Route::post('{api_key}', ['uses'=>'ProductController@createWithAPIKey']); 
     });
 
     // view routes
@@ -153,6 +158,11 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('', 
 		['uses'=>'ReviewController@createReview']
 	);
+
+	Route::post('{api_key}', 
+		['uses'=>'ReviewController@createReviewWithAPIKey']
+	);
+	
 
 });
 
