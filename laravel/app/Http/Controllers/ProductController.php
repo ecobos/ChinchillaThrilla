@@ -13,6 +13,8 @@ use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 use App\Brand;
 use App\Category;
+use App\Feature_Rating_Total;
+use App\Feature;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 
 // 'php artisan tinker' to test the model classes
@@ -159,70 +161,127 @@ public function createWithAPIKey(Request $request, $api_key)
     $model = $request->input("prod_model");
     $brand = $request->input("prod_brand");
 
-    // if brand does not exist, add it to brands table first
-    $new_brand = Brand::where('brand_name', $brand)->first();
-    if(empty($new_brand)) {
-        print 'brand does not exist!';
-        $new_brand = new Brand;
-        $new_brand->brand_name = $brand;
-        $new_brand->save();
-    }
+    $prod_id;
 
-    // update brandID on newly added product to be inserted into database
-    $brand = Brand::where('brand_name', $new_brand->brand_name)->first()->brand_id;
-    /*
-    $category_id    =   DB::table('categories')-> 
-                            where('category_name', 'Cell Phones')->
-                            first()->category_id ;
-    */
+    // get brand id to check for existing record in database
+    $brand_id = Brand::where('brand_name', $brand)->first()->brand_id;
 
-    // if category does not exist, add it to category table
-    $category = $request->input("prod_category");
+    // check if the product already exists
+    $existing_product = Product::where(['prod_name' => $name,
+                                        'prod_model' => $model,
+                                        'prod_brand' => $brand_id])->first();
+    // produt does not exist, add it
+    if(empty($existing_product)) {
 
-    $new_cat = Category::where('category_name', $category)->first();
-    if(empty($new_cat)) {
-        print 'category does not exist';
-        $new_cat = new Category; 
-        $new_cat->category_name = $category;
-        $new_cat->save();
-    }
+        // if brand does not exist, add it to brands table first
+        $new_brand = Brand::where('brand_name', $brand)->first();
+        if(empty($new_brand)) {
+            //print 'brand does not exist!';
+            $new_brand = new Brand;
+            $new_brand->brand_name = $brand;
+            $new_brand->save();
+        }
+        // update brandID on newly added product to be inserted into database
+        $brand = Brand::where('brand_name', $new_brand->brand_name)->first()->brand_id;
+        
+        // if category does not exist, add it to category table
+        $category = $request->input("prod_category");
+        $new_cat = Category::where('category_name', $category)->first();
+        if(empty($new_cat)) {
+            //print 'category does not exist';
+            $new_cat = new Category; 
+            $new_cat->category_name = $category;
+            //print 'category inserted: ' . $new_cat;
+            $new_cat->save();
+        }
 
-    // update ID on category being inserted to database
-    $category = Category::where('category_name', $category)->first()->category_id;
+        // update ID on category being inserted to database
+        $category = Category::where('category_name', $new_cat->category_name)->first()->category_id;
 
-    $desc = $request->input("prod_description");
+        $desc = $request->input("prod_description");
 
-    $image = '';
-    $image_url = '';
+        $image = '';
+        $image_url = '';
 
-    // check if user uploaded an image for the product
-    if($request->hasFile('image')) {
-        $image = $request->file("image");
-        $image_file_name = time() . '_' . $image->getClientOriginalName();
+        // check if user uploaded an image for the product
+        // upload to amazon S3 
+        if($request->hasFile('image')) {
+            $image = $request->file("image");
+            $image_file_name = time() . '_' . $image->getClientOriginalName();
 
-        // create a new instance of s3 to upload to AWS server
-        \Storage::disk("s3")->put($image_file_name, file_get_contents($image), "public");
+            // create a new instance of s3 to upload to AWS server
+            \Storage::disk("s3")->put($image_file_name, file_get_contents($image), "public");
 
-        $bucket_name = "s3prod-images";
-        $region = "us-west-1";
-        // Generate URL
-        //https://s3-us-west-1.amazonaws.com/s3prod-images/Google-Nexus-10.jpg
-        $image_url = "https://s3-" . $region . ".amazonaws.com/" . $bucket_name . "/" . $image_file_name;      
+            $bucket_name = "s3prod-images";
+            $region = "us-west-1";
+            // Generate URL
+            //https://s3-us-west-1.amazonaws.com/s3prod-images/Google-Nexus-10.jpg
+            $image_url = "https://s3-" . $region . ".amazonaws.com/" . $bucket_name . "/" . $image_file_name;      
+        }
+        else {
+            // set image path to default image if no image provided
+            $image_url = 'http://www.trendmakina.com/wp-content/uploads/2014/05/empty-product-large.png';
+        }
+
+        $product = new Product; // new instance of product
+        // populate fields of new product
+        $product->prod_name = $name;
+        $product->prod_model = $model;
+        $product->prod_brand = $brand;
+        $product->prod_category = $category;
+        $product->prod_description = $desc;    
+        $product->prod_img_path = $image_url;
+        $product->save();
+
+        // get product id for newly added product
+        $prod_id = $product->prod_id;
     }
     else {
-        // set image path to default image
-        $image_url = 'http://www.trendmakina.com/wp-content/uploads/2014/05/empty-product-large.png';
+        // product already exists, simply get the prod_id
+        print 'prod already exists ' . $existing_product->prod_name;
+        $prod_id = $existing_product->prod_id;
     }
 
-    $product = new Product; // new instance of product
-    // populate fields of new product
-    $product->prod_name = $name;
-    $product->prod_model = $model;
-    $product->prod_brand = $brand;
-    $product->prod_category = $category;
-    $product->prod_description = $desc;    
-    $product->prod_img_path = $image_url;
-    $product->save();
+    
+    // add features to database for this product
+    $spec_details = "";
+    $feature_id;
+    // check all input boxes
+    for($i = 1; $i<11; $i++) {
+        $spec_details = $request->input('spec' . $i);
+        // check that the features are not empty
+        if(strcmp($spec_details, "") != 0) {
+            $existing_feature = Feature::where('feature_name', $spec_details)->first();
+            // add feature to features table if none exists already
+            if(empty($existing_feature)) {
+                print 'feature ' . $spec_details . ' does not exist';
+                $add_feat = new Feature;
+                $add_feat->feature_name = $spec_details;
+                $add_feat->save();
+
+                // get feature_id of newly added feature
+                $feature_id = $add_feat->feature_id;
+            }
+            else {
+                // it does exist, simply get id of feat
+                $feature_id = $existing_feature->feature_id;
+            }
+
+            // check if this product already has this feature
+            $prod_feat = Feature_Rating_Total::where([
+                                    "prod_id"    => $prod_id,
+                                    "feature_id" => $feature_id])
+                                      ->first();  
+            if(empty($prod_feat)) {
+                print 'need to tie product to feature';
+                // tie product to that feature
+                $new_prod_feat = new Feature_Rating_Total; 
+                $new_prod_feat->prod_id = $prod_id;
+                $new_prod_feat->feature_id = $feature_id;
+                $new_prod_feat->save();
+            }
+        }
+    }
 }
 
     /**

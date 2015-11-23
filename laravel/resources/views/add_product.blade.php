@@ -1,5 +1,5 @@
 <?php 
-    $api_key = '0720a8c75b24bc9de4d548587ac41c85de4d8020';
+    $api_key = '3aee3c02724f2bb06eb4210a751a36387bc86a9a';
 ?>
 
 <!DOCTYPE html>
@@ -141,15 +141,22 @@
                         <span class="input-group-addon">
                         {!! 
                             Form::select('select_brand', ($brands), null, 
-                            ['class' => 'form-control', 'id' => 'brand_select']); !!}
+                            ['class' => 'form-control', 'id' => 'brand_select']); 
+                        !!}
                         </span>
                     </div>
                     <div class="form-group" >
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" data-toggle="dropdown">
-                        <label for="ctg">Category:</label>
+                        <label for="category" align="center">Category:</label>
+                        <span class="input-group-addon">
+                            <input type="text" class="form-control" aria-label="..." name="prod_category" id="category_text" placeholder="Enter Category" required="true">
+                        </span>
+                        <span class="input-group-addon">
                         {!! 
-                        Form::select('prod_category', ($categories), null, 
-                        ['class' => 'form-control first-disabled categories', 'required' => 'true']); !!}
+                            Form::select('category', ($categories), null, 
+                            ['class' => 'form-control first-disabled categories', 'id' => 'category_select']); 
+                        !!}
+                        </span>
                     </div>  
                 </div> 
                     </div><!-- /.col-xs-12 -->
@@ -171,43 +178,43 @@
                     </div>
                     <br>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc1" placeholder="Spec One">
+                        <input type="spec" class="form-control" name="spec1" id="spc1" placeholder="Spec One">
                     </div>                     
                     <div class="visible-xs col-xs-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc2" placeholder="Spec Two">
+                        <input type="spec" class="form-control" name="spec2" id="spc2" placeholder="Spec Two">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc3" placeholder="Spec Three">
+                        <input type="spec" class="form-control" name="spec3" id="spc3" placeholder="Spec Three">
                     </div>
                     <div class="visible-xs col-xs-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc4" placeholder="Spec Four">
+                        <input type="spec" class="form-control" name="spec4" id="spc4" placeholder="Spec Four">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc5" placeholder="Spec Five">
+                        <input type="spec" class="form-control" name="spec5" id="spc5" placeholder="Spec Five">
                     </div>
                     <div class="visible-xs col-xs-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc6" placeholder="Spec Six">
+                        <input type="spec" class="form-control" name="spec6" id="spc6" placeholder="Spec Six">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc7" placeholder="Spec Seven">
+                        <input type="spec" class="form-control" name="spec7" id="spc7" placeholder="Spec Seven">
                     </div>
                     <div class="visible-xs col-xs-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc8" placeholder="Spec Eight">
+                        <input type="spec" class="form-control" name="spec8" id="spc8" placeholder="Spec Eight">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc9" placeholder="Spec Nine">
+                        <input type="spec" class="form-control" name="spec9" id="spc9" placeholder="Spec Nine">
                     </div>
                     <div class="visible-xs col-xs-12" ><br></div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                        <input type="spec" class="form-control" id="spc10" placeholder="Spec Ten">
+                        <input type="spec" class="form-control" name="spec10" id="spc10" placeholder="Spec Ten">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                     </div>
@@ -270,10 +277,20 @@
 </script>
 
 <script type="text/javascript">
+    // grabs selected field from drop down to update the textbox
     var mytextbox = document.getElementById('brand_text');
     var mydropdown = document.getElementById('brand_select');
 
+    var mytextbox2 = document.getElementById('category_text');
+    var mydropdown2 = document.getElementById('category_select');
+
+    // replace values of textbox with drop down val
     mydropdown.onchange = function(){
-          mytextbox.value = this.value; //to appened
+          mytextbox.value = this.value; 
     }
+
+    mydropdown2.onchange = function() {
+        mytextbox2.value = this.value;
+    }
+    
 </script>
