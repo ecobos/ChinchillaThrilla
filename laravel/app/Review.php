@@ -7,15 +7,16 @@ use DB;
 
 class Review extends Model
 {
-
+    
     //protected $primaryKey = ['user_id','prod_id'];
 
-    static function createReview($product_id, $user_id, $review_text)
+    static function createReview($product_id, $user_id, $review_text, $rating)
     {
         $review = new Review;
         $review->prod_id = $product_id;
         $review->user_id = $user_id;
         $review->review_text = $review_text;
+        $review->overal_rating = $rating;
 
   		$review->save();
     }
