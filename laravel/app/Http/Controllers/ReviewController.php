@@ -20,6 +20,8 @@ class ReviewController extends ApiGuardController
         'createReviewWithAPIKey' => [
             'keyAuthentication' => false
         ],
+        'getProductReviews' => [
+            'keyAuthentication' => false]
     ];
 
     public function index()
@@ -52,11 +54,11 @@ class ReviewController extends ApiGuardController
         return $data;
     }
 
-    public function getProductReviews($product_id) 
+    public function getProductReviews($product_id, $skip) 
     {
         //Note: this function also contains an implicit parameter "$limit"
-        $data = Review::getProductReviews($product_id);
-        return $data;
+        $data = Review::getProductReviews($product_id, $skip);
+        return json_encode($data);
     }
 
     // Creates a review based on information received from POST request (Developer)
@@ -134,6 +136,11 @@ class ReviewController extends ApiGuardController
         }
 
 
+    }
+
+    public function getOverallRating($product_id)
+    {
+        var_dump(Review::getOverallRating($product_id));
     }
 
 }

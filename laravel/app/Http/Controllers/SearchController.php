@@ -71,7 +71,7 @@ class SearchController extends Controller
 
             // Unioning this search result with other results
             foreach ($db_result as $product){
-                $product->url = "/product/{$product->prod_id}";
+                $product->url = "/products/{$product->prod_id}";
                 $results[] = $product;
             }
         }

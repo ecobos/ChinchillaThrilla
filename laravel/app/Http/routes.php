@@ -76,6 +76,7 @@ Route::group(['prefix' => 'auth'], function(){
 // PRODUCT ROUTES
 Route::group(['prefix'=>'products'], function()
 {
+
 	// API routes
 	Route::group(['prefix'=>'api/v1/json'], function() 
 	{
@@ -86,6 +87,8 @@ Route::group(['prefix'=>'products'], function()
         Route::delete('{id}', ['uses'=>'ProductController@deleteProduct']); 
         Route::post('{api_key}', ['uses'=>'ProductController@createWithAPIKey']); 
     });
+
+	//>>>>>>> c6085f51073ca3c292e7f4d1f59cdf561d72a1ff
 
     // view routes
     Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
@@ -142,18 +145,35 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
 
 	// Test form for review creation
-	Route::get('',	
-		['uses'=>'ReviewController@index']
-	);
+	Route::get('',['uses'=>'ReviewController@index']);
+
 	// Get the reviews for a product
-	Route::get('product/{product_id}',
-		['uses'=>'ReviewController@getProductReviews']
-	);
+	Route::get('product/{product_id}/{skip}',['uses'=>'ReviewController@getProductReviews']);
+
 	// Get the reviews from a user
-	Route::get('user/{user_id}',
-		['uses'=>'ReviewController@getUserReviews']
-	);
+	Route::get('user/{user_id}',['uses'=>'ReviewController@getUserReviews']);
+
 	// Create a new Review for ($prod_id, $user_id)
+
+	Route::post('', ['uses'=>'ReviewController@createReview']);
+
+	// Get the overall rating for a product and the total number of votes
+	Route::get('{product_id}', ['uses'=>'ReviewController@getOverallRating']);
+});
+
+
+// Feature Stuff
+Route::group(['prefix'=>'feature'], function()
+{
+	// Test form for review creation
+	Route::post('createProductFeature',['uses'=>'FeatureController@createProductFeature']);
+
+	// Used for a user rating a product feature
+	Route::post('rate',['uses'=>'FeatureController@rate']);
+
+	// Used for getting product feature stats
+	Route::get('{prod_id}',['uses'=>'FeatureController@getFeatures']);
+
 	Route::post('', 
 		['uses'=>'ReviewController@createReview']
 	);
@@ -161,8 +181,6 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('submitreview/{prod_id}/{api_key}', 
 		['uses'=>'ReviewController@createReviewWithAPIKey']
 	);
-	
-
 });
 
 
@@ -175,6 +193,5 @@ Route::group(['prefix'=>'apikeys'], function()
         Route::post('', ['uses'=>'APIController@create']); 
         Route::delete('{id}', ['uses'=>'APIController@delete']); 
     });
-
 });
 
