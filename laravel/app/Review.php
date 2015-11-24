@@ -8,7 +8,11 @@ use DB;
 class Review extends Model
 {
 
-    static function createReview($product_id, $user_id, $review_text, $overall_rating)
+
+
+    //protected $primaryKey = ['user_id','prod_id'];
+
+    static function createReview($product_id, $user_id, $review_text)
     {
         $review = new Review;
         $review->prod_id = $product_id;
@@ -45,5 +49,10 @@ class Review extends Model
     			-> get();
     	return $datas;   			
     }
+
+    public function product(){
+        return $this->belongsTo('App\Product', 'prod_id', 'prod_id');
+    }
+
 
 }

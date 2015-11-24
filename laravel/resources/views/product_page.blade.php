@@ -1,102 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Lazer Reviews</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {!! Html::style('css/bootstrap.min.css') !!}
-        {!! Html::script('js/bootstrap.min.js') !!}
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
-        <style>
-            html, body {
-                height: 100%;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                display: table;
-                font-weight: bold;
-                font-family: 'Lato';
-            }
-
-            table {
-                text-align: left;
-            }
-
-            h1, h3, th, thead {
-                text-align: center;
-            }
-
-            th, tr {
-                font-size: 20px;
-            }
-
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
-
-            .textStyle {
-                font-weight: normal;
-                font-size: 12px;
-                font-family: 'verdana';
-            }
-
-            .title {
-
-                font-size: 70px;
-            }
-
-            .btn-circle {
-                width: 70px;
-                height: 70px;
-                padding: 10px 10px;
-                font-size: 18px;
-                line-height: 1.33;
-                border-radius: 35px;
-            }
-
-            
-            .rating {
-                width:300px;
-                margin-right: auto;
-                margin-left: auto;
-            }
-            .rating span { float:right; position:relative; }
-            .rating span input {
-                position:absolute;
-                top:0px;
-                opacity:0;
-            }
-            .rating span label {                
-                display:inline-block;
-                width:30px;
-                height:30px;
-                left: 00px;
-                text-align:center;
-                color:#FFF;
-                background:#ccc;
-                font-size:30px;
-                margin-right:10px;
-                line-height:30px;
-                border-radius:50%;
-                -webkit-border-radius:50%;
-            }
-            .rating span:hover ~ span label,
-            .rating span:hover label,
-            .rating span.checked label,
-            .rating span.checked ~ span label {
-                background:#81AAD9;
-                color:#FFF;
-            }
-            .avatar {
-                /*width: 100%;*/
-                max-height: 180px;
-                max-width: 160px;
-                text-align: center;
-            }
-        </style>
+@extends('master_page')
+@section('content')
+<style> .loading {max-width: 50px;} </style>
         <script>
 
         var next = 1;
@@ -134,7 +38,7 @@
                 xmlhttp.send();
 
                 // Loading Image
-                document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50'/></div>";
+                document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50' class='loading'/></div>";
             }
 
             function appendReviewElement(user, image, review)
@@ -284,16 +188,6 @@
                                         @endif
                                 </table>
                                 </td></tr>
-<!--                                     <td>Screen</td>
-                                    <td>105/120</td>
-                                    <td>Screen</td>
-                                </tr>
-                                <tr>
-                                    <td>35/90</td>
-                                    <td>Weight</td>
-                                    <td>35/90</td>
-                                    <td>Weight</td>
-                                </tr> -->
                                 </table>
                             </tbody>
                         </table>
@@ -308,28 +202,6 @@
                                     </tr> 
                             </thead>
                             <tbody id="review-table">                      
-                                    
- 
-
-
-
-
-<!-- Static  -->
-<!--                                 <tr>
-                                    <td bgcolor="#F2F2F2">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="avatar" align="middle" >
-                                            </div>
-                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
-                                                <p class="textStyle" vertical-align="center">
-                                                    Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper. 
-                                                </p>
-                                            </div>
-                                        </div>                                      
-                                    </td>
-                                </tr> -->
                         </tbody>
                     </table>
                 </div> 
@@ -362,8 +234,11 @@
                 <a href="privacyPolicy"><span style="margin-left:2em">PrivacyPolicy</span></a>
             </p>
         </div>
+
     </div>
+    <div class="col-md-1 col-lg-1">
     </div>
+
 
     
     
@@ -410,3 +285,5 @@ $(document).ready(function(){
 <script>
 getReviews(1, false);
 </script>
+@stop
+
