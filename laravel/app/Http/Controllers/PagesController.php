@@ -33,9 +33,13 @@ class PagesController extends Controller
     }
 
     public function review() {
-
         $page_name = 'Review Page';
         return view('review_page');
+    }
+
+    public function login() {
+        $page_name = 'Login Page';
+        return view('login_page');
     }
 
     public function productLoggedIn() {

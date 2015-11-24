@@ -4,6 +4,10 @@
     {!! Html::style('css/main_page.css') !!}
 @stop
 
+@section('specialized_js')
+    {!! Html::script('js/main_page.js') !!}
+@stop
+
 @section('content')
 
         <div id="main_label" class="row center-block">
@@ -21,19 +25,5 @@
             </div>
             <div class="col-xs-1 col-sm-1 col-md-2 col-lg-3"></div>
         </div>
-
-        <script>
-        function updateSearchBox() 
-        {            
-            var query = document.getElementById('inputlg');
-            var dropdown = document.getElementById('dropdown-search');
-
-            var div = document.createElement('div');
-            div.className = 'suggestion';
-            div.innerHTML = "<p>" + query.value + "</p>";
-            dropdown.appendChild(div);
-
-        }
-        </script>
 @stop
 

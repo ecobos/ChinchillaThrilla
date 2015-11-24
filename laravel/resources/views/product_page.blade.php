@@ -1,9 +1,7 @@
 @extends('master_page')
 
 @section('content')
-<br/>
-<br/>
-<div class="row">
+<div id="label_padding" class="row">
     <div class="col-md-1 col-lg-1">
     </div>
     <div class="visible-xs col-xs-2"></div>
@@ -79,11 +77,11 @@
                         <td bgcolor="#F2F2F2">
                             <div class="row">
                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                    <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
+                                    <img id="tableImg" src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
                                 </div>
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                     <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
-                                    <p class="textStyle" vertical-align="center">
+                                    <p class="textStyle">
                                         Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper. 
                                     </p>
                                 </div>
@@ -94,7 +92,7 @@
                         <td bgcolor="#F2F2F2">
                             <div class="row">
                                 <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                    <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
+                                    <img id="tableImg" src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
                                 </div>
                                 <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                     <p class="textStyle"><a href="profile">Anonymous-userName</a></p>

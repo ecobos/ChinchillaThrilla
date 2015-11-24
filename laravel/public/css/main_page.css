@@ -1,7 +1,11 @@
 #main_label{
-    padding-top: 23%;
+    padding-top: 25%;
 }
 
 .navbar-static-bottom{
     position: fixed;
+}
+
+.btn {
+    width: 155px;
 }

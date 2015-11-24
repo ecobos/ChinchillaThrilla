@@ -1,8 +1,7 @@
 @extends('master_page')
 
 @section('content')
-<br/><br/>
-<div class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
+<div id="label_padding" class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
     <img src={{$img_path}} class="img-responsive" align="middle">
 </div>
 <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
@@ -66,19 +65,19 @@
         <thead>
                     <tr>
                         <th class="info">What people are saying about the product!</th>
-                    </tr> 
+                    </tr>
             </thead>
             <tbody>
                 <tr>
                     <td bgcolor="#F2F2F2">
                         <div class="row">
                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" >
-                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
+                                <img id="tableImg" src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
                             </div>
                             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                 <p class="textStyle" align="left"><a href="profile">Anonymous-userName</a></p>
-                                <p class="textStyle" vertical-align="center">
-                                    Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper. 
+                                <p class="textStyle">
+                                    Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper.
                                 </p>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
@@ -88,12 +87,12 @@
                                     <button type="button" class="btn btn-primary">No</button>
                                 </div>
                                 <p class="textStyle2"><a class="flagStyle" href="#">&#9872</a></p>
-                            </div>                
-                        </div>                                      
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
     </table>
-</div>    
+</div>
 </div>
 @stop

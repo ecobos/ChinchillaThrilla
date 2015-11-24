@@ -42,6 +42,9 @@ Route::get('userAccountPublic', 'PagesController@userAccountPublic');
 // review page
 Route::get('review', 'PagesController@review');
 
+// login page
+Route::get('login', 'PagesController@login');
+
 
 Route::group(['prefix' => 'profile'], function(){
 	// Display the logged in user's profile, otherwise should redirect to login page

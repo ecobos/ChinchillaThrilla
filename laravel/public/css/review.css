@@ -1,0 +1,44 @@
+#review_padding {
+    padding-top: 5%;
+}
+
+td {
+    width: 100%;
+    font-size: 15px;
+}
+
+.container {
+    width: 600px;
+}
+
+.rating {
+    width: auto;
+}
+
+.greenBtn {
+    font-weight: bold;
+    color: limegreen;
+    display: inline;
+}
+
+.redBtn {
+    font-weight: bold;
+    color: red;
+    display: inline;
+}
+
+.leftWidth {
+    text-align: left;
+    width: 83%;
+    vertical-align: middle;
+}
+
+.rightWidth {
+    text-align: right;
+    width: 17%;
+    vertical-align: middle;
+}
+
+.alignRight {
+    text-align: right;
+}

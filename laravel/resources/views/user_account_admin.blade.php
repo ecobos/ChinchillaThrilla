@@ -1,41 +1,33 @@
 @extends('master_page')
 
+@section('specialized_css')
+    {!! Html::style('css/profiles.css') !!}
+@stop
+
 @section('content')
-        <br/>
-        <br/>
-        <div class="container">
+        <div id="label_padding" class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="title" align="center"><h1>User Account<h1></div>
+                    <div class="title" align="center"><h1>User Account</h1></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" align="center">
-                    <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" height="350" width="300" >
+                    <img id="tableImg" src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" height="350" width="300" >
                 </div>
                 <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-3 col-sm-4 col-md-3 col-lg-4">
+                <div id="name_banner" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4" align="center">
+                    <h3 class="inline">User Name</h3>
                 </div>
-                <div class="col-xs-6 col-sm-4 col-md-6 col-lg-4" align="center">
-                    <table class="table table-hover table-responsive">
-                        <thead>
-                                <tr>
-                                    <th class="info" align="center">User Name: Anonymous</th>
-                                </tr> 
-                        </thead>
-                    </table>
-                </div>
-                <div class="col-xs-3 col-sm-4 col-md-3 col-lg-4">
-                </div>
-            </div>            
-            <div class="row">
+            </div>
+            <div id="label_padding" class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <div class="tabbable">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab1" data-toggle="tab">Approve New Products</a></li>
                             <li><a href="#tab2" data-toggle="tab">Moderate Comments</a></li>
@@ -47,43 +39,34 @@
                                     <tbody>
                                         <tr>
                                             <td bgcolor="#F2F2F2">
-                                                <div class="row">
-                                                    <p class="textStyle" vertical-align="center" align="center">
-                                                        PRODUCT-NAME submitted by USERNAME on DATE
-                                                    </p>
-                                                </div>                                      
+                                                <p class="textStyle"  align="center">
+                                                    PRODUCT-NAME submitted by USERNAME on DATE
+                                                </p>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td bgcolor="#F2F2F2">
-                                                <div class="row">
-                                                    <p class="textStyle" vertical-align="center" align="center">
-                                                        PRODUCT-NAME submitted by USERNAME on DATE
-                                                    </p>
-                                                </div>                                      
+                                                <p class="textStyle" align="center">
+                                                    PRODUCT-NAME submitted by USERNAME on DATE
+                                                </p>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td bgcolor="#F2F2F2">
-                                                <div class="row">
-                                                    <p class="textStyle" vertical-align="center" align="center">
-                                                        PRODUCT-NAME submitted by USERNAME on DATE
-                                                    </p>
-                                                </div>                                      
+                                                <p class="textStyle" align="center">
+                                                    PRODUCT-NAME submitted by USERNAME on DATE
+                                                </p>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td bgcolor="#F2F2F2">
-                                                <div class="row">
-                                                    <p class="textStyle" vertical-align="center" align="center">
-                                                        PRODUCT-NAME submitted by USERNAME on DATE
-                                                    </p>
-                                                </div>                                      
+                                                <p class="textStyle" align="center">
+                                                    PRODUCT-NAME submitted by USERNAME on DATE
+                                                </p>
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>                                
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br><br><br><br></div>
+                                </table>
                             </div>
                             <div class="tab-pane" id="tab2">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -93,11 +76,11 @@
                                                     <td bgcolor="#F2F2F2">
                                                         <div class="row">
                                                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2" >
-                                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaYcLmUcKlNZscoJaVPizWWk-gRcGFm4lYz0og0nH95zhoWZiKcg" class="img-responsive" align="middle" >
+                                                                <img id="tableImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaYcLmUcKlNZscoJaVPizWWk-gRcGFm4lYz0og0nH95zhoWZiKcg" class="img-responsive" align="middle" >
                                                             </div>
                                                             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                                                 <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
-                                                                <p class="textStyle" vertical-align="center">
+                                                                <p class="textStyle" >
                                                                     Gravida quisque, pede tempor pulvinar in. Dolor vel nec. Lectus diam praesent dui, mattis morbi libero eleifend dolor. Diam nulla nunc quam morbi massa, turpis orci vulputate duis maecenas tellus, eros dui sed dis. At urna dolor vestibulum est in vel. Aliquam dui phasellus id curabitur ac, gravida pellentesque ad, aliquam habitasse semper. 
                                                                 </p>
                                                             </div>
@@ -114,7 +97,7 @@
                                                     <td bgcolor="#F2F2F2">
                                                         <div class="row">
                                                             <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                                                <img src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
+                                                                <img id="tableImg" src="http://ifidieinpolicecustody.net/wp-content/uploads/2015/07/anonymous.jpg" class="img-responsive" align="middle" >
                                                             </div>
                                                         <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                                                 <p class="textStyle"><a href="profile">Anonymous-userName</a></p>
@@ -132,8 +115,7 @@
                                                 </tr>
                                             </tbody>
                                     </table>
-                                </div>                              
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br><br><br><br></div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="tab3">
 
@@ -181,16 +163,13 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br><br></div>
                                 <div class="row">  
                                     <form role="form">
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                                        <div id="label_padding" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
                                             <button type="button" class="btn btn-danger">Delete Account</button>
                                         </div>
                                     </form>
                                 </div>
-                                
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br><br><br><br></div>
                             </div>
                         </div>
                     </div>

@@ -42,7 +42,7 @@
         font-size: 20px;
     }
 
-    .trHeight {
+    .rowHeight {
         width: 100%;
         height:45px;                 
     }
@@ -57,28 +57,28 @@
         width: 100%;
     }
 
-    .tdLeft {
+    .leftWidth {
         text-align: left;
         width: 83%;
         vertical-align: middle;
     }
 
-    .tdRight {
+    .rightWidth {
         text-align: left;
         width: 17%;
         vertical-align: middle;
     }
 
-    .thRight {
+    .alignRight {
         text-align: right;
     }
 
-    .pGreen {
+    .greenBtn {
         font-weight: bold;
         color: #00ff00;
     }
 
-    .pRed {
+    .redBtn {
         font-weight: bold;
         color: #ff0000;
     }

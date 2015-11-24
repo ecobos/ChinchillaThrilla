@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "laravelcollective/html": "5.1.*",
         "laravel/socialite": "^2.0",
-        "chrisbjr/api-guard": "^2.3"
+        "chrisbjr/api-guard": "^2.3",
+        "FortAwesome/Font-Awesome": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
