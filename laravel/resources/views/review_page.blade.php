@@ -1,5 +1,5 @@
 <?php 
-    $api_key = '3aee3c02724f2bb06eb4210a751a36387bc86a9a';
+    $api_key = 'c126ace07682861032b8903d9ec39787ac42772c';
 ?>
 
 @extends('master_page')

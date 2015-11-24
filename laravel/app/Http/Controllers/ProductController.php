@@ -16,6 +16,8 @@ use App\Category;
 use App\Feature_Rating_Total;
 use App\Feature;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 // 'php artisan tinker' to test the model classes
 class ProductController extends ApiGuardController
@@ -155,11 +157,22 @@ public function createWithAPIKey(Request $request, $api_key)
         return new Response('An invalid API key was provided with the API request', 401);
     }
 
+    // check if user is logged in
+    if(!Auth::check()) {
+        // redirect user to home page if not logged in
+        return Redirect::to('/');
+    }
+
 
     // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
     $name = $request->input("prod_name");
     $model = $request->input("prod_model");
     $brand = $request->input("prod_brand");
+
+    // check for that all fields were entered 
+    if($name == null || $model == null || $brand == null) {
+        return Redirect::to('/submission_failed');
+    }
 
     $prod_id;
 
@@ -193,6 +206,12 @@ public function createWithAPIKey(Request $request, $api_key)
         
         // if category does not exist, add it to category table
         $category = $request->input("prod_category");
+
+        // check that category is not null
+        if($category == null) {
+            return Redirect::to('/submission_failed');
+        }
+
         $new_cat = Category::where('category_name', $category)->first();
         if(empty($new_cat)) {
             //print 'category does not exist';

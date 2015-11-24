@@ -16,6 +16,7 @@
 
 
 Route::get('/', 'PagesController@home');
+Route::get('submission_failed', 'PagesController@submissionFailed');
 Route::get('about', 'PagesController@about');
 
 
