@@ -16,11 +16,61 @@ class Feature extends Model
     // Get feature names and scores
     public static function getFeatures ($prod_id)
     {
-        return DB::table('feature_rating_totals')
+        $count = DB::table('feature_rating_totals')
             ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
             ->select(['feature_name', 'score', 'total_votes'])
             ->where('prod_id', '=', $prod_id)
-            ->get();
+            ->count();
+
+        if($count == 0)
+            return;
+        
+        if($count <= 10)
+        {
+            $top = $count - floor($count/2);
+            $bottom = floor($count/2);
+            $pros = DB::table('feature_rating_totals')
+                ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
+                ->select(['feature_name', 'score', 'total_votes'])
+                ->where('prod_id', '=', $prod_id)
+                ->orderBy('score', 'desc')
+                ->take($top)
+                ->get();
+
+            $cons = DB::table('feature_rating_totals')
+                ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
+                ->select(['feature_name', 'score', 'total_votes'])
+                ->where('prod_id', '=', $prod_id)
+                ->orderBy('score', 'desc')
+                ->skip($top)
+                ->take($bottom)
+                ->get(); 
+        }
+        else 
+        {
+            $top = 5;
+            $bottom = 5;
+            $pros = DB::table('feature_rating_totals')
+                ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
+                ->select(['feature_name', 'score', 'total_votes'])
+                ->where('prod_id', '=', $prod_id)
+                ->orderBy('score', 'desc')
+                ->take($top)
+                ->get();
+
+            $cons = DB::table('feature_rating_totals')
+                ->join('features', 'features.feature_id' , '=', 'feature_rating_totals.feature_id')
+                ->select(['feature_name', 'score', 'total_votes'])
+                ->where('prod_id', '=', $prod_id)
+                ->orderBy('score')
+                ->take($bottom)
+                ->get(); 
+        }
+
+        $result = array();
+        $result['pros'] = $pros;
+        $result['cons'] = $cons;
+        return $result;
     }
 
 
@@ -101,4 +151,6 @@ class Feature extends Model
         else 
             return $rating;
     } 
+
 }
+

@@ -7,7 +7,7 @@ use DB;
 
 class Review extends Model
 {
-    
+
     //protected $primaryKey = ['user_id','prod_id'];
 
     static function createReview($product_id, $user_id, $review_text, $rating)
@@ -21,6 +21,11 @@ class Review extends Model
   		$review->save();
     }
 
+    static function getOverallRating($product_id)
+    {
+        return DB::select('SELECT AVG(overal_rating) as rating, COUNT(overal_rating) as total FROM reviews where prod_id = ?', [$product_id])[0];
+    }
+
     static function getUserReviews($user_id, $limit=10)
     {
         $datas = DB::table('reviews')
@@ -32,13 +37,14 @@ class Review extends Model
         return $datas; 
     }
 
-    static function getProductReviews($product_id, $limit=10)
+    static function getProductReviews($product_id, $skip)
     {
     	$datas = DB::table('reviews')
     			-> join('users', 'users.user_id', '=', 'reviews.user_id')
-    			-> select('review_text', 'name', 'users.user_id')
+    			-> select('review_text', 'name', 'users.user_id', 'users.avatar')
     			-> where('prod_id', $product_id)
-    			-> take($limit)
+                -> skip($skip)
+    			-> take(3)
     			-> get();
     	return $datas;   			
     }
@@ -46,5 +52,6 @@ class Review extends Model
     public function product(){
         return $this->belongsTo('App\Product', 'prod_id', 'prod_id');
     }
+
 
 }

@@ -11,11 +11,14 @@ use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
+
+use App\Review;
 use App\Brand;
 use App\Category;
 use App\Feature_Rating_Total;
 use App\Feature;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
+
 
 // 'php artisan tinker' to test the model classes
 class ProductController extends ApiGuardController
@@ -63,9 +66,11 @@ class ProductController extends ApiGuardController
         if(empty($product)) {
             // return 404 view
             return view('product404');
+
         }
 
         // get all data to pass on over to view
+        $prod_id = $id;
         $name = $product->prod_name;
         $model = $product->prod_model;
         $brand = $product->prod_brand;
@@ -73,9 +78,13 @@ class ProductController extends ApiGuardController
         $desc = $product->prod_description;
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
+        $features = Feature::getFeatures($id);
+        $totalRating = Review::getOverallRating($id);
+
+
 
         // return product page for this product
-        return view('product_page', compact('brand', 'name', 'model', 'desc', 'rating', 'img_path'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating'));
     }
 
     // Returns array of products
