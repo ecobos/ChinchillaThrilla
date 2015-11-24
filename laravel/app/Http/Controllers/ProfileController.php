@@ -64,7 +64,7 @@ class ProfileController extends Controller
             // Returns an array of reviews and associated products
             $reviews = DB::table('reviews')->select('products.prod_id','products.prod_name','products.prod_img_path','reviews.review_text','reviews.created_at')
                                             ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
-                                            ->where('user_id', $id)->get();
+                                            ->where('user_id', Auth::id())->get();
 
             $base_info = array( 'page_title' => "My Profile",
                                 'name' => $user->name,
