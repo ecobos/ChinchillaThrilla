@@ -44,7 +44,7 @@ Route::get('userAccountAdmin', 'PagesController@userAccountAdmin');
 Route::get('userAccountPublic', 'PagesController@userAccountPublic');
 
 // review page
-Route::get('review', 'PagesController@review');
+Route::get('review/{prod_id}', 'PagesController@review');
 
 
 Route::group(['prefix' => 'profile'], function(){
@@ -177,7 +177,7 @@ Route::group(['prefix'=>'feature'], function()
 		['uses'=>'ReviewController@createReview']
 	);
 
-	Route::post('{api_key}', 
+	Route::post('submitreview/{prod_id}/{api_key}', 
 		['uses'=>'ReviewController@createReviewWithAPIKey']
 	);
 });

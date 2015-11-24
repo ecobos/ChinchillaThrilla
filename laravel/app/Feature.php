@@ -151,4 +151,6 @@ class Feature extends Model
         else 
             return $rating;
     } 
+
 }
+
