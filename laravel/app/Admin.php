@@ -21,7 +21,7 @@ class Admin extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id'];
+    protected $fillable = ['admin_id'];
 
     public function makeAdmin($user_id){
         // Make sure that the user actually exists in the User's table
@@ -29,7 +29,7 @@ class Admin extends Model
 
         if(!is_null($integrity_check)){
             $this->create([
-               'user_id' => $user_id
+               'admin_id' => $user_id
             ]);
             return true;
         }

@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use App\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class AdminsOnly
 {
@@ -34,8 +36,11 @@ class AdminsOnly
      */
     public function handle($request, Closure $next)
     {
-        if($this->auth->check() && $this->auth->user()->isAdmin()){
-            return $next($request);
+        if($this->auth->check()){
+            $exists = Admin::where('admin_id', Auth::id())->first();
+            if(!is_null($exists)){
+                return $next($request);
+            }
         }
 
         return redirect('/');

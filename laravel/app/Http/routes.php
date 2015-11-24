@@ -61,7 +61,6 @@ Route::group(['prefix' => 'profile'], function(){
 	});
 	Route::get('/{user_id?}', 'ProfileController@profile');
 
-
 });
 
 // AUTHENTICATION
@@ -76,7 +75,6 @@ Route::group(['prefix' => 'auth'], function(){
 // PRODUCT ROUTES
 Route::group(['prefix'=>'products'], function()
 {
-
 	// API routes
 	Route::group(['prefix'=>'api/v1/json'], function() 
 	{

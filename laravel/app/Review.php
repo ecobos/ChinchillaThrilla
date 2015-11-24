@@ -7,7 +7,9 @@ use DB;
 
 class Review extends Model
 {
-    protected $primary = ['user_id','prod_id'];
+    
+    //protected $primaryKey = ['user_id','prod_id'];
+
     static function createReview($product_id, $user_id, $review_text, $rating)
     {
         $review = new Review;
@@ -40,4 +42,9 @@ class Review extends Model
     			-> get();
     	return $datas;   			
     }
+
+    public function product(){
+        return $this->belongsTo('App\Product', 'prod_id', 'prod_id');
+    }
+
 }

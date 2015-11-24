@@ -1,4 +1,4 @@
-# Lazer Reviews v0.0.0.0.1
+# Lazer Reviews v0.7
 <h2>Added libraries: </h2>
 <em>Bootstrap (laravel\\public), Socialite(laravel\\vendor\\laravel\\socialite), and HTML helper (laravel\\vendor\\laravelcollective\\) </em>
 
