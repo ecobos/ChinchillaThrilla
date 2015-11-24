@@ -1,6 +1,8 @@
 @extends('master_page')
 @section('content')
-<style> .loading {max-width: 50px;} </style>
+<style> 
+.loading {max-width: 50px;} 
+</style>
         <script>
 
         var next = 1;
@@ -83,6 +85,8 @@
                 getReviews(next);
             }
 
+
+            
         </script>
     </head>
     <body> 
@@ -122,25 +126,31 @@
                     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="title" align="center"><h1>{{ $brand }} - {{ $name }} {{ $model }}</h1></div>
+                                <h1 align="center">{{ $name }}</h1>
+                                <div class="reg">Model: {{$model}}</div>
+                                <br>    
                             </div>
                             <div class="col-xs-11 col-sm-10 col-md-12 col-lg-12">
                                 <div class="rating" >
-                                    <span><input type="radio" name="rating" id="str6" value="6"><label for="str6"></label></span>
-                                    <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
-                                    <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
-                                    <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
-                                    <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
-                                    <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+                                    <span><label class="unchecked" id="check6"></label></span>
+                                    <span><label class="unchecked" id="check5"></label></span>
+                                    <span><label class="unchecked" id="check4"></label></span>
+                                    <span><label class="unchecked" id="check3"></label></span>
+                                    <span><label class="unchecked" id="check2"></label></span>
+                                    <span><label class="unchecked" id="check1"></label></span>
                                 </div>
                                 </div>
                             <br/>
-                            <br/>
+                            <div class="col-xs-11 col-sm-12 col-md-12 col-lg-12">
+                                <p align="center">
+                                    Total Rating: {{number_format($totalRating->rating, 2)}} ({{$totalRating->total}} votes)
+                                </p>
+                            </div>
                             <div class="col-xs-11 col-sm-12 col-md-12 col-lg-12">
                                 <p align="center">
                                 {{ $desc }}
                                 </p>
-                                </div>
+                            </div>
                         </div>                        
                     </div>
                     <div class="col-md-1 col-lg-1">
@@ -245,45 +255,48 @@
 </html>
 
 <script type="text/javascript">
-    window.onload =  function(){ 
+    // window.onload =  function(){ 
 
-        var checkBoxes = document.querySelectorAll("input[type=checkbox]");
+    //     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
 
-        for(var i = 0 ; i < checkBoxes.length ; i++){
-            checkBoxes[i].addEventListener("change", checkUncheck, false);
-        }
+    //     for(var i = 0 ; i < checkBoxes.length ; i++){
+    //         checkBoxes[i].addEventListener("change", checkUncheck, false);
+    //     }
 
-        function checkUncheck(){        
-            for(var i = 0 ; i < checkBoxes.length ; i++){
-                if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
-                    checkBoxes[i].checked = false;
-                }
-            }
-        }
+    //     function checkUncheck(){        
+    //         for(var i = 0 ; i < checkBoxes.length ; i++){
+    //             if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
+    //                 checkBoxes[i].checked = false;
+    //             }
+    //         }
+    //     }
 
-    }
+    // }
 </script>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-//  Check Radio-box
-    $(".rating input:radio").attr("checked", false);
-    $('.rating input').click(function () {
-        $(".rating span").removeClass('checked');
-        $(this).parent().addClass('checked');
-    });
 
-    $('input:radio').change(
-    function(){
-        var userRating = this.value;
-        alert(userRating);
-    }); 
+class="checked" 
+
+    // $('input:radio').change(
+    // function(){
+    //     var userRating = this.value;
+    //     alert(userRating);
+    // }); 
 });
 </script>
 
 <script>
 getReviews(1, false);
+var totalRating = {'rating' : {{$totalRating->rating}} , 'votes' : {{$totalRating->total}} };
+console.log(totalRating);
+for(var i=1; i<=Math.ceil(totalRating.rating); i++)
+{
+    document.getElementById('check'+i).className = 'checked';
+}
+
 </script>
 @stop
 

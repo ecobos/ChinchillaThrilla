@@ -79,11 +79,12 @@ class ProductController extends ApiGuardController
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
         $features = Feature::getFeatures($id);
+        $totalRating = Review::getOverallRating($id);
 
 
 
         // return product page for this product
-        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating'));
     }
 
     // Returns array of products

@@ -159,38 +159,68 @@
       cursor: text !important;
     }
 
+
+
     .rating {
         width:300px;
         margin-right: auto;
         margin-left: auto;
     }
     .rating span { float:right; position:relative; }
-    .rating span input {
-        position:absolute;
-        top:0px;
-        opacity:0;
-    }
-    .rating span label {                
+
+
+    .arating {                
         display:inline-block;
         width:30px;
         height:30px;
         left: 00px;
         text-align:center;
-        color:#FFF;
-        background:#ccc;
-        font-size:30px;
         margin-right:10px;
         line-height:30px;
         border-radius:50%;
         -webkit-border-radius:50%;
+        background:#ccc;
+        color:#FFF;
     }
-    .rating span:hover ~ span label,
+/*    .rating span:hover ~ span label,
     .rating span:hover label,
     .rating span.checked label,
     .rating span.checked ~ span label {
         background:#81AAD9;
         color:#FFF;
+    }*/
+
+
+    .unchecked {
+        display:inline-block;
+        width:30px;
+        height:30px;
+        left: 00px;
+        text-align:center;
+        margin-right:10px;
+        line-height:30px;
+        border-radius:50%;
+        -webkit-border-radius:50%;
+        background:#ccc;
+        color:#FFF;
     }
+
+
+
+    .checked {
+        display:inline-block;
+        width:30px;
+        height:30px;
+        left: 00px;
+        text-align:center;
+        margin-right:10px;
+        line-height:30px;
+        border-radius:50%;
+        -webkit-border-radius:50%;
+        background:#81AAD9;
+        color:#FFF;
+    }
+
 
     .navbar-static-bottom{
         bottom: 0px;
