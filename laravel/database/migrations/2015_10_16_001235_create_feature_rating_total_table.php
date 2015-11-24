@@ -22,8 +22,8 @@ class CreateFeatureRatingTotalTable extends Migration
 
             $table->primary(['prod_id', 'feature_id']);  // composite PK
 
-            $table->bigInteger('score'); // values can be neg or pos
-            $table->unsignedBigInteger('total_votes');  // We assume that total votes can't be negative
+            $table->bigInteger('score')->default(0); // values can be neg or pos
+            $table->unsignedBigInteger('total_votes')->default(0);  // We assume that total votes can't be negative
             $table->timestamps();
         });
     }

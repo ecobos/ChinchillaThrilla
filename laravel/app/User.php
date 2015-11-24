@@ -45,4 +45,5 @@ class User extends Model implements AuthenticatableContract,
         $check = $this->hasOne('App\Admin')->first();
         return is_null($check) ? false : true;
     }
+
 }
