@@ -198,3 +198,8 @@
         border-radius: 0px;
         margin-bottom: 0px;
     }
+
+    #globalAlert{
+        padding-top: 5%;
+        text-align: center;
+    }

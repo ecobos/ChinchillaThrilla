@@ -5,6 +5,7 @@
 	<!-- Base includes for all pages -->
 	{!! Html::script('https://code.jquery.com/jquery-2.1.3.js') !!}
 	{!! Html::script('js/bootstrap.min.js') !!}
+	{!! Html::script('js/alert_modal.js') !!}
 
 	{!! Html::style('https://fonts.googleapis.com/css?family=Lato:100') !!}
 	{!! Html::style('css/bootstrap.min.css') !!}
@@ -16,11 +17,16 @@
 </head>
 <body>
 
-		@include('header')
+	@if (session('status'))
+		<div class="alert {{ session('alert-type') }}" id="globalAlert">{{ session('status') }}</div>
+	@endif
+
+	@include('header')
 
 		<div class="container">
     		@yield('content')
     	</div>
-		@include('footer')
+	@include('footer')
+
 </body>
 </html>

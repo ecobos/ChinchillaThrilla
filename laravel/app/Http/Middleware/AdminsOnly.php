@@ -43,7 +43,9 @@ class AdminsOnly
             }
         }
 
-        return redirect('/')->with('status', 'Not logged in as administrator');
+
+
+        return redirect('/')->with('alert-type', 'alert-danger')->with('status', 'Not logged in as administrator');
 
     }
 }

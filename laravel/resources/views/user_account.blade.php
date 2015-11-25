@@ -110,8 +110,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button id="doDelete" class="btn btn-danger" data-dismiss="modal">Permanently Delete!
-                                </button>
+                                <button id="doDelete" class="btn btn-danger" data-dismiss="modal">Permanently Delete!</button>
                             </div>
 
                         </div>
