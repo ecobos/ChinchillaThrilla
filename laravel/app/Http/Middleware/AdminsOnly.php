@@ -19,7 +19,7 @@ class AdminsOnly
     /**
      * Create a new filter instance.
      *
-     * @param  Guard  $auth
+     * @param Guard $auth
      * @return void
      */
     public function __construct(Guard $auth)
@@ -43,7 +43,12 @@ class AdminsOnly
             }
         }
 
-        return redirect('/');
+
+
+        return redirect('/')->with([
+                'alert-type' => 'alert-danger',
+                'status' => 'Not logged in as administrator'
+        ]);
 
     }
 }

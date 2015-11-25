@@ -84,7 +84,9 @@ class ProfileController extends Controller
                                 'total_usefulness' => $usefulness);
         }
         else{
-            return Redirect::action('PagesController@pageNotFound');
+            return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
         }
 
         // if using facebook's avatar pic, change the avatar type to large
@@ -139,6 +141,7 @@ class ProfileController extends Controller
 
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
         return view('user_account_admin')->with('base_info', $base_info)->with('reviews', $reviews)->with('products', $products)->with('user_profiles', $user_profiles);
+
     }
 
     // making static call to database to ensure our view is working 
