@@ -108,7 +108,7 @@
                                         <td>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-8 col-md-8 col-lg-6">
-                                                    <img src="<?php echo $result->prod_img_path?>" class="img-responsive" align="middle" >
+                                                    <img src="<?php echo $result->prod_img_path?>" class="img-responsive product-thumb-image" align="middle" >
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-6" align="center">
                                                 <p class="textStyle"><a href="<?php echo $result->url; ?>"><?php echo $result->prod_name; ?></a></p>
