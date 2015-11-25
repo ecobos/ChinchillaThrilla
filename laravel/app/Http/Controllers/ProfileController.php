@@ -83,7 +83,9 @@ class ProfileController extends Controller
                                 'total_usefulness' => $usefulness);
         }
         else{
-            return Redirect::to('/auth/login')->with('alert-type', 'alert-danger')->with('status', 'Please Login');
+            return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
         }
 
         // if using facebook's avatar pic, change the avatar type to large

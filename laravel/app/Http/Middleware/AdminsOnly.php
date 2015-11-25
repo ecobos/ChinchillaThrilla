@@ -45,7 +45,10 @@ class AdminsOnly
 
 
 
-        return redirect('/')->with('alert-type', 'alert-danger')->with('status', 'Not logged in as administrator');
+        return redirect('/')->with([
+                'alert-type' => 'alert-danger',
+                'status' => 'Not logged in as administrator'
+        ]);
 
     }
 }

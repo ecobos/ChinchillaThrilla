@@ -129,7 +129,11 @@ class AuthController extends Controller
 
     public function doLogout(){
         Auth::logout();
-        return Redirect::to('/')->with('alert-type', 'alert-success')->with('status', 'Successfully Logged Out. See you later!');
+
+        return Redirect::to('/')->with([
+            'alert-type' => 'alert-success',
+            'status' => 'Successfully Logged Out. See you later!'
+        ]);
     }
 
     public function doLogin(){

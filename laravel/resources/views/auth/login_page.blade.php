@@ -3,6 +3,9 @@
 
 @section('specialized_css')
     {!! Html::style('css/main_page.css') !!}
+    {!! Html::style('css/font-awesome.min.css') !!}
+    {!! Html::style('fonts/fontawesome-webfont.woff') !!}
+    {!! Html::style('css/bootstrap-social.css') !!}
 @stop
 
 @section('content')
@@ -13,10 +16,9 @@
         </div>
     </div>
     <div id="label_padding" class="row" align="center">
-        <a class="btn btn-block btn-social btn-lg btn-facebook">
-            <i class="fa fa-facebook"></i> Facebook
-        </a>
-        <a class="btn btn-block btn-social btn-lg btn-google">
+        <a class="btn btn-block btn-social btn-lg btn-facebook" href="/auth/facebook">
+            <i class="fa fa-facebook"></i> Facebook</a>
+        <a class="btn btn-block btn-social btn-lg btn-google" href="/auth/google">
             <i class="fa fa-google-plus"></i> Google+
         </a>
     </div>
