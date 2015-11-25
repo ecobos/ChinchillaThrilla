@@ -5,6 +5,9 @@
 @stop
 
 @section('content')
+        @if (session('status'))
+            <div class="alert alert-success" id="alertMessage">{{ session('status') }}</div>
+        @endif
 
         <div id="main_label" class="row center-block">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

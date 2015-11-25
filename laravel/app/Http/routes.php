@@ -137,6 +137,9 @@ Route::group(['prefix'=>'search'], function()
 Route::group(['prefix'=>'reviews'], function()
 {
 
+	// Added by Egar. Name used for discretion
+	Route::post('rm', 'ReviewController@deleteReview');
+
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
 
@@ -151,10 +154,6 @@ Route::group(['prefix'=>'reviews'], function()
 	// Get the reviews from a user
 	Route::get('user/{user_id}',
 		['uses'=>'ReviewController@getUserReviews']
-	);
-	// Create a new Review for ($prod_id, $user_id)
-	Route::post('', 
-		['uses'=>'ReviewController@createReview']
 	);
 
 	Route::post('{api_key}', 

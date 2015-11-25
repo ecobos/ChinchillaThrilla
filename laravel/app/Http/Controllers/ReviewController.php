@@ -8,12 +8,16 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use App\Review;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends ApiGuardController
 {
     // methods that don't need api key authentication
     protected $apiMethods = [
         'createReviewWithAPIKey' => [
+            'keyAuthentication' => false
+        ],
+        'deleteReview' => [
             'keyAuthentication' => false
         ],
     ];
@@ -73,6 +77,17 @@ class ReviewController extends ApiGuardController
         $user_id = $request->input('user_id');
         $review = $request->input('review_text');
         Review::createReview($product_id, $user_id, $review);
+    }
+
+    /**
+     * Deletes a specific review for a product created by the logged in user
+     *
+     * @param Request $request product associated with the review
+     * @author Edgar Cobos
+     */
+    public function deleteReview(Request $request){
+        $prod_id = $request->input('productID');
+        Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
     }
 
 }

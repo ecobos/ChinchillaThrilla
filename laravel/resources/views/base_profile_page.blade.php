@@ -1,6 +1,7 @@
 @extends('master_page')
 
 @section('specialized_css')
+    {!! Html::script('js/profile_reviews.js') !!}
     {!! Html::style('css/profiles.css') !!}
 @stop
 
@@ -8,6 +9,8 @@
     <br>
     <br>
     <div class="container">
+
+        <div class="alert alert-success" id="alertMessage"><b>Success:</b> Review Deleted!</div>
 
         <!-- Page Label-->
         <div class="row">

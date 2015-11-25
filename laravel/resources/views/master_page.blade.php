@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<!-- JQuery include should be loaded first -->
+	<!-- Base includes for all pages -->
 	{!! Html::script('https://code.jquery.com/jquery-2.1.3.js') !!}
 	{!! Html::script('js/bootstrap.min.js') !!}
 
@@ -10,6 +10,7 @@
 	{!! Html::style('css/bootstrap.min.css') !!}
 	{!! Html::style('css/base.css') !!}
 
+	<!-- Page specific includes -->
 	@yield('specialized_css')
 
 </head>
