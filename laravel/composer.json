@@ -11,7 +11,8 @@
         "laravel/socialite": "^2.0",
         "chrisbjr/api-guard": "^2.3",
         "graham-campbell/flysystem": "^3.0",
-        "league/flysystem-aws-s3-v3": "^1.0"
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "FortAwesome/Font-Awesome": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

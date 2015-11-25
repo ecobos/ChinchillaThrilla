@@ -129,6 +129,14 @@ class AuthController extends Controller
 
     public function doLogout(){
         Auth::logout();
-        return "<b> Logged out </b>";
+
+        return Redirect::to('/')->with([
+            'alert-type' => 'alert-success',
+            'status' => 'Successfully Logged Out. See you later!'
+        ]);
+    }
+
+    public function doLogin(){
+        return view('auth.login_page');
     }
 }

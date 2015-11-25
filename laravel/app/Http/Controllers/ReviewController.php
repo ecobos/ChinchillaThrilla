@@ -8,10 +8,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use App\Review;
+
 use App\Feature;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+
 
 class ReviewController extends ApiGuardController
 {
@@ -20,8 +22,15 @@ class ReviewController extends ApiGuardController
         'createReviewWithAPIKey' => [
             'keyAuthentication' => false
         ],
+
         'getProductReviews' => [
-            'keyAuthentication' => false]
+            'keyAuthentication' => false
+        ],
+
+        'deleteReview' => [
+            'keyAuthentication' => false
+        ],
+
     ];
 
     public function index()
@@ -143,6 +152,17 @@ class ReviewController extends ApiGuardController
     public function getOverallRating($product_id)
     {
         var_dump(Review::getOverallRating($product_id));
+    }
+
+    /**
+     * Deletes a specific review for a product created by the logged in user
+     *
+     * @param Request $request product associated with the review
+     * @author Edgar Cobos
+     */
+    public function deleteReview(Request $request){
+        $prod_id = $request->input('productID');
+        Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
     }
 
 }

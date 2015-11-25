@@ -5,7 +5,6 @@
 @stop
 
 @section('content')
-
         <div id="main_label" class="row center-block">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="title" align="center">Lazer Reviews</div>

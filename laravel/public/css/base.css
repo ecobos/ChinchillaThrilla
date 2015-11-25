@@ -227,14 +227,12 @@
         color:#FFF;
     }
 
-
     .navbar-static-bottom{
         bottom: 0px;
         width: 100%;
         border-radius: 0px;
         margin-bottom: 0px;
     }
-
 
     .main-product-image {
         max-height: 350px;
@@ -246,4 +244,9 @@
 
     .product-thumb-image {
         max-height: 170px;
+    }
+
+    #globalAlert{
+        padding-top: 5%;
+        text-align: center;
     }
