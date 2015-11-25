@@ -21,6 +21,8 @@ class ReviewController extends ApiGuardController
             'keyAuthentication' => false
         ],
         'getProductReviews' => [
+            'keyAuthentication' => false],
+        'deleteReview' => [
             'keyAuthentication' => false]
     ];
 
@@ -138,6 +140,17 @@ class ReviewController extends ApiGuardController
             }
         }
 
+    }
+
+    /**
+     * Deletes a specific review for a product created by the logged in user
+     *
+     * @param Request $request product associated with the review
+     * @author Edgar Cobos
+     */
+    public function deleteReview(Request $request){
+        $prod_id = $request->input('productID');
+        Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
     }
 
     public function getOverallRating($product_id)

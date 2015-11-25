@@ -11,49 +11,42 @@
                     <li><a href="#tab3" data-toggle="tab">Account Settings</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab1">
-                        <table class="table table-hover table-responsive">
+                    <div class="tab-pane fade" id="tab1">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <table class="table table-hover table-responsive tableBorderless">
                             <tbody>
-                            <tr>
-                                <td bgcolor="#F2F2F2">
-                                    <div class="row">
-                                        <p class="textStyle" vertical-align="center" align="center">
-                                            PRODUCT-NAME submitted by USERNAME on DATE
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="#F2F2F2">
-                                    <div class="row">
-                                        <p class="textStyle" vertical-align="center" align="center">
-                                            PRODUCT-NAME submitted by USERNAME on DATE
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="#F2F2F2">
-                                    <div class="row">
-                                        <p class="textStyle" vertical-align="center" align="center">
-                                            PRODUCT-NAME submitted by USERNAME on DATE
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td bgcolor="#F2F2F2">
-                                    <div class="row">
-                                        <p class="textStyle" vertical-align="center" align="center">
-                                            PRODUCT-NAME submitted by USERNAME on DATE
-                                        </p>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            @foreach($products as $product)
+                                <tr id="section-{{ $product->prod_id }}">
+                                    <td bgcolor="#F2F2F2">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
+                                                <img src="{{ $product->prod_img_path }}"
+                                                     class="img-responsive" align="middle">
+                                            </div>
+                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                <p class="textStyle"><a
+                                                            href="products/admin_prev/{{ $product->prod_id }}">{{ $product->prod_name }}</a>
+                                                </p>
+
+                                                <p class="textStyle" vertical-align="center">
+                                                    {{ $product->prod_description }}
+                                                </p>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                                                <a class="textStyle2" data-toggle="modal" data-target="#confirmModal"
+                                                   data-val="{{ $product->prod_id }}">Approve Product</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
                             </tbody>
                         </table>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><br><br><br><br></div>
                     </div>
+                </div>
+
                     <div class="tab-pane" id="tab2">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <table class="table table-hover table-responsive">

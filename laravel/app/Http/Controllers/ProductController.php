@@ -25,12 +25,21 @@ use Illuminate\Support\Facades\Redirect;
 // 'php artisan tinker' to test the model classes
 class ProductController extends ApiGuardController
 {
+    // give the admin a preview of a product
+    public function __construct()
+    {
+        $this->middleware('adminsOnly', ['only' => 'adminProductPreview']);
+    }
+
     // methods that don't need api key authentication
     protected $apiMethods = [
         'getProductView' => [
             'keyAuthentication' => false
         ],
         'createWithAPIKey' => [
+            'keyAuthentication' => false
+        ],
+        'adminProductPreview' => [
             'keyAuthentication' => false
         ],
     ];
@@ -87,6 +96,34 @@ class ProductController extends ApiGuardController
 
 
         // return product page for this product
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
+    }
+
+
+    public function adminProductPreview($id) {
+        $product = Product::find($id);
+        
+        if(empty($product)) {
+            // return 404 view
+            return view('product404');
+
+        }
+
+        // get all data to pass on over to view
+        $prod_id = $id;
+        $name = $product->prod_name;
+        $model = $product->prod_model;
+        $brand = $product->prod_brand;
+        $category = $product->prod_category;
+        $desc = $product->prod_description;
+        $rating = $product->overall_rating;
+        $img_path = $product->prod_img_path;
+        $features = Feature::getFeatures($id);
+        $totalRating = Review::getOverallRating($id);;
+        $logged_in = false; // admin does not need to review a product
+
+
+        // return product page for this product for admin to see
         return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
     }
 

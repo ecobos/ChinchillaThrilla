@@ -92,6 +92,7 @@ Route::group(['prefix'=>'products'], function()
 
     // view routes
     Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+    Route::get('admin_prev/{id}', ['uses'=>'ProductController@adminProductPreview']); 
     
 
 });
@@ -140,6 +141,8 @@ Route::group(['prefix'=>'search'], function()
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
+	// Added by Egar. Name used for discretion
+	Route::post('rm', 'ReviewController@deleteReview');
 
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
