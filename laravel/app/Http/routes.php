@@ -70,6 +70,7 @@ Route::group(['prefix' => 'auth'], function(){
 	Route::get('google', 'Auth\AuthController@authRedirectToGoogle');
 	Route::get('google/login-callback', 'Auth\AuthController@handleGoogleCallback');
 	Route::get('logout', 'Auth\AuthController@doLogout');
+	Route::get('login', 'Auth\AuthController@doLogin');
 });
 
 // PRODUCT ROUTES
