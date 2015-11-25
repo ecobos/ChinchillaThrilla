@@ -54,7 +54,7 @@
                     img_parent.className = "col-xs-3 col-sm-3 col-md-2 col-lg-2";
                 var img = document.createElement('img');
                     img.src = image;
-                    img.className = "avatar";
+                    img.className = "avatar user-review-image";
                 var review_parent = document.createElement('div');
                     review_parent.className = "col-xs-9 col-sm-9 col-md-9 col-lg-9";
                 var userp = document.createElement('p');
@@ -120,8 +120,12 @@
                 <div class="row">
                     <div class="col-md-1 col-lg-1">
                     </div>
-                    <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5">
-                        <img src= {{$img_path}} class="img-responsive" align="middle">
+                    <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5"  align="center">
+                        <img src= {{$img_path}} class="img-responsive main-product-image">
+                        <br><br>
+                    @if($logged_in)
+                        <a href="/review/{{$prod_id}}" class="btn btn-primary font-me">Review Me!</a>
+                    @endif
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-5 col-lg-5">
                         <div class="row">
@@ -131,13 +135,13 @@
                                 <br>    
                             </div>
                             <div class="col-xs-11 col-sm-10 col-md-12 col-lg-12">
-                                <div class="rating" >
-                                    <span><label class="unchecked" id="check6"></label></span>
-                                    <span><label class="unchecked" id="check5"></label></span>
-                                    <span><label class="unchecked" id="check4"></label></span>
-                                    <span><label class="unchecked" id="check3"></label></span>
-                                    <span><label class="unchecked" id="check2"></label></span>
+                                <div>
                                     <span><label class="unchecked" id="check1"></label></span>
+                                    <span><label class="unchecked" id="check2"></label></span>
+                                    <span><label class="unchecked" id="check3"></label></span>
+                                    <span><label class="unchecked" id="check4"></label></span>
+                                    <span><label class="unchecked" id="check5"></label></span>
+                                    <span><label class="unchecked" id="check6"></label></span>
                                 </div>
                                 </div>
                             <br/>
@@ -157,6 +161,7 @@
                     </div>
                 </div>
                 <br/><br/>
+            @if($features['pros'] || $features['cons'])
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <table class="table table-hover table-responsive">
@@ -203,6 +208,7 @@
                     </div>
                 </div>
             </div>
+        @endif
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <table class="table table-hover table-responsive">
