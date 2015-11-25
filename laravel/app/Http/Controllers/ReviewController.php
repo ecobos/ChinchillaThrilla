@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use App\Review;
 use App\Feature;
+use Chrisbjr\ApiGuard\Models\ApiKey;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class ReviewController extends ApiGuardController
 {
@@ -73,11 +76,21 @@ class ReviewController extends ApiGuardController
     public function createReviewWithAPIKey(Request $request, $prod_id, $api_key)
     {
         // check for empty fields client side
-        //$product_id = $request->input('product_id');
+       
+        // check if authorized to POST 
+        $match_key = ApiKey::where('key', $api_key)->first();
+        // not authorized to POST 
+        if (empty($match_key)) {
+            return new Response('An invalid API key was provided with the API request', 401);
+        }
+       
+        // check if user is logged in
+        if(!Auth::check()) {
+            // redirect user to home page if not logged in
+            return Redirect::to('/');
+        }
 
-        //$user_id = $request->input('user_id');
-        //var_dump($request);
-        $user_id = 101; // hardcoded for now
+        $user_id = Auth::id(); // hardcoded for now
         $overall_rating = intval($request->input('rating'));
 
         // check for valid rating
@@ -94,6 +107,13 @@ class ReviewController extends ApiGuardController
 
 
         $review = $request->input('review_text');
+
+        // check for all fields required fields, 
+        if($review == null || $overall_rating == null) {
+            return Redirect::to('/submission_failed');
+
+        }
+
         if(empty($exist_review)) {
             Review::createReview($prod_id, $user_id, $review, $overall_rating);
         }
