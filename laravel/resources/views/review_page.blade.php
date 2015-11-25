@@ -47,7 +47,7 @@
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4" align="right">
         <div class="rating">
-            <span><input type="radio" name="rating" id="str6" value="6"><label for="str6"></label></span>
+            <span><input type="radio" name="rating" id="str6" value="6" required><label for="str6"></label></span>
             <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
             <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
             <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>

@@ -126,15 +126,17 @@ class ReviewController extends ApiGuardController
 
         // get feature array from form
         $features = $request->input('features');
-        foreach($features as $feat_id => $value) {
-            // rate feature using id, check for empty
-            //print $value; 
-            if(!is_null($value)) {
-                print 'feat id: ' . $feat_id;
-                Feature::rate($user_id, $prod_id, $feat_id, intval($value));
+
+        if($features != null) {
+            foreach($features as $feat_id => $value) {
+                // rate feature using id, check for empty
+                //print $value; 
+                if(!is_null($value)) {
+                    print 'feat id: ' . $feat_id;
+                    Feature::rate($user_id, $prod_id, $feat_id, intval($value));
+                }
             }
         }
-
 
     }
 
