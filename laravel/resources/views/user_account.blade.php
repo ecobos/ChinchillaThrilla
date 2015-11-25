@@ -74,7 +74,7 @@
                                             </div>
                                             <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
                                                 <p class="textStyle"><a
-                                                            href="products/{{ $review->prod_id }}">{{ $review->prod_name }}</a>
+                                                            href="/products/{{ $review->prod_id }}">{{ $review->prod_name }}</a>
                                                 </p>
 
                                                 <p class="textStyle" vertical-align="center">

@@ -42,6 +42,10 @@ class ProductController extends ApiGuardController
         'adminProductPreview' => [
             'keyAuthentication' => false
         ],
+        'publishProduct' => [
+            'keyAuthentication' => false
+        ],
+
     ];
 
     // get list of products based on search name
@@ -441,5 +445,13 @@ public function createWithAPIKey(Request $request, $api_key)
             return new Response('Product not found', 404);
         }
         $product->delete();
+    }
+
+    // change isPublished flag on product to be published and see on site
+    public function publishProduct(Request $req) {
+        $prod_id = $req->input('productID');
+        $product = Product::find($prod_id);
+        $product->isPublished = 1;
+        $product->save();
     }
 }

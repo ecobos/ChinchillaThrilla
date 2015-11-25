@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $('#cancelReview').click(function () {
         // redirects user back to search page
-        document.location = "/"
+        window.history.back();
     });
 
 });

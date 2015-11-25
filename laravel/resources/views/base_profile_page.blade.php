@@ -2,6 +2,9 @@
 
 @section('specialized_css')
     {!! Html::script('js/profile_reviews.js') !!}
+    {!! Html::script('js/approve_products.js') !!}
+    {!! Html::script('js/approve_comment.js') !!}
+    {!! Html::script('js/delete_comment.js') !!}
     {!! Html::style('css/profiles.css') !!}
 @stop
 

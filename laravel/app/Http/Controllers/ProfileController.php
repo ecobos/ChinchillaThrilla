@@ -125,16 +125,20 @@ class ProfileController extends Controller
                             'email' => $user->email,
                             'avatar' => $user->avatar );
 
-        $reviews = Review::select('prod_id','review_text','created_at')->where('user_id', 104)->get()->toArray();
-
         // get any flagged reviews
+        $reviews = Review::select('user_id', 'prod_id', 'review_text','created_at')->where('needsAdminReview', 1)->get();
+
+        foreach($reviews as $rev) {
+            // get the user profiles of all the users that left those flagged reviews
+            $user_profiles[$rev->user_id] = User::find($rev->user_id);
+        }
 
         // get any unpublished products
         $products = Product::select('prod_id', 'prod_name', 'prod_description', 'prod_img_path')->where('isPublished', 0)->get();
 
 
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
-        return view('user_account_admin')->with('base_info', $base_info)->with('reviews', $reviews)->with('products', $products);
+        return view('user_account_admin')->with('base_info', $base_info)->with('reviews', $reviews)->with('products', $products)->with('user_profiles', $user_profiles);
     }
 
     // making static call to database to ensure our view is working 
