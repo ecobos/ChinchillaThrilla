@@ -64,7 +64,8 @@ class AuthController extends Controller
         }
 
 
-        $authUser = $this->findOrCreateUser($user, 'facebook');
+        $authUser = $this->findOrCreateUser($user, 'Facebook');
+        echo $authUser;
 
         Auth::login($authUser, true);
 
@@ -120,7 +121,7 @@ class AuthController extends Controller
         }
 
 
-        $authUser = $this->findOrCreateUser($user, 'google');
+        $authUser = $this->findOrCreateUser($user, 'Google');
 
         Auth::login($authUser, true);
 
