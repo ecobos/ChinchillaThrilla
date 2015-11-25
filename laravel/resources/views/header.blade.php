@@ -9,20 +9,21 @@
 	    <div class="collapse navbar-collapse navHeaderCollapse">
 	        <ul class="nav navbar-nav navbar-right">
 	            @if(Auth::check())
-					<li class="active"><a href="#"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"> Logged In.</span> </a></li>
+					<li class="active"><a href="#"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"> Logged In</span> </a></li>
 				@else
-					<li class="active"><a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"> Not Logged In.</span> </a></li>
+					<li class="active"><a href="#"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"> Logged Out</span> </a></li>
 				@endif
 
 	            <li class="dropdown">
-	                <a href="{!! url('/') !!}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+	                <a href="{!! url('/') !!}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">&nbsp;</span></a>
 	                <ul class="dropdown-menu">
 	                    @if(Auth::check())
-                            <li>{!! link_to('/profile', 'Go to my account') !!}</li>
-	                        <li>{!! link_to('/auth/logout', 'Logout') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/profile', 'Go to my account') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/addproduct', 'Add a new product') !!}</li>
+	                        <li class="top-menu-item">{!! link_to('/auth/logout', 'Logout') !!}</li>
                         @else
-                            <li>{!! link_to('/auth/facebook', 'Facebook Login') !!}</li>
-                            <li>{!! link_to('/auth/google', 'Google Login') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/auth/facebook', 'Facebook Login') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/auth/google', 'Google Login') !!}</li>
                         @endif
 	                </ul>
 	            </li>

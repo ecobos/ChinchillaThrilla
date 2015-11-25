@@ -207,9 +207,8 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        @endif
-            <div class="row">
+            @endif
+                <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <table class="table table-hover table-responsive">
                         <thead>
@@ -231,10 +230,10 @@
                         <a href="javascript:void(0);" onclick="getNext()">Next</a>
                     </h1>
                     <br><br>
-                    </div>
-                </div>   
-            </div>
-            <br/>
+                </div>
+            </div>   
+        </div>
+    <br/>
     </body>
 
     <div class="navbar navbar-default navbar-fixed-bottom">
@@ -296,8 +295,12 @@ class="checked"
 
 <script>
 getReviews(1, false);
+
+
 var totalRating = {'rating' : {{$totalRating->rating}} , 'votes' : {{$totalRating->total}} };
 console.log(totalRating);
+
+
 for(var i=1; i<=Math.ceil(totalRating.rating); i++)
 {
     document.getElementById('check'+i).className = 'checked';
