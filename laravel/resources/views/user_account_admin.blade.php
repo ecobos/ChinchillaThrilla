@@ -3,6 +3,7 @@
 @section('admin_only_includes')
     {!! Html::script('js/approve_products.js') !!}
     {!! Html::script('js/approve_comment.js') !!}
+    {!! Html::style('css/admin_page_style.css') !!}
 @stop
 
 @section('profile_content')
@@ -11,8 +12,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Approve New Products</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Moderate Comments</a></li>
+                    <li class="active"><a href="#tab1" data-toggle="tab">Approve New Products<span class="badge">14</span></a></li>
+                    <li><a href="#tab2" data-toggle="tab">Moderate Comments<span class="badge">4</span></a></li>
                     <li><a href="#tab3" data-toggle="tab">Account Settings</a></li>
                 </ul>
                 <div class="tab-content">
@@ -71,6 +72,7 @@
                                                     <p class="textStyle">
                                                         <a href="/profile/{{ $rev->user_id }}">{{ $rev->name }}</a>
                                                         for <a href="/products/{{ $rev->prod_id }}">{{ $rev->prod_name }}</a>
+                                                        <br> on {{ $rev->updated_at }}
                                                     </p>
 
                                                     <p class="textStyle" vertical-align="center">
@@ -78,15 +80,20 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                                                    <span id="{{ $rev->prod_id }}-{{ $rev->user_id }}" class="glyphicon glyphicon-ok commentApprovalMsg" aria-hidden="true">
+                                                        Approved
+                                                    </span>
+
                                                     <div class="btn-group btn-group-xs">
-                                                        <button type="button" class="btn btn-primary"
-                                                                data-toggle="modal" data-target="#confirmModal"
-                                                                data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">
+                                                        <button type="button" class="btn btn-primary commentApprovalBtn"
+                                                                data-prodid="{{ $rev->prod_id }}"
+                                                                data-userid="{{ $rev->user_id }}">
                                                             Approve Comment
                                                         </button>
                                                         <button type="button" class="btn btn-primary"
                                                                 data-toggle="modal" data-target="#deleteModal"
-                                                                data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">
+                                                                data-prodid="{{ $rev->prod_id }}"
+                                                                data-userid="{{ $rev->user_id }}">
                                                             Delete Comment
                                                         </button>
                                                     </div>

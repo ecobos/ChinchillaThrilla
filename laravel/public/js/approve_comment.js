@@ -1,6 +1,21 @@
 $(document).ready(function () {
     $('#alertMessage').hide();
+    $('.commentApprovalMsg').hide();
 
+    $('.commentApprovalBtn').click(function(){
+        var prodID = $(this).data('prodid');
+        var userID = $(this).data('userid');
+
+        $('#' + prodID + "-" + userID).after('<span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span>');
+        $.post("/reviews/approve", {
+            user_id: prodID,
+            prod_id: userID
+        }, function () {
+            $('.glyphicon-refresh-animate').remove();
+            $('#' + prodID + "-" + userID).show();
+            $(this).addClass('disabled');
+        });
+    });
 
     $('#approveComment').click(function () {
         alert('approve moderation');
