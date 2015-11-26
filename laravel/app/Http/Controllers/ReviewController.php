@@ -95,8 +95,10 @@ class ReviewController extends ApiGuardController
        
         // check if user is logged in
         if(!Auth::check()) {
-            // redirect user to home page if not logged in
-            return Redirect::to('/');
+            // redirect user to login page if not logged in
+            return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
         }
 
         $user_id = Auth::id(); // hardcoded for now
@@ -146,6 +148,10 @@ class ReviewController extends ApiGuardController
                 }
             }
         }
+
+        return Redirect::to('/review/' . $prod_id)->with([
+                    'alert-type'=> 'alert-success',
+                    'status' => 'Review Successfully Created']);
 
     }
 

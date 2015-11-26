@@ -89,8 +89,6 @@ Route::group(['prefix'=>'products'], function()
         Route::post('{api_key}', ['uses'=>'ProductController@createWithAPIKey']); 
     });
 
-	//>>>>>>> c6085f51073ca3c292e7f4d1f59cdf561d72a1ff
-
     // view routes
     Route::get('{id}', ['uses'=>'ProductController@getProductView']);
     // route for admin to see a preview of prod to be published 
@@ -145,9 +143,6 @@ Route::group(['prefix'=>'search'], function()
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
-	// Added by Egar. Name used for discretion
-	Route::post('rm', 'ReviewController@deleteReview');
-
 	// Added by Egar. Name used for discretion
 	Route::post('rm', 'ReviewController@deleteReview');
 
