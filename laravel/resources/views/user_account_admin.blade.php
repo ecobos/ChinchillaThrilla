@@ -1,5 +1,10 @@
 @extends('base_profile_page')
 
+@section('admin_only_includes')
+    {!! Html::script('js/approve_products.js') !!}
+    {!! Html::script('js/approve_comment.js') !!}
+@stop
+
 @section('profile_content')
 
     <div class="row">
@@ -12,74 +17,86 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="tab1">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <table class="table table-hover table-responsive tableBorderless">
-                            <tbody>
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <table class="table table-hover table-responsive tableBorderless">
+                                <tbody>
 
-                            @foreach($products as $product)
-                                <tr id="section-{{ $product->prod_id }}">
-                                    <td bgcolor="#F2F2F2">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
-                                                <img src="{{ $product->prod_img_path }}"
-                                                     class="img-responsive" align="middle">
-                                            </div>
-                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <p class="textStyle"><a
-                                                            href="/products/admin_prev/{{ $product->prod_id }}">{{ $product->prod_name }}</a>
-                                                </p>
+                                @foreach($products as $product)
+                                    <tr id="section-{{ $product->prod_id }}">
+                                        <td bgcolor="#F2F2F2">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
+                                                    <img src="{{ $product->prod_img_path }}"
+                                                         class="img-responsive" align="middle">
+                                                </div>
+                                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                    <p class="textStyle"><a
+                                                                href="/products/admin_prev/{{ $product->prod_id }}">{{ $product->prod_name }}</a>
+                                                    </p>
 
-                                                <p class="textStyle" vertical-align="center">
-                                                    {{ $product->prod_description }}
-                                                </p>
+                                                    <p class="textStyle" vertical-align="center">
+                                                        {{ $product->prod_description }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                                                    <a class="textStyle2" data-toggle="modal"
+                                                       data-target="#confirmModal"
+                                                       data-val="{{ $product->prod_id }}">Approve Product</a>
+                                                </div>
                                             </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
-                                                <a class="textStyle2" data-toggle="modal" data-target="#confirmModal"
-                                                   data-val="{{ $product->prod_id }}">Approve Product</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
                     <div class="tab-pane" id="tab2">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <table class="table table-hover table-responsive">
                                 <tbody>
+
                                 @foreach($reviews as $rev)
-                                <tr id="section-{{ $rev->prod_id }}-{{ $rev->user_id }}">
-                                    <td bgcolor="#F2F2F2">
-                                        <div class="row">
-                                            <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
+                                    <tr id="section-{{ $rev->prod_id }}-{{ $rev->user_id }}">
+                                        <td bgcolor="#F2F2F2">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-2 col-lg-2">
 
-                                                <img src="{{$user_profiles[$rev->user_id]->avatar}}"
-                                                     class="img-responsive" align="middle">
-                                            </div>
-                                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                                                <p class="textStyle"><a href="profile">{{$user_profiles[$rev->user_id]->name}}</a></p>
-
-                                                <p class="textStyle" vertical-align="center">
-                                                    {{ $rev->review_text }}
-                                                </p>
-                                            </div>
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
-                                                <div class="btn-group btn-group-xs">
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal" data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">Approve Comment
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">Delete Comment
-                                                    </button>
+                                                    <img src="{{$rev->avatar}}"
+                                                         class="img-responsive img-rounded" align="middle">
                                                 </div>
-                                            </div>
+                                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                                    <p class="textStyle">
+                                                        <a href="/profile/{{ $rev->user_id }}">{{ $rev->name }}</a>
+                                                        for <a href="/products/{{ $rev->prod_id }}">{{ $rev->prod_name }}</a>
+                                                    </p>
 
-                                        </div>
-                                    </td>
-                                </tr>
+                                                    <p class="textStyle" vertical-align="center">
+                                                        {{ $rev->review_text }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                                                    <div class="btn-group btn-group-xs">
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#confirmModal"
+                                                                data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">
+                                                            Approve Comment
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                data-toggle="modal" data-target="#deleteModal"
+                                                                data-val="{{ $rev->prod_id }}-{{ $rev->user_id }}">
+                                                            Delete Comment
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
+
                                 </tbody>
                             </table>
                         </div>
@@ -88,7 +105,8 @@
 
 
                     <!-- Approve Comment Confirmation Modal -->
-                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
@@ -96,7 +114,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <button id="approveComment" class="btn btn-success" data-dismiss="modal">Approve</button>
+                                    <button id="approveComment" class="btn btn-success" data-dismiss="modal">Approve
+                                    </button>
                                 </div>
 
                             </div>
@@ -112,7 +131,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <button id="deleteComment" class="btn btn-success" data-dismiss="modal">Delete</button>
+                                    <button id="deleteComment" class="btn btn-success" data-dismiss="modal">Delete
+                                    </button>
                                 </div>
 
                             </div>

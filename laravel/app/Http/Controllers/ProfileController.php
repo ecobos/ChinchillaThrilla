@@ -118,6 +118,7 @@ class ProfileController extends Controller
                             'email' => $user->email,
                             'avatar' => $user->avatar );
 
+        /* Very bad code Kale-bee  ** wags finger **
         // get any flagged reviews
         $reviews = Review::select('user_id', 'prod_id', 'review_text','created_at')->where('needsAdminReview', 1)->get();
 
@@ -125,6 +126,14 @@ class ProfileController extends Controller
             // get the user profiles of all the users that left those flagged reviews
             $user_profiles[$rev->user_id] = User::find($rev->user_id);
         }
+        */
+
+        // Complex queries to save the day, homez
+        $reviews_for_approval = Review::select('reviews.user_id', 'name', 'reviews.prod_id', 'prod_name', 'review_text', 'reviews.updated_at', 'avatar')
+                    ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
+                    ->join('users', 'reviews.user_id', '=', 'users.user_id')
+                    ->where('needsAdminReview', 1)->get()->sortBy('updated_at');
+
 
         // get any unpublished products
         $products = Product::select('prod_id', 'prod_name', 'prod_description', 'prod_img_path')->where('isPublished', 0)->get();
@@ -132,9 +141,8 @@ class ProfileController extends Controller
 
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
         return view('user_account_admin')->with(['base_info' => $base_info,
-                                                'reviews' => $reviews,
-                                                'products' => $products,
-                                                'user_profiles'=> $user_profiles
+                                                'reviews' => $reviews_for_approval,
+                                                'products' => $products
                                             ]);
 
     }
