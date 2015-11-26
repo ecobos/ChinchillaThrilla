@@ -10,6 +10,7 @@
         display: table;
         font-weight: bold;
         font-family: 'Lato';
+        font-style:normal;
     }
 
 /*    img {
@@ -18,20 +19,19 @@
     }*/
 
     p {
-        display: line; 
+
         font-weight: bold;
         text-align: center;
     }
 
     .font-me {
-        display: line; 
+
         font-weight: bold;
         text-align: center;
     }
 
     a {
         font-weight: bold;
-        font-family: 'Lato';
     }
 
     table {
@@ -225,6 +225,20 @@
         -webkit-border-radius:50%;
         background:#81AAD9;
         color:#FFF;
+    }
+
+    .navbar-right{
+        margin-right:15px;
+    }
+
+    .glyphicon-ok-circle{
+        color: #40F317;
+        padding:15px;
+    }
+
+    .glyphicon-remove-circle{
+        color: #F54848;
+        padding:15px;
     }
 
     .navbar-static-bottom{

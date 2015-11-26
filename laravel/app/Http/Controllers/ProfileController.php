@@ -89,15 +89,6 @@ class ProfileController extends Controller
                     'status' => 'Please Login']);
         }
 
-        // if using facebook's avatar pic, change the avatar type to large
-        /*if($user->auth_provider == 'facebook') {
-            $avatar = str_replace('normal', 'large', $avatar);
-        }
-        elseif($user->auth_provider == 'google') {
-            // if using google's avatar pic, change pic size to 200
-            $avatar = substr($avatar, 0, strlen($avatar)-2) . '200';
-        } */
-
         return view($page)->with('base_info', $base_info)->with('reviews', $reviews);
     }
 
@@ -140,7 +131,11 @@ class ProfileController extends Controller
 
 
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
-        return view('user_account_admin')->with('base_info', $base_info)->with('reviews', $reviews)->with('products', $products)->with('user_profiles', $user_profiles);
+        return view('user_account_admin')->with(['base_info' => $base_info,
+                                                'reviews' => $reviews,
+                                                'products' => $products,
+                                                'user_profiles'=> $user_profiles
+                                            ]);
 
     }
 

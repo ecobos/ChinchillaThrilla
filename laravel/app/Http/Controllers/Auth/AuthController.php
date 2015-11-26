@@ -65,13 +65,9 @@ class AuthController extends Controller
 
 
         $authUser = $this->findOrCreateUser($user, 'Facebook');
-        echo $authUser;
 
         Auth::login($authUser, true);
 
-        $name = $authUser->name;
-        $email = $authUser->email;
-        $avatar = $authUser->avatar;
 
         return Redirect::to('/profile');
     }
@@ -87,12 +83,22 @@ class AuthController extends Controller
             return $authUser;
         }
 
+        // Order matters. Set avatar regarless of auth provider
+        $avatar = $aUser->avatar;
+
+        // If Google is the auth provider, then update the URL to get the higher quality image
+        if($authProvider == 'Google') {
+            // if using google's avatar pic, change pic size to 300
+            $avatar = substr($avatar, 0, strlen($avatar)-2) . '300';
+        }
+
+        // Create and insert the user into the database
         return User::create([
             'auth_provider' => $authProvider,
             'app_id' => $aUser->id,
             'name' => $aUser->name,
             'email' => $aUser->email,
-            'avatar' => $aUser->avatar
+            'avatar' => $avatar
         ]);
     }
 

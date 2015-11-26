@@ -8,7 +8,7 @@
 	{!! Html::script('js/alert_modal.js') !!}
 	{!! Html::script('js/cancel_review.js') !!}
 
-	{!! Html::style('https://fonts.googleapis.com/css?family=Lato:100') !!}
+	{!! Html::style('https://fonts.googleapis.com/css?family=Lato:300') !!}
 	{!! Html::style('css/bootstrap.min.css') !!}
 	{!! Html::style('css/base.css') !!}
 

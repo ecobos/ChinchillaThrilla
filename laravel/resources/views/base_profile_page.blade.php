@@ -27,7 +27,7 @@
         <div class="row">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4" align="center">
-                <img src="{{ $base_info['avatar'] }}" class="img-responsive" align="middle" height="350" width="300" >
+                <img src="{{ $base_info['avatar'] }}" class="img-responsive img-rounded" align="middle" height="350" width="300" >
             </div>
         </div>
 
