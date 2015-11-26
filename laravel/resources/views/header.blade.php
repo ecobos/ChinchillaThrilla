@@ -23,6 +23,7 @@
 							@endif
 
                             <li>{!! link_to('/profile', 'Go to my account') !!}</li>
+                            <li>{!! link_to('/addproduct', 'Add a new product') !!} </li>
 	                        <li>{!! link_to('/auth/logout', 'Logout') !!}</li>
                         @else
                             <li>{!! link_to('/auth/facebook', 'Facebook Login') !!}</li>
