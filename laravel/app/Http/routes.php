@@ -92,7 +92,11 @@ Route::group(['prefix'=>'products'], function()
 	//>>>>>>> c6085f51073ca3c292e7f4d1f59cdf561d72a1ff
 
     // view routes
-    Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+    Route::get('{id}', ['uses'=>'ProductController@getProductView']);
+    // route for admin to see a preview of prod to be published 
+    Route::get('admin_prev/{id}', ['uses'=>'ProductController@adminProductPreview']); 
+    // approve product route
+    Route::post('publish', ['uses'=>'ProductController@publishProduct']); 
     
 
 });
@@ -141,6 +145,8 @@ Route::group(['prefix'=>'search'], function()
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
+	// Added by Egar. Name used for discretion
+	Route::post('rm', 'ReviewController@deleteReview');
 
 	// Added by Egar. Name used for discretion
 	Route::post('rm', 'ReviewController@deleteReview');
@@ -164,6 +170,9 @@ Route::group(['prefix'=>'reviews'], function()
 
 	// Get the overall rating for a product and the total number of votes
 	Route::get('{product_id}', ['uses'=>'ReviewController@getOverallRating']);
+
+	Route::post('approve', ['uses'=>'ReviewController@moderateReview']);
+	Route::post('delete', ['uses'=>'ReviewController@deleteUserReview']);
 });
 
 

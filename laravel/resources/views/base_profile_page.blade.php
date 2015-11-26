@@ -2,6 +2,10 @@
 
 @section('specialized_css')
     {!! Html::script('js/profile_reviews.js') !!}
+    {!! Html::script('js/approve_products.js') !!}
+    {!! Html::script('js/approve_comment.js') !!}
+    {!! Html::script('js/delete_comment.js') !!}
+
     {!! Html::style('css/profiles.css') !!}
 @stop
 
@@ -23,7 +27,7 @@
         <div class="row">
 
             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4" align="center">
-                <img src="{{ $base_info['avatar'] }}" class="img-responsive" align="middle" height="350" width="300" >
+                <img src="{{ $base_info['avatar'] }}" class="img-responsive img-rounded" align="middle" height="350" width="300" >
             </div>
         </div>
 

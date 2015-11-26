@@ -119,7 +119,7 @@ class PagesController extends Controller
         return view('user_account_public');
     }
     public function pageNotFound(){
-        return view('404');
+        return view('errors.404');
     }
 
     public function submissionFailed() {

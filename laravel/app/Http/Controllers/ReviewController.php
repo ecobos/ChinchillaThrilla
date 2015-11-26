@@ -24,13 +24,13 @@ class ReviewController extends ApiGuardController
         ],
 
         'getProductReviews' => [
-            'keyAuthentication' => false
-        ],
-
+            'keyAuthentication' => false],
         'deleteReview' => [
-            'keyAuthentication' => false
-        ],
-
+            'keyAuthentication' => false],
+        'moderateReview' => [
+            'keyAuthentication' => false],
+        'deleteReview' => [
+            'keyAuthentication' => false]
     ];
 
     public function index()
@@ -149,11 +149,6 @@ class ReviewController extends ApiGuardController
 
     }
 
-    public function getOverallRating($product_id)
-    {
-        var_dump(Review::getOverallRating($product_id));
-    }
-
     /**
      * Deletes a specific review for a product created by the logged in user
      *
@@ -163,6 +158,31 @@ class ReviewController extends ApiGuardController
     public function deleteReview(Request $request){
         $prod_id = $request->input('productID');
         Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
+    }
+
+    public function getOverallRating($product_id)
+    {
+        var_dump(Review::getOverallRating($product_id));
+    }
+
+    // approves review (Admin only)
+    public function moderateReview(Request $request) {
+        $user_id = $request->input('user_id');
+        $prod_id = $request->input('prod_id');
+
+
+        Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])
+                  ->update(['needsAdminReview'  => 0]);
+
+    }
+
+    // deletes review (Admin only)
+    public function deleteUserReview(Request $request) {
+        $user_id = $request->input('user_id');
+        $prod_id = $request->input('prod_id');
+
+        Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->delete();
+
     }
 
 }
