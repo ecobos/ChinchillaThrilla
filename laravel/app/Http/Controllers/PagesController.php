@@ -16,7 +16,7 @@ class PagesController extends Controller
     public function about() {
     	$page_name = 'About The Team';
 
-    	return view('about', compact('page_name'));
+    	return view('misc.about', compact('page_name'));
     }
 
     // returns static home page
