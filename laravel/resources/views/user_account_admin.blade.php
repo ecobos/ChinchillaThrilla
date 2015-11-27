@@ -40,9 +40,11 @@
                                                     </p>
                                                 </div>
                                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
-                                                    <a class="textStyle2" data-toggle="modal"
+                                                    <button type="button" class="btn btn-success"
+                                                       data-toggle="modal"
                                                        data-target="#confirmModal"
-                                                       data-val="{{ $product->prod_id }}">Approve Product</a>
+                                                       data-val="{{ $product->prod_id }}">Approve Product
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>
@@ -85,12 +87,12 @@
                                                     </span>
 
                                                     <div class="btn-group btn-group-xs">
-                                                        <button type="button" class="btn btn-primary commentApprovalBtn"
+                                                        <button type="button" class="btn btn-success commentApprovalBtn"
                                                                 data-prodid="{{ $rev->prod_id }}"
                                                                 data-userid="{{ $rev->user_id }}">
                                                             Approve Comment
                                                         </button>
-                                                        <button type="button" class="btn btn-primary"
+                                                        <button type="button" class="btn btn-danger"
                                                                 data-toggle="modal" data-target="#deleteModal"
                                                                 data-prodid="{{ $rev->prod_id }}"
                                                                 data-userid="{{ $rev->user_id }}">
@@ -129,16 +131,16 @@
                         </div>
                     </div>
 
-                    <!-- Approve Comment Confirmation Modal -->
+                    <!-- Delete Comment Confirmation Modal -->
                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-body">
-                                    Confirm Deletion?
+                                    This cannot be undone. Confirm Deletion?
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <button id="deleteComment" class="btn btn-success" data-dismiss="modal">Delete
+                                    <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+                                    <button id="deleteComment" class="btn btn-danger" data-dismiss="modal">Yes, Delete!
                                     </button>
                                 </div>
 

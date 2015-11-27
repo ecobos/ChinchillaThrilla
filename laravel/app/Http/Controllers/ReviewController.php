@@ -29,9 +29,14 @@ class ReviewController extends ApiGuardController
             'keyAuthentication' => false],
         'moderateReview' => [
             'keyAuthentication' => false],
-        'deleteReview' => [
+        'deleteUserReview' => [
             'keyAuthentication' => false]
     ];
+
+    public function __construct()
+    {
+        $this->middleware('adminsOnly', ['only' => ['deleteUserReview', 'moderateReview']]);
+    }
 
     public function index()
     {
