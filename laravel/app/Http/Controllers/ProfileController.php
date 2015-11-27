@@ -142,7 +142,9 @@ class ProfileController extends Controller
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
         return view('user_account_admin')->with(['base_info' => $base_info,
                                                 'reviews' => $reviews_for_approval,
-                                                'products' => $products
+                                                'reviews_count' => $reviews_for_approval->count(),
+                                                'products' => $products,
+                                                'prodcuts_count' => $products->count()
                                             ]);
 
     }

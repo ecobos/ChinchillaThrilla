@@ -8,8 +8,8 @@ $(document).ready(function () {
 
         $('#' + prodID + "-" + userID).after('<span class=\"glyphicon glyphicon-refresh glyphicon-refresh-animate\"></span>');
         $.post("/reviews/approve", {
-            user_id: prodID,
-            prod_id: userID
+            user_id: userID,
+            prod_id: prodID
         }, function () {
             $('.glyphicon-refresh-animate').remove();
             $('#' + prodID + "-" + userID).show();

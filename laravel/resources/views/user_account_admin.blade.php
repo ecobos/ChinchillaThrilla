@@ -12,8 +12,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="tabbable"> <!-- Only required for left/right tabs -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Approve New Products<span class="badge">14</span></a></li>
-                    <li><a href="#tab2" data-toggle="tab">Moderate Comments<span class="badge">4</span></a></li>
+                    <li class="active"><a href="#tab1" data-toggle="tab">Approve New Products<span class="badge">{{ $prodcuts_count }}</span></a></li>
+                    <li><a href="#tab2" data-toggle="tab">Moderate Comments<span class="badge">{{ $reviews_count }}</span></a></li>
                     <li><a href="#tab3" data-toggle="tab">Account Settings</a></li>
                 </ul>
                 <div class="tab-content">
