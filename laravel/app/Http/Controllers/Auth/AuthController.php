@@ -64,13 +64,10 @@ class AuthController extends Controller
         }
 
 
-        $authUser = $this->findOrCreateUser($user, 'facebook');
+        $authUser = $this->findOrCreateUser($user, 'Facebook');
 
         Auth::login($authUser, true);
 
-        $name = $authUser->name;
-        $email = $authUser->email;
-        $avatar = $authUser->avatar;
 
         return Redirect::to('/profile');
     }
@@ -86,12 +83,22 @@ class AuthController extends Controller
             return $authUser;
         }
 
+        // Order matters. Set avatar regarless of auth provider
+        $avatar = $aUser->avatar;
+
+        // If Google is the auth provider, then update the URL to get the higher quality image
+        if($authProvider == 'Google') {
+            // if using google's avatar pic, change pic size to 300
+            $avatar = substr($avatar, 0, strlen($avatar)-2) . '300';
+        }
+
+        // Create and insert the user into the database
         return User::create([
             'auth_provider' => $authProvider,
             'app_id' => $aUser->id,
             'name' => $aUser->name,
             'email' => $aUser->email,
-            'avatar' => $aUser->avatar
+            'avatar' => $avatar
         ]);
     }
 
@@ -120,7 +127,7 @@ class AuthController extends Controller
         }
 
 
-        $authUser = $this->findOrCreateUser($user, 'google');
+        $authUser = $this->findOrCreateUser($user, 'Google');
 
         Auth::login($authUser, true);
 
@@ -129,6 +136,14 @@ class AuthController extends Controller
 
     public function doLogout(){
         Auth::logout();
-        return "<b> Logged out </b>";
+
+        return Redirect::to('/')->with([
+            'alert-type' => 'alert-success',
+            'status' => 'Successfully Logged Out. See you later!'
+        ]);
+    }
+
+    public function doLogin(){
+        return view('auth.login_page');
     }
 }

@@ -11,6 +11,7 @@
         display: table; 
         font-weight: bold;
         font-family: 'Lato';
+        font-style:normal;
     }
 
 /*    img {
@@ -19,13 +20,13 @@
     }*/
 
     p {
-        display: line; 
+
         font-weight: bold;
         text-align: center;
     }
 
     .font-me {
-        display: line; 
+
         font-weight: bold;
         text-align: center;
     }
@@ -36,7 +37,6 @@
 
     a {
         font-weight: bold;
-        font-family: 'Lato';
     }
 
     table {
@@ -236,6 +236,19 @@
         color:#FFF;
     }
 
+    .navbar-right{
+        margin-right:15px;
+    }
+
+    .glyphicon-ok-circle{
+        color: #40F317;
+        padding:15px;
+    }
+
+    .glyphicon-remove-circle{
+        color: #F54848;
+        padding:15px;
+    }
 
     .navbar-static-bottom{
         bottom: 0px;
@@ -243,7 +256,6 @@
         border-radius: 0px;
         margin-bottom: 0px;
     }
-
 
     .main-product-image {
         max-height: 350px;
@@ -287,3 +299,8 @@
     .input-group-addon .form-control option {
         font-weight: bold;
     } 
+
+    #globalAlert{
+        padding-top: 5%;
+        text-align: center;
+    }

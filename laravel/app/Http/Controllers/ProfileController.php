@@ -6,10 +6,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 //use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use App\User;
 use App\Review;
 use \DateTime;
 use DB;
+use App\Product;
 
 class ProfileController extends Controller
 {
@@ -43,17 +45,21 @@ class ProfileController extends Controller
 
             // get number of review made by this user
             $total_reviews = Review::where('user_id', $id)->count();
+            $usefulness = Review::where('user_id', $id)->sum('total_usefulness');
 
             $base_info = array( 'page_title' => "User Profile",
                                 'name' => $name,
                                 'avatar' => $user->avatar,
                                 'member_since_date' => $member_since_date,
-                                'total_reviews' => $total_reviews );
+                                'total_reviews' => $total_reviews,
+                                'total_usefulness' => $usefulness);
             $reviews = array();
         }
         else if(Auth::check()){
             $page = 'user_account';
             $user = Auth::user();
+            $id = $user->user_id;
+            //var_dump($user);
 
             // get date in DD/MM/YY format
             $date_time = new DateTime($user->created_at);
@@ -64,27 +70,24 @@ class ProfileController extends Controller
             // Returns an array of reviews and associated products
             $reviews = DB::table('reviews')->select('products.prod_id','products.prod_name','products.prod_img_path','reviews.review_text','reviews.created_at')
                                             ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
-                                            ->where('user_id', Auth::id())->get();
+                                            ->where('user_id', $id)->get();
+
+            $usefulness = Review::where('user_id', $id)->sum('total_usefulness');
 
             $base_info = array( 'page_title' => "My Profile",
                                 'name' => $user->name,
                                 'email' => $user->email,
+                                'auth_type' => $user->auth_provider,
                                 'avatar' => $user->avatar,
                                 'member_since_date' => $member_since_date,
-                                'total_reviews' => count($reviews) );
+                                'total_reviews' => count($reviews),
+                                'total_usefulness' => $usefulness);
         }
         else{
-            return Redirect::action('PagesController@pageNotFound');
+            return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
         }
-
-        // if using facebook's avatar pic, change the avatar type to large
-        /*if($user->auth_provider == 'facebook') {
-            $avatar = str_replace('normal', 'large', $avatar);
-        }
-        elseif($user->auth_provider == 'google') {
-            // if using google's avatar pic, change pic size to 200
-            $avatar = substr($avatar, 0, strlen($avatar)-2) . '200';
-        } */
 
         return view($page)->with('base_info', $base_info)->with('reviews', $reviews);
     }
@@ -115,9 +118,35 @@ class ProfileController extends Controller
                             'email' => $user->email,
                             'avatar' => $user->avatar );
 
-        $reviews = Review::select('prod_id','review_text','created_at')->where('user_id', 104)->get()->toArray();
+        /* Very bad code Kale-bee  ** wags finger **
+        // get any flagged reviews
+        $reviews = Review::select('user_id', 'prod_id', 'review_text','created_at')->where('needsAdminReview', 1)->get();
+
+        foreach($reviews as $rev) {
+            // get the user profiles of all the users that left those flagged reviews
+            $user_profiles[$rev->user_id] = User::find($rev->user_id);
+        }
+        */
+
+        // Complex queries to save the day, homez
+        $reviews_for_approval = Review::select('reviews.user_id', 'name', 'reviews.prod_id', 'prod_name', 'review_text', 'reviews.updated_at', 'avatar')
+                    ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
+                    ->join('users', 'reviews.user_id', '=', 'users.user_id')
+                    ->where('needsAdminReview', 1)->get()->sortBy('updated_at');
+
+
+        // get any unpublished products
+        $products = Product::select('prod_id', 'prod_name', 'prod_description', 'prod_img_path')->where('isPublished', 0)->get();
+
+
         //return view('user_account_admin', compact('page_title','name', 'email', 'avatar'));
-        return view('viewname')->with('base_info', $base_info)->with('reviews', $reviews);
+        return view('user_account_admin')->with(['base_info' => $base_info,
+                                                'reviews' => $reviews_for_approval,
+                                                'reviews_count' => $reviews_for_approval->count(),
+                                                'products' => $products,
+                                                'prodcuts_count' => $products->count()
+                                            ]);
+
     }
 
     // making static call to database to ensure our view is working 

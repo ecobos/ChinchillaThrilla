@@ -16,7 +16,7 @@ class PagesController extends Controller
     public function about() {
     	$page_name = 'About The Team';
 
-    	return view('about', compact('page_name'));
+    	return view('misc.about', compact('page_name'));
     }
 
     // returns static home page
@@ -119,7 +119,7 @@ class PagesController extends Controller
         return view('user_account_public');
     }
     public function pageNotFound(){
-        return view('404');
+        return view('errors.404');
     }
 
     public function submissionFailed() {

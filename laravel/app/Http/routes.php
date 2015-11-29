@@ -71,6 +71,7 @@ Route::group(['prefix' => 'auth'], function(){
 	Route::get('google', 'Auth\AuthController@authRedirectToGoogle');
 	Route::get('google/login-callback', 'Auth\AuthController@handleGoogleCallback');
 	Route::get('logout', 'Auth\AuthController@doLogout');
+	Route::get('login', 'Auth\AuthController@doLogin');
 });
 
 // PRODUCT ROUTES
@@ -88,10 +89,12 @@ Route::group(['prefix'=>'products'], function()
         Route::post('{api_key}', ['uses'=>'ProductController@createWithAPIKey']); 
     });
 
-	//>>>>>>> c6085f51073ca3c292e7f4d1f59cdf561d72a1ff
-
     // view routes
-    Route::get('{id}', ['uses'=>'ProductController@getProductView']); 
+    Route::get('{id}', ['uses'=>'ProductController@getProductView']);
+    // route for admin to see a preview of prod to be published 
+    Route::get('admin_prev/{id}', ['uses'=>'ProductController@adminProductPreview']); 
+    // approve product route
+    Route::post('publish', ['uses'=>'ProductController@publishProduct']); 
     
 
 });
@@ -140,6 +143,8 @@ Route::group(['prefix'=>'search'], function()
 // REVIEW ROUTES
 Route::group(['prefix'=>'reviews'], function()
 {
+	// Added by Egar. Name used for discretion
+	Route::post('rm', 'ReviewController@deleteReview');
 
 	Route::get('{product_id}', ['uses'=>'ReviewController@getProductReviews']);
 	Route::post('/', ['uses'=>'ReviewController@createReview']);
@@ -151,6 +156,7 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::get('product/{product_id}/{skip}',['uses'=>'ReviewController@getProductReviews']);
 
 	// Get the reviews from a user
+
 	Route::get('user/{user_id}',['uses'=>'ReviewController@getUserReviews']);
 
 	// Create a new Review for ($prod_id, $user_id)
@@ -159,6 +165,9 @@ Route::group(['prefix'=>'reviews'], function()
 
 	// Get the overall rating for a product and the total number of votes
 	Route::get('{product_id}', ['uses'=>'ReviewController@getOverallRating']);
+
+	Route::post('approve', ['uses'=>'ReviewController@moderateReview']);
+	Route::post('delete', ['uses'=>'ReviewController@deleteUserReview']);
 });
 
 
@@ -173,10 +182,6 @@ Route::group(['prefix'=>'feature'], function()
 
 	// Used for getting product feature stats
 	Route::get('{prod_id}',['uses'=>'FeatureController@getFeatures']);
-
-	Route::post('', 
-		['uses'=>'ReviewController@createReview']
-	);
 
 	Route::post('submitreview/{prod_id}/{api_key}', 
 		['uses'=>'ReviewController@createReviewWithAPIKey']

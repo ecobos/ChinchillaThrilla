@@ -25,6 +25,12 @@ use Illuminate\Support\Facades\Redirect;
 // 'php artisan tinker' to test the model classes
 class ProductController extends ApiGuardController
 {
+    // give the admin a preview of a product
+    public function __construct()
+    {
+        $this->middleware('adminsOnly', ['only' => 'adminProductPreview']);
+    }
+
     // methods that don't need api key authentication
     protected $apiMethods = [
         'getProductView' => [
@@ -33,6 +39,13 @@ class ProductController extends ApiGuardController
         'createWithAPIKey' => [
             'keyAuthentication' => false
         ],
+        'adminProductPreview' => [
+            'keyAuthentication' => false
+        ],
+        'publishProduct' => [
+            'keyAuthentication' => false
+        ],
+
     ];
 
     // get list of products based on search name
@@ -90,6 +103,34 @@ class ProductController extends ApiGuardController
         return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
     }
 
+
+    public function adminProductPreview($id) {
+        $product = Product::find($id);
+        
+        if(empty($product)) {
+            // return 404 view
+            return view('product404');
+
+        }
+
+        // get all data to pass on over to view
+        $prod_id = $id;
+        $name = $product->prod_name;
+        $model = $product->prod_model;
+        $brand = $product->prod_brand;
+        $category = $product->prod_category;
+        $desc = $product->prod_description;
+        $rating = $product->overall_rating;
+        $img_path = $product->prod_img_path;
+        $features = Feature::getFeatures($id);
+        $totalRating = Review::getOverallRating($id);;
+        $logged_in = false; // admin does not need to review a product
+
+
+        // return product page for this product for admin to see
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
+    }
+
     // Returns array of products
     public function getProducts() {
         $products = Product::all();
@@ -118,7 +159,6 @@ class ProductController extends ApiGuardController
 
         // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
         $name = $request->input("prod_name");
-        print $name;
         $model = $request->input("prod_model");
         $brand = $request->input("prod_brand");
         $category = $request->input("prod_category");
@@ -129,17 +169,6 @@ class ProductController extends ApiGuardController
 
 
         // don't forget to check for empty fields... throw error
-
-
-        /*
-        Product::create(["prod_name" => $name, 
-                         "prod_model" => $model,
-                         "prod_brand" => $brand,
-                         "prod_category" => $category, 
-                         "prod_description" => $desc,
-                         "overall_rating" => $rating,
-                         "prod_img_path" => $img_path]);
-                         */
         $product = new Product; // new instance of product
         // populate fields of new product
         $product->prod_name = $name;
@@ -157,10 +186,10 @@ class ProductController extends ApiGuardController
 public function createWithAPIKey(Request $request, $api_key)
 {   
     // workaround API key issue
-    print $api_key;
+    //print $api_key;
     // check if authorized to POST 
     $match_key = ApiKey::where('key', $api_key)->first();
-    print $match_key;
+    //print $match_key;
 
     // not authorized to POST (public key in form)
     if (empty($match_key)) {
@@ -169,8 +198,10 @@ public function createWithAPIKey(Request $request, $api_key)
 
     // check if user is logged in
     if(!Auth::check()) {
-        // redirect user to home page if not logged in
-        return Redirect::to('/');
+        // redirect user to login page if not logged in
+        return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
     }
 
 
@@ -274,7 +305,7 @@ public function createWithAPIKey(Request $request, $api_key)
     }
     else {
         // product already exists, simply get the prod_id
-        print 'prod already exists ' . $existing_product->prod_name;
+        //print 'prod already exists ' . $existing_product->prod_name;
         $prod_id = $existing_product->prod_id;
     }
 
@@ -318,6 +349,12 @@ public function createWithAPIKey(Request $request, $api_key)
             }
         }
     }
+
+    // show success message to user after adding product
+    return Redirect::to('/addproduct')->with([
+                    'alert-type'=> 'alert-success',
+                    'status' => 'Successfully Added Product']);
+
 }
 
     /**
@@ -404,5 +441,13 @@ public function createWithAPIKey(Request $request, $api_key)
             return new Response('Product not found', 404);
         }
         $product->delete();
+    }
+
+    // change isPublished flag on product to be published and see on site
+    public function publishProduct(Request $req) {
+        $prod_id = $req->input('productID');
+        $product = Product::find($prod_id);
+        $product->isPublished = 1;
+        $product->save();
     }
 }

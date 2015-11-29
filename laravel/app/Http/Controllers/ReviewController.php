@@ -8,10 +8,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use App\Review;
+
 use App\Feature;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+
 
 class ReviewController extends ApiGuardController
 {
@@ -20,9 +22,21 @@ class ReviewController extends ApiGuardController
         'createReviewWithAPIKey' => [
             'keyAuthentication' => false
         ],
+
         'getProductReviews' => [
+            'keyAuthentication' => false],
+        'deleteReview' => [
+            'keyAuthentication' => false],
+        'moderateReview' => [
+            'keyAuthentication' => false],
+        'deleteUserReview' => [
             'keyAuthentication' => false]
     ];
+
+    public function __construct()
+    {
+        $this->middleware('adminsOnly', ['only' => ['deleteUserReview', 'moderateReview']]);
+    }
 
     public function index()
     {
@@ -86,8 +100,10 @@ class ReviewController extends ApiGuardController
        
         // check if user is logged in
         if(!Auth::check()) {
-            // redirect user to home page if not logged in
-            return Redirect::to('/');
+            // redirect user to login page if not logged in
+            return Redirect::to('/auth/login')->with([
+                    'alert-type'=> 'alert-danger',
+                    'status' => 'Please Login']);
         }
 
         $user_id = Auth::id(); // hardcoded for now
@@ -138,11 +154,46 @@ class ReviewController extends ApiGuardController
             }
         }
 
+        return Redirect::to('/review/' . $prod_id)->with([
+                    'alert-type'=> 'alert-success',
+                    'status' => 'Review Successfully Created']);
+
+    }
+
+    /**
+     * Deletes a specific review for a product created by the logged in user
+     *
+     * @param Request $request product associated with the review
+     * @author Edgar Cobos
+     */
+    public function deleteReview(Request $request){
+        $prod_id = $request->input('productID');
+        Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
     }
 
     public function getOverallRating($product_id)
     {
         var_dump(Review::getOverallRating($product_id));
+    }
+
+    // approves review (Admin only)
+    public function moderateReview(Request $request) {
+        $user_id = $request->input('user_id');
+        $prod_id = $request->input('prod_id');
+
+
+        Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])
+                  ->update(['needsAdminReview'  => 0]);
+
+    }
+
+    // deletes review (Admin only)
+    public function deleteUserReview(Request $request) {
+        $user_id = $request->input('user_id');
+        $prod_id = $request->input('prod_id');
+
+        Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->delete();
+
     }
 
 }

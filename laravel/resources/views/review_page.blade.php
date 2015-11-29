@@ -67,13 +67,35 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br/></div>
     
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-        <button type="button" class="btn btn-danger" onclick="return cancel();"><b>Cancel</b></button>
+        <button data-target="#confirmModal" data-toggle="modal" type="button" class="btn btn-danger"><b>Cancel</b></button>
         <button type="submit" class="btn btn-success"><b>Submit</b></button><br/>
         
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br/><br/><br/><br/></div>
 </div>
+
+
+<!-- Review Cancel Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Review Cancellation</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to cancel?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button id="cancelReview" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 {!! Form::close() !!}
 
 
@@ -91,8 +113,5 @@ $(document).ready(function(){
     }); 
 });
 
-function cancel() {
-    return false;
-}
 </script>
 @stop
