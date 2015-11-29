@@ -257,17 +257,33 @@
         max-height: 170px;
     }
 
-    .top-menu-item {
-        font-weight: bold;
-        color : #000;
-    }
-
-    .form-control::-moz-placeholder {
-            color: #666;
-    opacity: 1;
-    }
 
     #query
     {
         text-decoration: underline;
     }
+    
+        .form-control::-webkit-input-placeholder { color: #999; }
+        .form-control:-moz-placeholder { color: #999; }
+        .form-control::-moz-placeholder { color: #999; }
+        .form-control:-ms-input-placeholder { color: #999; }
+
+        .input-group-addon {
+            color:black;
+        }
+
+    .dropdown-menu > li > a {
+        font-weight: bold;
+    }
+
+    .btn {
+        font-weight: bold;
+    }
+
+    .input-group-addon .form-control select {
+        font-weight: bold;
+    } 
+
+    .input-group-addon .form-control option {
+        font-weight: bold;
+    } 

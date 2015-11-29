@@ -140,12 +140,12 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
             <label>Brief Description</label><br></div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                <textarea class="form-control" rows="5" name="prod_description" placeholder="Description ofthe product"></textarea>
+                <textarea class="form-control" rows="5" name="prod_description" placeholder="Description"></textarea>
             <br></div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
             
             <div class="button" align="center">
-                <button type="submit" class="btn btn-default"><b>Review & Submit</b></button>
+                <button type="submit" class="btn btn-primary"><b>Review & Submit</b></button>
             </div>
             </div>
 
