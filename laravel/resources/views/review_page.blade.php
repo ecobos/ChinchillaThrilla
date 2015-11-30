@@ -56,8 +56,8 @@
         </div>
     </div>
 
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" align="left" >
-        <label>Comment:</label><br/>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left" >
+        <label>Comment:</label>
     </div>
     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
     </div>
@@ -110,7 +110,6 @@ $(document).ready(function(){
     $('input:radio').change(
     function(){
         var userRating = this.value;
-        alert(userRating);
     }); 
 });
 

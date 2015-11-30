@@ -17,7 +17,7 @@
                     <div class="input-group">
                         <label for="inputlg"></label>
                         <input type="hidden" name="type" value="product"/>
-                        <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product" onchange="updateSearchBox()" name="query">
+                        <input class="form-control input-lg" id="inputlg" type="text" placeholder="Search for a Product" onchange="updateSearchBox()" name="query" required>
                         <span class="input-group-btn">
                             <button id="searchBtn" class="btn btn-default btn-lg" type="submit">Search</button>
                         </span>

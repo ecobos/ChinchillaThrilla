@@ -15,7 +15,7 @@
 				@endif
 
 	            <li class="dropdown">
-	                <a href="{!! url('/') !!}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
+	                <a href="{!! url('/') !!}" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true">&nbsp;</span></a>
 	                <ul class="dropdown-menu">
 	                    @if(Auth::check())
 							@if(App\Admin::find(Auth::id()) != null )
@@ -26,8 +26,8 @@
                             <li>{!! link_to('/addproduct', 'Add a new product') !!} </li>
 	                        <li>{!! link_to('/auth/logout', 'Logout') !!}</li>
                         @else
-                            <li>{!! link_to('/auth/facebook', 'Facebook Login') !!}</li>
-                            <li>{!! link_to('/auth/google', 'Google Login') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/auth/facebook', 'Facebook Login') !!}</li>
+                            <li class="top-menu-item">{!! link_to('/auth/google', 'Google Login') !!}</li>
                         @endif
 	                </ul>
 	            </li>
