@@ -7,11 +7,10 @@ $(document).ready(function () {
         $.post("/products/publish", {
             productID: id
         }, function () {
-            $('#section-' + id).fadeOut(500, function () {
-                $("#alertMessage").fadeTo(2000, 500).slideUp(500, function () {
-                    $("#alertMessage").hide();
-                });
-            });
+            $('#section-' + id).fadeOut(500);
+            var activeBadge = $('.active .badge');
+            var oldVal = activeBadge.text();
+            activeBadge.text(oldVal-1);
         });
     });
 
