@@ -201,7 +201,33 @@ class ReviewController extends ApiGuardController
         $prod_id = $request->input('prod_id');
 
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->update(['needsAdminReview' => 1]);
+    }
 
+    public function  likeReview(Request $request)
+    {
+        $reviewer = $request->input('other_uid');
+        $liker = $request->input('this_uid');
+        $prod_id = $request->input('prod_id');
+
+        $result = DB::table('review_votes')->where(
+            ['other_uid' => $reviewer, 
+            'this_uid' => $liker, 
+            'prod_id'=>$prod_id,
+        ])->first();
+
+        if(!$result){
+            DB::table('review_votes')->insert(
+                ['other_uid' => $reviewer, 
+                'this_uid' => $liker, 
+                'prod_id'=>$prod_id,
+                'vote' => 1
+            ]);
+        }
+    }
+
+    public function helpfulReviews(Request $request) {
+        $user_id = $request->input('user_id');
+        return Review::helpfulReviews($user_id);
     }
 
 }
