@@ -191,6 +191,16 @@ class ReviewController extends ApiGuardController
         $prod_id = $request->input('prod_id');
 
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->delete();
+    }
+
+
+    // enables a user to flag a review
+    public function flagReview (Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $prod_id = $request->input('prod_id');
+
+        Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->update(['needsAdminReview' => 1]);
 
     }
 
