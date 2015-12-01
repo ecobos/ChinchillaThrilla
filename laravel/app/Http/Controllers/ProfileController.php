@@ -52,7 +52,8 @@ class ProfileController extends Controller
                                 'avatar' => $user->avatar,
                                 'member_since_date' => $member_since_date,
                                 'total_reviews' => $total_reviews,
-                                'total_usefulness' => $usefulness);
+                                'total_usefulness' => Review::helpfulReviews($id)
+                            );
             $reviews = array();
         }
         else if(Auth::check()){
@@ -81,7 +82,8 @@ class ProfileController extends Controller
                                 'avatar' => $user->avatar,
                                 'member_since_date' => $member_since_date,
                                 'total_reviews' => count($reviews),
-                                'total_usefulness' => $usefulness);
+                                'total_usefulness' => Review::helpfulReviews($id)
+                            );
         }
         else{
             return Redirect::to('/auth/login')->with([
