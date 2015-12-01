@@ -37,6 +37,12 @@ class Review extends Model
         return $datas; 
     }
 
+
+    static function getProductReviewCount($product_id) 
+    {
+        return DB::select('SELECT COUNT(review_text) as total FROM reviews where prod_id = ?', [$product_id])[0];    
+    }
+
     static function getProductReviews($product_id, $skip)
     {
     	$datas = DB::table('reviews')
