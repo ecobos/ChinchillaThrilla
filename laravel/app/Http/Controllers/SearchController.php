@@ -45,6 +45,7 @@ class SearchController extends Controller
                 $db_result = DB::table('products')
                         -> select('*')
                         -> where('prod_name', 'LIKE', "%{$w}%")
+                        -> where('isPublished', '=', '1')
                         -> get();
             }
 
@@ -56,6 +57,7 @@ class SearchController extends Controller
                             -> join('categories', 'products.prod_category', '=', 'categories.category_id')
                             -> select('products.*','categories.category_name', 'products.prod_id')
                             -> where('category_name', 'LIKE', "%{$w}%")
+                            -> where('isPublished', '=', '1')
                             -> get();
             }
 
@@ -67,6 +69,7 @@ class SearchController extends Controller
                             -> join('brands', 'products.prod_brand', '=', 'brands.brand_id')
                             -> select('products.*','brands.brand_name')
                             -> where('brand_name', 'LIKE', "%{$w}%")
+                            -> where('isPublished', '=', '1')
                             -> get();
             }
 
@@ -85,65 +88,5 @@ class SearchController extends Controller
             ]
         );
     }
-
-    // public function getProductsByCategory ($query)
-    // {
-    //     $results = array ();
-    //     $words = explode (" ", $query);
-
-    //     foreach ($words as $w)
-    //     {
-    //         // Getting DB result
-    //         $db_result = DB::table('products')
-    //                     -> join('categories', 'products.prod_category', '=', 'categories.category_id')
-    //                     -> select('products.prod_name','categories.category_name', 'products.prod_id')
-    //                     -> where('category_name', 'LIKE', "%{$query}%")
-    //                     -> get();
-
-    //         // adding it array of datas
-    //         foreach ($db_result as $product){
-    //             $product->url = "/product/{$product->prod_id}";
-    //             $results[] = $product;
-    //         } 
-    //     }
-    //     return view('test')->with(
-    //         [
-    //             'results'   => $results,
-    //             'query'     => $query,
-    //         ]
-    //     );
-    // }
-
-
-
-    // public function getProductsByBrand ($query)
-    // {
-    //     $results = array ();
-    //     $words = explode (" ", $query);
-
-    //     foreach ($words as $w)
-    //     {
-    //         // Getting DB result
-    //         $db_result = DB::table('products')
-    //                     -> join('brands', 'products.prod_brand', '=', 'brands.brand_id')
-    //                     -> select('products.prod_name','brands.brand_name', 'products.prod_id')
-    //                     -> where('brand_name', 'LIKE', "%{$query}%")
-    //                     -> get();
-
-    //         // adding it array of datas
-    //         foreach ($db_result as $product){
-    //             $product->url = "/product/{$product->prod_id}";
-    //             $results[] = $product;
-    //         }
-    //     }
-    //     return view('test')->with(
-    //         [
-    //             'results'   => $results,
-    //             'query'     => $query,
-    //         ]
-    //     );
-    // }
-
-
 
 }

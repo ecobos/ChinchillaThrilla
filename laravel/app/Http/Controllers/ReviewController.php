@@ -57,8 +57,6 @@ class ReviewController extends ApiGuardController
 
         return view('reviewtest')->with('data', $data);
     
-        //UNCOMMENT AFTER TESTING 
-        //return Redirect::to('/');
     }
 
     public function getUserReviews($user_id) 
