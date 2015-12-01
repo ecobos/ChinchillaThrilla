@@ -78,7 +78,7 @@ class ProductController extends ApiGuardController
     public function getProductView($id) {
         $product = Product::find($id);
         
-        if(empty($product)) {
+        if(empty($product) || $product->isPublished==0) {
             // return 404 view
             return view('product404');
 
@@ -96,11 +96,10 @@ class ProductController extends ApiGuardController
         $features = Feature::getFeatures($id);
         $totalRating = Review::getOverallRating($id);
         $logged_in = Auth::check();
-
-
+        $reviewCount = Review::getProductReviewCount($id)->total;
 
         // return product page for this product
-        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in', 'reviewCount'));
     }
 
 
@@ -125,10 +124,11 @@ class ProductController extends ApiGuardController
         $features = Feature::getFeatures($id);
         $totalRating = Review::getOverallRating($id);;
         $logged_in = false; // admin does not need to review a product
+        $reviewCount = 1;
 
 
         // return product page for this product for admin to see
-        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in'));
+        return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in', 'reviewCount'));
     }
 
     // Returns array of products

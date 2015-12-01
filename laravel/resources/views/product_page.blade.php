@@ -27,8 +27,9 @@
                                 var user = reviews[i]['name'];
                                 var image = reviews[i]['avatar'];
                                 var review = reviews[i]['review_text'];
+                                var user_id = reviews[i]['user_id'];
 
-                                appendReviewElement(user, image, review);
+                                appendReviewElement(user, image, review, user_id);
                             }
                         }
                         if(scroll)
@@ -43,7 +44,7 @@
                 document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50' class='loading'/></div>";
             }
 
-            function appendReviewElement(user, image, review)
+            function appendReviewElement(user, image, review, user_id)
             {
                 var tr = document.createElement('tr');
                 var td = document.createElement('td');
@@ -60,18 +61,24 @@
                 var userp = document.createElement('p');
                     userp.className = "textStyle";
                 var profile = document.createElement('a');
-                    profile.href = "#";
+                    profile.href = "/profile/"+user_id;
                     profile.innerHTML = user;
                 var reviewp = document.createElement('p');
                     reviewp.className = "textStyle";
                     reviewp.style.verticalAlign = "center";
                     reviewp.innerHTML = review;
+                var aflag = document.createElement('a');
+                    aflag.href = 'javascript:void(0);';
+                    aflag.innerHTML = "Report this review";
+                    aflag.className = "textStyle";
+                    aflag.onclick = function () {alert("Why you snitch fool?");}
 
 
                 img_parent.appendChild(img);
                 userp.appendChild(profile);
                 review_parent.appendChild(userp);
                 review_parent.appendChild(reviewp);
+                review_parent.appendChild(aflag);
                 row.appendChild(img_parent);
                 row.appendChild(review_parent);
                 td.appendChild(row);
@@ -83,6 +90,11 @@
             function getNext()
             {
                 getReviews(next);
+            }
+
+            function reportUser (user_id, prod_id) 
+            {
+
             }
 
 
@@ -207,6 +219,13 @@
                         </table>
                     </div>
                 </div>
+            @else
+                <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
+                No features available yet for this product.
+                </div>
+                </div>
+                <br>    
             @endif
                 <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -221,14 +240,12 @@
                     </table>
                 </div> 
                 <div id="review-nav">
-                    <h1>
-                        <a href="javascript:void(0);" onclick="getReviews(1, true)">1</a> | 
-                        <a href="javascript:void(0);" onclick="getReviews(2, true)">2</a> | 
-                        <a href="javascript:void(0);" onclick="getReviews(3, true)">3</a> |
-                        <a href="javascript:void(0);" onclick="getReviews(4, true)">4</a> |
-                        <a href="javascript:void(0);" onclick="getReviews(5, true)">5</a> |
+                    <h2>
+                    @for ($i = 0; $i < ceil($reviewCount / 3); $i++)
+                        <a href="javascript:void(0);" onclick="getReviews({{ $i+1 }}, true)">{{ $i+1 }}</a> | 
+                    @endfor
                         <a href="javascript:void(0);" onclick="getNext()">Next</a>
-                    </h1>
+                    </h2>
                     <br><br>
                 </div>
             </div>   
