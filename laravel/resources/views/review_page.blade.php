@@ -29,11 +29,21 @@
             <td class="tdLeft">{{ $feat->feature_name }}</td>
             <td class="tdRight">
                 <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-default">
+                    @if($scores[$feat->feature_id] === 1)
+                    <label class="btn btn-default active">
+                    @else
+                    <label class="btn btn-default">   
+                    @endif
                         <input type="radio" name="features[{{ $feat->feature_id }}]" id="option1" value="1" autocomplete="off"><p class="inline pGreen">&#128077;</p></input>
                     </label>
-                    <label class="btn btn-default">
+
+                    @if($scores[$feat->feature_id] === -1)
+                    <label class="btn btn-default active">
+                    @else
+                    <label class="btn btn-default">   
+                    @endif
                         <input type="radio" name="features[{{ $feat->feature_id }}]" id="option2" value="-1" autocomplete="off"><p class="inline pRed">&#128078;</p></input>
+                     
                     </label>
                 </div>
             </td>
@@ -47,12 +57,12 @@
     </div>
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4" align="right">
         <div class="rating">
-            <span><input type="radio" name="rating" id="str6" value="6" required><label for="str6"></label></span>
-            <span><input type="radio" name="rating" id="str5" value="5"><label for="str5"></label></span>
-            <span><input type="radio" name="rating" id="str4" value="4"><label for="str4"></label></span>
-            <span><input type="radio" name="rating" id="str3" value="3"><label for="str3"></label></span>
-            <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
-            <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
+            <span><input type="radio" name="rating" id="str6" value="6" required @if ($product['rating'] === 6) checked @endif><label for="str6"></label></span>
+            <span><input type="radio" name="rating" id="str5" value="5" @if ($product['rating'] === 5) checked @endif><label for="str5"></label></span>
+            <span><input type="radio" name="rating" id="str4" value="4" @if ($product['rating'] === 4) checked @endif><label for="str4"></label></span>
+            <span><input type="radio" name="rating" id="str3" value="3" @if ($product['rating'] === 3) checked @endif><label for="str3"></label></span>
+            <span><input type="radio" name="rating" id="str2" value="2" @if ($product['rating'] === 2) checked @endif><label for="str2"></label></span>
+            <span><input type="radio" name="rating" id="str1" value="1" @if ($product['rating'] === 1) checked @endif><label for="str1"></label></span>
         </div>
     </div>
 
@@ -62,7 +72,7 @@
     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-        <textarea class="form-control" style="font-weight: bold" rows="5" name="review_text" id="comment" placeholder="Write your review here" required="true"></textarea>
+        <textarea class="form-control" style="font-weight: bold" rows="5" name="review_text" id="comment" maxlength="200" placeholder="Write your review (max 200 characters)." required="true">{{$product['review']}} {{$product['rating']}}</textarea>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ><br/></div>
     

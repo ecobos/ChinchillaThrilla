@@ -87,8 +87,6 @@ class ReviewController extends ApiGuardController
     // adds feature rated by user as well
     public function createReviewWithAPIKey(Request $request, $prod_id, $api_key)
     {
-        // check for empty fields client side
-       
         // check if authorized to POST 
         $match_key = ApiKey::where('key', $api_key)->first();
         // not authorized to POST 
@@ -104,7 +102,7 @@ class ReviewController extends ApiGuardController
                     'status' => 'Please Login']);
         }
 
-        $user_id = Auth::id(); // hardcoded for now
+        $user_id = Auth::id(); 
         $overall_rating = intval($request->input('rating'));
 
         // check for valid rating
@@ -115,12 +113,11 @@ class ReviewController extends ApiGuardController
             $overall_rating = 6; 
         }
 
+        $review = $request->input('review_text');
 
         $exist_review = Review::where(['prod_id' => $prod_id,
                                         'user_id' => $user_id])->first();
 
-
-        $review = $request->input('review_text');
 
         // check for all fields required fields, 
         if($review == null || $overall_rating == null) {
@@ -132,7 +129,6 @@ class ReviewController extends ApiGuardController
             Review::createReview($prod_id, $user_id, $review, $overall_rating);
         }
         else {
-            print 'updating previous review';
             // update previous review with new data
             Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])
                   ->update(['review_text'  => $review, 'overal_rating' => $overall_rating]);
@@ -144,17 +140,21 @@ class ReviewController extends ApiGuardController
         if($features != null) {
             foreach($features as $feat_id => $value) {
                 // rate feature using id, check for empty
-                //print $value; 
                 if(!is_null($value)) {
-                    print 'feat id: ' . $feat_id;
                     Feature::rate($user_id, $prod_id, $feat_id, intval($value));
                 }
             }
         }
 
-        return Redirect::to('/review/' . $prod_id)->with([
+        // display updated or created review confirmation
+        if(empty($exist_review)) {
+            return Redirect::to('/products/' . $prod_id)->with([
                     'alert-type'=> 'alert-success',
                     'status' => 'Review Successfully Created']);
+        }
+        return Redirect::to('/products/' . $prod_id)->with([
+                    'alert-type'=> 'alert-success',
+                    'status' => 'Review Successfully Updated']);
 
     }
 
