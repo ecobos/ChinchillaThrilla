@@ -8,6 +8,9 @@ use App\Brand;
 use App\Product;
 use App\Feature_Rating_Total;
 use App\Feature;
+use Illuminate\Support\Facades\Auth;
+use App\Review;
+use App\Feature_Rating;
 
 class PagesController extends Controller
 {
@@ -87,12 +90,34 @@ class PagesController extends Controller
             $feat_count++;
         }
 
+        // check if user already made a review for that product
+        $exist_review = Review::where(['prod_id' => $prod_id,
+                                        'user_id' => Auth::id()])->first();
+
+        $previous_review = "";
+        $previous_overall_rating = 0;
+        // output previous review and scores to user in case they wish to change it
+        $feat_scores = array();
+        if($exist_review) {
+            $previous_overall_rating = $exist_review->overal_rating;
+            $previous_review = $exist_review->review_text;
+            // get how the user scored each feature for this product
+            foreach($feat_array as $feat) {
+                $feat_scores[$feat->feature_id] = Feature_Rating::select('rating')->where(['prod_id' => $prod_id,
+                                                        'user_id' => Auth::id(), 
+                                                        'feature_id' => $feat->feature_id])->get();
+                //print $feat_scores[$feat->feature_id];
+            }
+        }
+
         $product_array = array(
             'product_name' => $product_name,
             'prod_id'      => $prod_id,
-            'feat_count'   => $feat_count);
+            'feat_count'   => $feat_count,
+            'review'       => $previous_review,
+            'rating'       => $previous_overall_rating);
 
-        return view('review_page')->with('features', $feat_array)->with('product', $product_array);
+        return view('review_page')->with('features', $feat_array)->with('product', $product_array)->with('scores', $feat_scores);
     }
 
     public function productLoggedIn() {
