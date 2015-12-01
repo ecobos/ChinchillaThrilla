@@ -113,7 +113,7 @@
                     </div>
 
 
-                    <!-- Approve Comment Confirmation Modal -->
+                    <!-- Approve PRODUCT Confirmation Modal -->
                     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <button id="approveComment" class="btn btn-success" data-dismiss="modal">Approve
+                                    <button id="approveProduct" class="btn btn-success" data-dismiss="modal">Approve
                                     </button>
                                 </div>
 
@@ -131,7 +131,7 @@
                         </div>
                     </div>
 
-                    <!-- Delete Comment Confirmation Modal -->
+                    <!-- Delete COMMENT Confirmation Modal -->
                     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
