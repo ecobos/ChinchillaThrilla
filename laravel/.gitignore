@@ -1,3 +1,7 @@
 Homestead.yaml
 Homestead.json
-
+.idea
+.env
+vendor/
+autoload_files.php
+autoload_real.php
