@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <div class="col-sm-8">
                                 <!-- <label for="inputlg"></label> -->
-                                <input class="form-control input-lg" id="inputlg" type="text" name="query" placeholder="Search for a Product" onchange="updateSearchBox()">
+                                <input class="form-control input-lg" id="inputlg" type="text" name="query" placeholder="Search for a Product" required>
                             </div>
                             <div class="col-sm-2">
                                 <select name="type" class="form-control input-lg">
@@ -29,16 +29,6 @@
                                 <input type="submit" class="btn btn-default btn-block input-lg" value="Search"/>
                             </div>
                         </div> 
-    <!--                     <div class="col-sm-1 col-md-2 col-lg-3">
-                        </div>
-                        <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">                       
-                            <div class="form-group">
-                                <input class="form-control input-lg" id="search-box" type="text" placeholder="Search for a Product">
-                            </div>
-                        </div>
-                        <div class="col-sm-1 col-md-2 col-lg-3">
-                            <input class="form-control input-lg" type="submit" value="Search"/>
-                        </div> -->
                     </div>
                 </form>
 
@@ -47,7 +37,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                         <br/><br/>
-                        <h3>Displaying Search Results for: "<?php echo $query; ?>"</h3>
+                        <h3>Displaying Search Results for: "<span id="query"><?php echo $query; ?></span>"</h3>
                     </div>
                 </div>
                 <div class="row" >
@@ -61,37 +51,14 @@
                             <tbody>
                                 <tr>
                                     <td>
-
-                                        <select name="type" class="form-control input-lg">
-                                            <option value="product">Products</option>
-                                            <option value="category">Categories</option>
-                                            <option value="brand">Brands</option>
+                                        <select id="filter" name="type" class="form-control input-lg">
+                                            <option value="product" @if($type == 'product') selected @endif>Products</option>
+                                            <option value="category" @if($type == 'category') selected @endif>Categories</option>
+                                            <option value="brand" @if($type == 'brand') selected @endif>Brands</option>
                                         </select>
                                     </td>
                                 </tr>
-<!--                                 <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" name="c1" value="yes" checked>Product Name</label>
-
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox" align="left">
-                                            <label><input type="checkbox" name="c2" value="yes"><b>Brand</b></label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox" align="left">
-                                            <label><input type="checkbox" name="c3" value="yes"><b>Category</b></label>
-                                        </div>
-                                    </td>
-                                </tr>
- -->                            </tbody>
+                          </tbody>
                         </table>
                     </div>
 
@@ -102,42 +69,30 @@
                                         <th>Product Results:</th>
                                     </tr>  
                             </thead>
-                            <?php foreach ($results as $result) :?>
-                                <tbody>
+                            <tbody>
+                            <?php foreach ($results as $result) :?>                                
                                     <tr>
                                         <td>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-8 col-md-8 col-lg-6">
-                                                    <img src="<?php echo $result->prod_img_path?>" class="img-responsive product-thumb-image" align="middle" >
+                                                <img src="<?php echo $result->prod_img_path?>" class="img-responsive product-thumb-image" align="middle" >
                                             </div>
                                             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-6" align="center">
                                                 <p class="textStyle"><a href="<?php echo $result->url; ?>"><?php echo $result->prod_name; ?></a></p>
                                             </div> 
                                         </div>
                                         </td>
-                                    </tr>
-                                </tbody> 
-                            <?php endforeach; ?>   
+                                    </tr>                                
+                            <?php endforeach; ?>
+                            </tbody> 
                         </table>
                     </div>
                 </div>
-<script type="text/javascript">
-    window.onload =  function(){ 
-
-        var checkBoxes = document.querySelectorAll("input[type=checkbox]");
-
-        for(var i = 0 ; i < checkBoxes.length ; i++){
-            checkBoxes[i].addEventListener("change", checkUncheck, false);
-        }
-
-        function checkUncheck(){        
-            for(var i = 0 ; i < checkBoxes.length ; i++){
-                if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
-                    checkBoxes[i].checked = false;
+            <script type="text/javascript">
+                document.getElementById('filter').onchange = function () {
+                    var query = document.getElementById('query').innerHTML;
+                    var type = filter.value;
+                    document.location = '/search/results?type='+type+'&query='+query;
                 }
-            }
-        }
-
-    }
-</script>
+            </script>
 @stop

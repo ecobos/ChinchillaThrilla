@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 use DB;
 
 class SearchController extends Controller
@@ -14,7 +15,7 @@ class SearchController extends Controller
         Returns the Search Page
     */
     public function index() {
-        return view('search');
+        return Redirect::to('/');
     }
 
     /*
@@ -72,7 +73,7 @@ class SearchController extends Controller
             // Unioning this search result with other results
             foreach ($db_result as $product){
                 $product->url = "/products/{$product->prod_id}";
-                $results[] = $product;
+                $results[$product->prod_id] = $product;
             }
         }
 
@@ -80,6 +81,7 @@ class SearchController extends Controller
             [
                 'results'   => $results,
                 'query'     => $request->input('query'),
+                'type'     => $request->input('type')
             ]
         );
     }

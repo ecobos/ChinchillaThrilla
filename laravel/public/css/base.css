@@ -1,13 +1,14 @@
 
     html, body {
         height: 100%;
+        font-weight: bold;
     }
 
     body {
         margin: 0;
         padding: 0;
         width: 100%;
-        display: table;
+        display: table; 
         font-weight: bold;
         font-family: 'Lato';
         font-style:normal;
@@ -29,6 +30,10 @@
         font-weight: bold;
         text-align: center;
     }
+
+/*    .btn {
+        font-weight: bold;
+    }*/
 
     a {
         font-weight: bold;
@@ -173,20 +178,24 @@
         margin-left: auto;
     }
     .rating span { float:right; position:relative; }
-
-
-    .arating {                
+    .rating span input {
+        position:absolute;
+        top:0px;
+        opacity:0;
+    }
+    .rating span label {                
         display:inline-block;
         width:30px;
         height:30px;
         left: 00px;
         text-align:center;
+        color:#FFF;
+        background:#ccc;
+        font-size:30px;
         margin-right:10px;
         line-height:30px;
         border-radius:50%;
         -webkit-border-radius:50%;
-        background:#ccc;
-        color:#FFF;
     }
     .rating span:hover ~ span label,
     .rating span:hover label,
@@ -259,6 +268,37 @@
     .product-thumb-image {
         max-height: 170px;
     }
+
+
+    #query
+    {
+        text-decoration: underline;
+    }
+    
+        .form-control::-webkit-input-placeholder { color: #999; }
+        .form-control:-moz-placeholder { color: #999; }
+        .form-control::-moz-placeholder { color: #999; }
+        .form-control:-ms-input-placeholder { color: #999; }
+
+        .input-group-addon {
+            color:black;
+        }
+
+    .dropdown-menu > li > a {
+        font-weight: bold;
+    }
+
+    .btn {
+        font-weight: bold;
+    }
+
+    .input-group-addon .form-control select {
+        font-weight: bold;
+    } 
+
+    .input-group-addon .form-control option {
+        font-weight: bold;
+    } 
 
     #globalAlert{
         padding-top: 5%;
