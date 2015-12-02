@@ -17,9 +17,7 @@
                 <tr>
                     <td>Number of Helpful Reviews: {{ $base_info['total_usefulness'] }}</td>
                 </tr>
-<!--                 <tr>
-                    <td>Karma Points: [not implemented yet]</td>
-                </tr> -->
+
             </table>
         </div>
     </div>
