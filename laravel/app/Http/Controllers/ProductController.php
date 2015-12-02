@@ -353,8 +353,11 @@ public function createWithAPIKey(Request $request, $api_key)
     // check if product was reviewed by admin
     if(Admin::find(Auth::user()->user_id) != null) {
         // publish product on website
-        $existing_product->isPublished = 1;
-        $existing_product->save();
+        if($existing_product) {
+            $existing_product->isPublished = 1;
+            $existing_product->save();
+        }
+        
     }
 
     // show success message to user after adding product
