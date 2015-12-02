@@ -48,6 +48,10 @@
                                                        data-target="#confirmModal"
                                                        data-val="{{ $product->prod_id }}">Approve Product
                                                     </button>
+
+                                                    <button type="button" class="btn btn-success"
+                                                       data-val="{{ $product->prod_id }}"><a href="/edit_product/{{ $product->prod_id }}"> Edit Submission </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </td>

@@ -20,6 +20,7 @@ use App\Feature;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use App\Admin;
 
 
 // 'php artisan tinker' to test the model classes
@@ -340,7 +341,6 @@ public function createWithAPIKey(Request $request, $api_key)
                                     "feature_id" => $feature_id])
                                       ->first();  
             if(empty($prod_feat)) {
-                print 'need to tie product to feature';
                 // tie product to that feature
                 $new_prod_feat = new Feature_Rating_Total; 
                 $new_prod_feat->prod_id = $prod_id;
@@ -348,6 +348,13 @@ public function createWithAPIKey(Request $request, $api_key)
                 $new_prod_feat->save();
             }
         }
+    }
+
+    // check if product was reviewed by admin
+    if(Admin::find(Auth::user()->user_id) != null) {
+        // publish product on website
+        $existing_product->isPublished = 1;
+        $existing_product->save();
     }
 
     // show success message to user after adding product

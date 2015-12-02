@@ -15,6 +15,12 @@ use App\Feature_Rating;
 class PagesController extends Controller
 {
 
+    // give the admin ability to edit a product
+    public function __construct()
+    {
+        $this->middleware('adminsOnly', ['only' => 'editProduct']);
+    }
+
     // returns page with passed in $page_name
     public function about() {
     	$page_name = 'About The Team';
@@ -37,7 +43,6 @@ class PagesController extends Controller
     // testing adding product page
     public function addProduct() {
         $categories = Category::all();
-        //var_dump($categories);
 
         $cat_array = array();
         // populate category array with current ones in the database
@@ -52,10 +57,57 @@ class PagesController extends Controller
             $brand_array[$b->brand_name] = $b->brand_name;
         }
 
-        //var_dump($array);
         array_unshift($cat_array, 'Select a Category');
         array_unshift($brand_array, 'Select a Brand');
         return view('add_product')->with('categories', $cat_array)->with('brands', $brand_array);
+    }
+
+    // allows the admin to edit a product submission before approving
+    public function editProduct($prod_id) {
+        $categories = Category::all();
+
+        $cat_array = array();
+        // populate category array with current ones in the database
+        foreach($categories as $cat) {
+            $cat_array[$cat->category_name] = $cat->category_name;
+        }
+
+        $brands = Brand::all();
+        $brand_array = array();
+        // populate brand array with current ones in the database
+        foreach($brands as $b) {
+            $brand_array[$b->brand_name] = $b->brand_name;
+        }
+
+        array_unshift($cat_array, 'Select a Category');
+        array_unshift($brand_array, 'Select a Brand');
+
+        // overwrite features by user
+        $current_features = Feature_Rating_Total::where('prod_id', $prod_id)->get();
+
+        // get features by name
+        $feature_names = array();
+        $i = 1;
+        foreach($current_features as $feature) {
+            $feature_names[$i] = Feature::find($feature->feature_id)->feature_name;
+            $i = $i + 1;
+        }
+
+        // undo feature and product linkage
+        foreach($current_features as $feature) {
+            Feature_Rating_Total::where(['prod_id' => $prod_id,
+                                                           'feature_id' => $feature->feature_id])->delete();
+        }
+        
+
+        // get submitted product data
+        $product = Product::find($prod_id);
+        $brand_name = Brand::where('brand_id', $product->prod_brand)->first()->brand_name;
+        $category_name = Category::where('category_id', $product->prod_category)->first()->category_name;
+        $more_prod_info = array('brand' => $brand_name, 
+                                'category' => $category_name);
+
+        return view('edit_submission')->with('categories', $cat_array)->with('brands', $brand_array)->with('product', $product)->with('prod_info', $more_prod_info)->with('features', $feature_names);
     }
 
     public function product() {
@@ -103,9 +155,9 @@ class PagesController extends Controller
             $previous_review = $exist_review->review_text;
             // get how the user scored each feature for this product
             foreach($feat_array as $feat) {
-                $feat_scores[$feat->feature_id] = Feature_Rating::select('rating')->where(['prod_id' => $prod_id,
+                $feat_scores[$feat->feature_id] = Feature_Rating::where(['prod_id' => $prod_id,
                                                         'user_id' => Auth::id(), 
-                                                        'feature_id' => $feat->feature_id])->get();
+                                                        'feature_id' => $feat->feature_id])->first()->rating;
                 //print $feat_scores[$feat->feature_id];
             }
         }
@@ -119,6 +171,7 @@ class PagesController extends Controller
 
         return view('review_page')->with('features', $feat_array)->with('product', $product_array)->with('scores', $feat_scores);
     }
+
 
     public function productLoggedIn() {
 
