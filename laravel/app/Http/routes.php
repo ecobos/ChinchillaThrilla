@@ -23,6 +23,9 @@ Route::get('about', 'PagesController@about');
 // add product page
 Route::get('addproduct', 'PagesController@addProduct');
 
+// edit product submission page
+Route::get('edit_product/{prod_id}', 'PagesController@editProduct');
+
 // search results page
 Route::get('search', 'PagesController@searchResult');
 
