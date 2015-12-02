@@ -29,7 +29,7 @@
             <td class="tdLeft">{{ $feat->feature_name }}</td>
             <td class="tdRight">
                 <div class="btn-group" data-toggle="buttons">
-                    @if($scores[$feat->feature_id] === 1)
+                    @if(count($scores) > 0 && $scores[$feat->feature_id] === 1)
                     <label class="btn btn-default active">
                     @else
                     <label class="btn btn-default">   
@@ -37,7 +37,7 @@
                         <input type="radio" name="features[{{ $feat->feature_id }}]" id="option1" value="1" autocomplete="off"><p class="inline pGreen">&#128077;</p></input>
                     </label>
 
-                    @if($scores[$feat->feature_id] === -1)
+                    @if(count($scores) > 0 && $scores[$feat->feature_id] === -1)
                     <label class="btn btn-default active">
                     @else
                     <label class="btn btn-default">   

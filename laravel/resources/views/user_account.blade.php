@@ -45,15 +45,6 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td bgcolor="#F2F2F2">
-                                <div class="row">
-                                    <p class="textStyle" vertical-align="center" align="center">
-                                        Karma Points: [not implemented yet]
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
