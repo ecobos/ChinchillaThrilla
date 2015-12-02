@@ -10,7 +10,7 @@
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">My Statistics</a></li>
                 <li><a href="#tab2" data-toggle="tab">My Reviews <span class="badge">{{ count($reviews) }}</span></a></li>
-                <li><a href="#tab3" data-toggle="tab">Account Settings</a></li>
+                <li><a href="#tab3" data-toggle="tab">Account Information</a></li>
             </ul>
             <div class="tab-content">
 
@@ -45,7 +45,7 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+<!--                         <tr>
                             <td bgcolor="#F2F2F2">
                                 <div class="row">
                                     <p class="textStyle" vertical-align="center" align="center">
@@ -53,7 +53,7 @@
                                     </p>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -144,13 +144,13 @@
                         </tbody>
                     </table>
 
-                    <div class="row">
+<!--                     <div class="row">
                         <form role="form">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
                                 <button type="button" class="btn btn-danger" style="margin:40px;">Delete Account</button>
                             </div>
                         </form>
-                    </div>
+                    </div -->
                 </div>
 
 

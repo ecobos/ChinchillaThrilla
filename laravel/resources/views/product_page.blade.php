@@ -163,7 +163,7 @@
 
             
         </script> 
-        
+<!--         
             <div class="navbar navbar-inverse navbar-static-top" role="navigation">
                 <a href="#" class="navbar-brand">Lazer Reviews</a>
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -185,7 +185,9 @@
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
+            <br/>
+            <br/>
             <br/>
             <br/>
             <div class="container">
