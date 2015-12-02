@@ -133,7 +133,7 @@
                     <div class="col-md-1 col-lg-1">
                     </div>
                     <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5"  align="center">
-                        <img src= {{$img_path}} class="img-responsive main-product-image">
+                        <img src= "{{$img_path}}" class="img-responsive main-product-image" />
                         <br><br>
                     @if($logged_in)
                         <a href="/review/{{$prod_id}}" class="btn btn-primary font-me">Review Me!</a>
@@ -178,35 +178,33 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <table class="table table-hover table-responsive">
                             <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th class="success">Pros</th>
                                         <th class="danger">Cons</th>
                                     </tr> 
                             </thead>
                             <tbody> 
                                 <table class="table table-responsive">
-                                <tr><td width="50%">
-                                <table width="100%" align="center">
+                                <tr><td >
+                                <table width="80%">
                                         @for ($i=0; $i<sizeof($features['pros']); $i++)
                                         <tr>
                                            <td> {{ $features['pros'][$i]->feature_name }} </td>
                                            <td align="right"> 
                                                     {{$features['pros'][$i]->score}}
-                                                /{{ $features['pros'][$i]->total_votes }} 
                                             </td>
                                         </tr>
                                         @endfor
                                 </table>
                                 </td>
-                                <td width="50%">    
-                                <table width="100%" align="center">
+                                <td>
+                                <table width="80%" >
                                         @if (sizeof($features) > 1)
                                             @for ($i=0; $i<sizeof($features['cons']); $i++)
                                             <tr>
                                                <td> {{ $features['cons'][$i]->feature_name }} </td>
                                                <td align="right"> 
                                                         {{$features['cons'][$i]->score}}
-                                                    /{{ $features['cons'][$i]->total_votes }} 
                                                 </td>
                                             </tr>
                                             @endfor
@@ -218,6 +216,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="alert alert-warning" style="margin-top:10px;">Out of {{$features['cons'][0]->total_votes}} reviews</div>
                 </div>
             @else
                 <div class="row">
