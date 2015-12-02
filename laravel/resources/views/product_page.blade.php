@@ -10,10 +10,13 @@
 
             function getReviews(skip, scroll)
             {
+                $('#review-table').fadeOut('slow');
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function() {
                     if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
                     {
+                        if(scroll)
+                            $("html, body").animate({ scrollTop: $(document).height() }, "slow");
                         var reviews = JSON.parse(xmlhttp.responseText);
                         if(reviews.length == 0)
                         {
@@ -21,7 +24,8 @@
                         }
                         else
                         {
-                            document.getElementById('review-table').innerHTML = "";
+                             $('#review-table').html('');
+                            
                             for(var i=0; i<reviews.length; i++)
                             {
                                 var user = reviews[i]['name'];
@@ -30,22 +34,22 @@
                                 var user_id = reviews[i]['user_id'];
 
                                 appendReviewElement(user, image, review, user_id);
-                            }
+                            }                            
                         }
-                        if(scroll)
-                            window.scrollBy(0, 1000);
+                        $('#review-table').fadeIn('slow');
                         next = skip + 1;
                     }
                 }
                 xmlhttp.open('get', '/reviews/product/{{$prod_id}}/'+((skip-1)*3));
                 xmlhttp.send();
 
-                // Loading Image
-                document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50' class='loading'/></div>";
+                // Loading reviews
+                //document.getElementById('review-table').innerHTML = "<div align='center'><br><img src='/images/loading.gif' width='50' class='loading'/></div>";
             }
 
             function appendReviewElement(user, image, review, user_id)
             {
+
                 var tr = document.createElement('tr');
                 var td = document.createElement('td');
                     td.style.backgroundColor = "#F2F2F2";
@@ -67,20 +71,43 @@
                     reviewp.className = "textStyle";
                     reviewp.style.verticalAlign = "center";
                     reviewp.innerHTML = review;
+                var divFlags = document.createElement('div');
+                    divFlags.className = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
+                    divFlags.style.textAlign ="right";
+
+
+
+            @if (Auth::check())                
                 var aflag = document.createElement('a');
                     aflag.href = 'javascript:void(0);';
                     aflag.innerHTML = "Report this review";
                     aflag.className = "textStyle";
-                    aflag.onclick = function () {alert("Why you snitch fool?");}
+                    aflag.setAttribute('user_id', user_id);
+                    aflag.setAttribute('id', 'report_'+user_id);
+                    aflag.onclick = function () {reportUser(this.getAttribute('user_id'));};
+                var alike = document.createElement('a');
+                    alike.href = 'javascript:void(0);';
+                    alike.innerHTML = "\"Like\" this review";
+                    alike.className = "textStyle";
+                    alike.setAttribute('user_id', user_id);
+                    alike.setAttribute('id', 'like_'+user_id);
+                    alike.onclick = function (){likeReview(this.getAttribute('user_id'))};
+                var abuff = document.createElement('span');
+                    abuff.innerHTML = "&nbsp;|&nbsp;";
+                    abuff.className = 'textStyle';
+                    divFlags.appendChild(aflag);
+                    divFlags.appendChild(abuff);
+                    divFlags.appendChild(alike);
+            @endif
 
-
+                    
                 img_parent.appendChild(img);
                 userp.appendChild(profile);
                 review_parent.appendChild(userp);
                 review_parent.appendChild(reviewp);
-                review_parent.appendChild(aflag);
                 row.appendChild(img_parent);
                 row.appendChild(review_parent);
+                row.appendChild(divFlags);
                 td.appendChild(row);
                 tr.appendChild(td);
                 document.getElementById('review-table').appendChild(tr);
@@ -92,18 +119,51 @@
                 getReviews(next);
             }
 
-            function reportUser (user_id, prod_id) 
-            {
 
+        @if (Auth::check())   
+            function reportUser (user_id) 
+            {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () 
+                {
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {    
+                        $( "#report_"+user_id ).fadeOut( "fast", function() {                   
+                            $( "#report_"+user_id ).html('<span style="color:red;">Review has been flagged</span>');
+                            $( "#report_"+user_id ).fadeIn( "fast", function(){});
+                        });
+                    }
+                };
+                xmlhttp.open('POST', '/reviews/flag', true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send('user_id='+user_id + "&prod_id={{$prod_id}}");
             }
+
+            function likeReview (user_id) 
+            {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () 
+                {
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {    
+                        $( "#like_"+user_id ).fadeOut( "fast", function() {                   
+                            $( "#like_"+user_id ).html('<span style="color:green;">Review Liked</span>');
+                            $( "#like_"+user_id ).fadeIn( "fast", function(){});
+                        });
+                    }
+                };
+                xmlhttp.open('POST', '/reviews/like', true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send('other_uid='+user_id + "&this_uid={{Auth::user()->user_id}}&prod_id={{$prod_id}}");
+            }
+        @endif
 
 
             
-        </script>
-    </head>
-    <body> 
-            <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-            <script src="js/bootstrap.js"></script>
+
+            
+        </script> 
+        
             <div class="navbar navbar-inverse navbar-static-top" role="navigation">
                 <a href="#" class="navbar-brand">Lazer Reviews</a>
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -275,39 +335,6 @@
     
 </html>
 
-<script type="text/javascript">
-    // window.onload =  function(){ 
-
-    //     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
-
-    //     for(var i = 0 ; i < checkBoxes.length ; i++){
-    //         checkBoxes[i].addEventListener("change", checkUncheck, false);
-    //     }
-
-    //     function checkUncheck(){        
-    //         for(var i = 0 ; i < checkBoxes.length ; i++){
-    //             if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
-    //                 checkBoxes[i].checked = false;
-    //             }
-    //         }
-    //     }
-
-    // }
-</script>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-
-class="checked" 
-
-    // $('input:radio').change(
-    // function(){
-    //     var userRating = this.value;
-    //     alert(userRating);
-    // }); 
-});
-</script>
 
 <script>
 getReviews(1, false);
