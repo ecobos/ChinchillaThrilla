@@ -9,7 +9,7 @@
         <div class="tabbable"> <!-- Only required for left/right tabs -->
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">My Statistics</a></li>
-                <li><a href="#tab2" data-toggle="tab">My Reviews</a></li>
+                <li><a href="#tab2" data-toggle="tab">My Reviews <span class="badge">{{ count($reviews) }}</span></a></li>
                 <li><a href="#tab3" data-toggle="tab">Account Settings</a></li>
             </ul>
             <div class="tab-content">
@@ -64,6 +64,9 @@
                         <table class="table table-hover table-responsive tableBorderless">
                             <tbody>
 
+                            @if( count($reviews) === 0 )
+                                <div class="alert alert-warning" style="margin-top:10px;">No products need review! :)</div>
+                            @else
                             @foreach($reviews as $review)
                                 <tr id="section-{{ $review->prod_id }}">
                                     <td bgcolor="#F2F2F2">
@@ -88,7 +91,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-
+                            @endif
                             </tbody>
                         </table>
                     </div>
@@ -144,7 +147,7 @@
                     <div class="row">
                         <form role="form">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
-                                <button type="button" class="btn btn-danger">Delete Account</button>
+                                <button type="button" class="btn btn-danger" style="margin:40px;">Delete Account</button>
                             </div>
                         </form>
                     </div>

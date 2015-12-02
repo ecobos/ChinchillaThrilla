@@ -59,5 +59,9 @@ class Review extends Model
         return $this->belongsTo('App\Product', 'prod_id', 'prod_id');
     }
 
+    static public function helpfulReviews($user_id)
+    {
+        return DB::select('SELECT SUM(vote) as total FROM review_votes where other_uid = ?', [$user_id])[0]->total;
+    }
 
 }

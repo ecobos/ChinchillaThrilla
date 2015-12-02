@@ -172,6 +172,9 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::post('approve', ['uses'=>'ReviewController@moderateReview']);
 	Route::post('delete', ['uses'=>'ReviewController@deleteUserReview']);
 	Route::post('flag', ['uses'=>'ReviewController@flagReview']);
+	Route::post('like', ['uses'=>'ReviewController@likeReview']);
+	Route::get('helpful', ['uses'=>'ReviewController@helpfulReviews']);
+	
 });
 
 

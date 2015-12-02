@@ -71,25 +71,47 @@
                     reviewp.className = "textStyle";
                     reviewp.style.verticalAlign = "center";
                     reviewp.innerHTML = review;
+                var divFlags = document.createElement('div');
+                    divFlags.className = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
+                    divFlags.style.textAlign ="right";
+
+
+
+            @if (Auth::check())                
                 var aflag = document.createElement('a');
                     aflag.href = 'javascript:void(0);';
                     aflag.innerHTML = "Report this review";
                     aflag.className = "textStyle";
                     aflag.setAttribute('user_id', user_id);
-                    aflag.setAttribute('id', 'user_'+user_id);
+                    aflag.setAttribute('id', 'report_'+user_id);
                     aflag.onclick = function () {reportUser(this.getAttribute('user_id'));};
+                var alike = document.createElement('a');
+                    alike.href = 'javascript:void(0);';
+                    alike.innerHTML = "\"Like\" this review";
+                    alike.className = "textStyle";
+                    alike.setAttribute('user_id', user_id);
+                    alike.setAttribute('id', 'like_'+user_id);
+                    alike.onclick = function (){likeReview(this.getAttribute('user_id'))};
+                var abuff = document.createElement('span');
+                    abuff.innerHTML = "&nbsp;|&nbsp;";
+                    abuff.className = 'textStyle';
+                    divFlags.appendChild(aflag);
+                    divFlags.appendChild(abuff);
+                    divFlags.appendChild(alike);
+            @endif
 
-
+                    
                 img_parent.appendChild(img);
                 userp.appendChild(profile);
                 review_parent.appendChild(userp);
                 review_parent.appendChild(reviewp);
-                review_parent.appendChild(aflag);
                 row.appendChild(img_parent);
                 row.appendChild(review_parent);
+                row.appendChild(divFlags);
                 td.appendChild(row);
                 tr.appendChild(td);
                 document.getElementById('review-table').appendChild(tr);
+
             }
 
             function getNext()
@@ -97,17 +119,18 @@
                 getReviews(next);
             }
 
+
+        @if (Auth::check())   
             function reportUser (user_id) 
             {
-
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function () 
                 {
                     if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
                     {    
-                        $( "#user_"+user_id ).fadeOut( "fast", function() {                   
-                            $( "#user_"+user_id ).html('<span style="color:red;">Review has been flagged</span>');
-                            $( "#user_"+user_id ).fadeIn( "fast", function(){});
+                        $( "#report_"+user_id ).fadeOut( "fast", function() {                   
+                            $( "#report_"+user_id ).html('<span style="color:red;">Review has been flagged</span>');
+                            $( "#report_"+user_id ).fadeIn( "fast", function(){});
                         });
                     }
                 };
@@ -116,13 +139,31 @@
                 xmlhttp.send('user_id='+user_id + "&prod_id={{$prod_id}}");
             }
 
+            function likeReview (user_id) 
+            {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () 
+                {
+                    if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {    
+                        $( "#like_"+user_id ).fadeOut( "fast", function() {                   
+                            $( "#like_"+user_id ).html('<span style="color:green;">Review Liked</span>');
+                            $( "#like_"+user_id ).fadeIn( "fast", function(){});
+                        });
+                    }
+                };
+                xmlhttp.open('POST', '/reviews/like', true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send('other_uid='+user_id + "&this_uid={{Auth::user()->user_id}}&prod_id={{$prod_id}}");
+            }
+        @endif
+
 
             
-        </script>
-    </head>
-    <body> 
-            <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
-            <script src="js/bootstrap.js"></script>
+
+            
+        </script> 
+        
             <div class="navbar navbar-inverse navbar-static-top" role="navigation">
                 <a href="#" class="navbar-brand">Lazer Reviews</a>
                 <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -152,7 +193,7 @@
                     <div class="col-md-1 col-lg-1">
                     </div>
                     <div class="col-xs-8 col-sm-6 col-md-5 col-lg-5"  align="center">
-                        <img src= {{$img_path}} class="img-responsive main-product-image">
+                        <img src= "{{$img_path}}" class="img-responsive main-product-image" />
                         <br><br>
                     @if($logged_in)
                         <a href="/review/{{$prod_id}}" class="btn btn-primary font-me">Review Me!</a>
@@ -197,35 +238,33 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                         <table class="table table-hover table-responsive">
                             <thead>
-                                    <tr>
+                                    <tr align="center">
                                         <th class="success">Pros</th>
                                         <th class="danger">Cons</th>
                                     </tr> 
                             </thead>
                             <tbody> 
                                 <table class="table table-responsive">
-                                <tr><td width="50%">
-                                <table width="100%" align="center">
+                                <tr><td >
+                                <table width="80%">
                                         @for ($i=0; $i<sizeof($features['pros']); $i++)
                                         <tr>
                                            <td> {{ $features['pros'][$i]->feature_name }} </td>
                                            <td align="right"> 
                                                     {{$features['pros'][$i]->score}}
-                                                /{{ $features['pros'][$i]->total_votes }} 
                                             </td>
                                         </tr>
                                         @endfor
                                 </table>
                                 </td>
-                                <td width="50%">    
-                                <table width="100%" align="center">
+                                <td>
+                                <table width="80%" >
                                         @if (sizeof($features) > 1)
                                             @for ($i=0; $i<sizeof($features['cons']); $i++)
                                             <tr>
                                                <td> {{ $features['cons'][$i]->feature_name }} </td>
                                                <td align="right"> 
                                                         {{$features['cons'][$i]->score}}
-                                                    /{{ $features['cons'][$i]->total_votes }} 
                                                 </td>
                                             </tr>
                                             @endfor
@@ -237,6 +276,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="alert alert-warning" style="margin-top:10px;">Out of {{$features['cons'][0]->total_votes}} reviews</div>
                 </div>
             @else
                 <div class="row">
@@ -295,39 +335,6 @@
     
 </html>
 
-<script type="text/javascript">
-    // window.onload =  function(){ 
-
-    //     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
-
-    //     for(var i = 0 ; i < checkBoxes.length ; i++){
-    //         checkBoxes[i].addEventListener("change", checkUncheck, false);
-    //     }
-
-    //     function checkUncheck(){        
-    //         for(var i = 0 ; i < checkBoxes.length ; i++){
-    //             if(this.name !== checkBoxes[i].name && checkBoxes[i].checked){
-    //                 checkBoxes[i].checked = false;
-    //             }
-    //         }
-    //     }
-
-    // }
-</script>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-
-class="checked" 
-
-    // $('input:radio').change(
-    // function(){
-    //     var userRating = this.value;
-    //     alert(userRating);
-    // }); 
-});
-</script>
 
 <script>
 getReviews(1, false);
