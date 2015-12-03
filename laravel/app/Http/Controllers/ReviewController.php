@@ -59,6 +59,8 @@ class ReviewController extends ApiGuardController
     
     }
 
+
+    // Handle GET request for a user's reviews
     public function getUserReviews($user_id) 
     {
         //Note: this function also contains an implicit parameter "$limit"
@@ -66,12 +68,15 @@ class ReviewController extends ApiGuardController
         return $data;
     }
 
+
+    // Handle GET request for product reviews, starting at (int)$skip
     public function getProductReviews($product_id, $skip) 
     {
         //Note: this function also contains an implicit parameter "$limit"
         $data = Review::getProductReviews($product_id, $skip);
         return json_encode($data);
     }
+
 
     // Creates a review based on information received from POST request (Developer)
     public function createReview(Request $request)
@@ -203,6 +208,7 @@ class ReviewController extends ApiGuardController
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->update(['needsAdminReview' => 1]);
     }
 
+    // Handle POST request to like a user's review for a product
     public function  likeReview(Request $request)
     {
         $reviewer = $request->input('other_uid');
@@ -225,6 +231,7 @@ class ReviewController extends ApiGuardController
         }
     }
 
+    // Hanlde GET request for the amount of useful reviews a user has
     public function helpfulReviews(Request $request) {
         $user_id = $request->input('user_id');
         return Review::helpfulReviews($user_id);
