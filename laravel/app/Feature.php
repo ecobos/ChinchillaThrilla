@@ -13,7 +13,7 @@ class Feature extends Model
     protected $primaryKey = 'feature_id';
 
 
-    // Get feature names and scores
+    // Get best and worst features for a product 
     public static function getFeatures ($prod_id)
     {
         $count = DB::table('feature_rating_totals')
@@ -22,9 +22,11 @@ class Feature extends Model
             ->where('prod_id', '=', $prod_id)
             ->count();
 
+        // Product does not have features
         if($count == 0)
             return;
         
+        // Divide in a minimal way
         if($count <= 10)
         {
             $top = $count - floor($count/2);
@@ -46,6 +48,7 @@ class Feature extends Model
                 ->take($bottom)
                 ->get(); 
         }
+        // If more than 10 features only grab 5 worst and 5 best
         else 
         {
             $top = 5;
@@ -67,6 +70,7 @@ class Feature extends Model
                 ->get(); 
         }
 
+        // Divide into pros and cons
         $result = array();
         $result['pros'] = $pros;
         $result['cons'] = $cons;
@@ -83,6 +87,7 @@ class Feature extends Model
 			]);
     }
 
+
     // Insert a new row in feature_rating_totals
     //		which keeps track of a feature rating
     //		for a specific product
@@ -97,7 +102,7 @@ class Feature extends Model
 
 
     // Allow a user to create or update a product feature
-    //		$rating = a value that is either -1 OR 1 ONLY
+    //		@param $rating - a value that is either -1 OR 1 ONLY
     public static function rate ($user_id, $prod_id, $feature_id, $rating)
     {
         $rating = intval($rating);
@@ -121,6 +126,7 @@ class Feature extends Model
                                     "feature_id" => $feature_id])
                                     ->update(['rating' => $rating]);		
         	}
+            // Create a new Feature_Rating
         	else
         	{
         		$featRating = new Feature_Rating;
@@ -139,6 +145,7 @@ class Feature extends Model
                 $total_votes += 1;
             }
 
+            // Update the score of the Product Feature Total
             Feature_Rating_Total::where(['prod_id' => $prod_id, 'feature_id' => $feature_id])
                 ->update
                 ([
