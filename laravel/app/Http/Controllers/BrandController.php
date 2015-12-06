@@ -10,7 +10,11 @@ use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
-
+/**
+ * Class BrandController
+ * Controls the retrieval, creation, deletion, and searching of brands
+ * @package App\Http\Controllers
+ */
 class BrandController extends ApiGuardController
 {
     /**
@@ -51,7 +55,7 @@ class BrandController extends ApiGuardController
     }
 
     /**
-     * Creates new brand
+     * Creates new brand in database
      * @param Request $request is the request POSTed
      * @return Response 400 Bad Request if request is missing fields
      */
@@ -73,6 +77,7 @@ class BrandController extends ApiGuardController
     }
 
     /**
+     * Updates an existing brand in database
      * @param Request $request is the request POSTed
      * @param $id is the brand id
      * @return Response 404 if brand is not found
@@ -91,6 +96,7 @@ class BrandController extends ApiGuardController
     }
 
     /**
+     * Deletes a brand from database
      * @param $id is the brand ID
      * @return Response 404 if brand is not found
      */
