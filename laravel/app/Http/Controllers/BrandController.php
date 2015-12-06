@@ -10,104 +10,77 @@ use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
+/**
+ * Class BrandController
+ * Controls the retrieval, creation, deletion, and searching of brands
+ * @package App\Http\Controllers
+ */
 class BrandController extends ApiGuardController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Get list of brands based on search name
+     * @param $name is the brand name
+     * @return Response 404 if no brand is found
      */
-    public function index()
-    {
-        //
-    }
-
-    // get list of brands based on search name
     public function getBrandByName($name) {
         $brands = Brand::where('brand_name', 'like', '%' . $name . '%')->get();
         if(empty($brands)) {
             return new Response('Product not found', 404);
         }
-
         return $brands->toArray();
     }
 
-    // get specific brand based on ID
+    /**
+     * Get specific brand name based on ID
+     * @param $id is the brand ID
+     * @return Response 404 if not brand is found with $id
+     */
     public function getBrand($id) {
         $brand = Brand::find($id);
 
+        // if brand is not found, return 404
         if(empty($brand)) {
             return new Response('Product not found', 404);
         }
-
-        // get each field if passing over to view
-        $brand_name = $brand->brand_name;
-
-        // else return the entire object
-        return $brand;
+        return $brand->brand_name;
     }
 
-    // get all brands in database
+    /**
+     * Gets all brands in database
+     * @return array of brands
+     */
     public function getBrands() {
         $brands = Brand::all();
         return $brands->toArray();
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Creates new brand in database
+     * @param Request $request is the request POSTed
+     * @return Response 400 Bad Request if request is missing fields
      */
+
     public function create(Request $request)
     {
-        // get the data from the POST request
+        // get brand name from the POST request
         $brand_name = $request->input("brand_name");
 
-        // POST new brand
-        $new_brand = new Brand; // 
-        $new_brand->brand_name = $brand_name;
-        $new_brand->save();
+        if($brand_name) {
+            // save new brand
+            $new_brand = new Brand;
+            $new_brand->brand_name = $brand_name;
+            $new_brand->save();
+        }
+        else {
+            return new Response('Malformed json request', 400);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Updates an existing brand in database
+     * @param Request $request is the request POSTed
+     * @param $id is the brand id
+     * @return Response 404 if brand is not found
      */
     public function update(Request $request, $id)
     {
@@ -123,10 +96,9 @@ class BrandController extends ApiGuardController
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Deletes a brand from database
+     * @param $id is the brand ID
+     * @return Response 404 if brand is not found
      */
     public function delete($id)
     {

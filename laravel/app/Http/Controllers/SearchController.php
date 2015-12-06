@@ -80,6 +80,7 @@ class SearchController extends Controller
             }
         }
 
+        // Return search results view
         return view('search_results')->with(
             [
                 'results'   => $results,

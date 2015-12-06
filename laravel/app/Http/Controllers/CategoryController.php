@@ -10,6 +10,11 @@ use Illuminate\Http\Response;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use DB;
 
+/**
+ * Class CategoryController
+ * Controls the retrieval, creation, deletion and searching of categories
+ * @package App\Http\Controllers
+ */
 class CategoryController extends ApiGuardController
 {
     // methods that don't need api key authentication
@@ -20,120 +25,87 @@ class CategoryController extends ApiGuardController
     ];
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Get list of categories based on search name
+     * @param $name is the brand name
+     * @return array of brands; 404 if no brands by that name exists
      */
-    public function index()
-    {
-        //
-    }
-
-    // get list of categories based on search name
     public function getCategoryByName($name) {
         $categories = Category::where('category_name', 'like', '%' . $name . '%')->get();
         if(empty($categories)) {
             return new Response('Product not found', 404);
         }
-
         return $categories->toArray();
     }
 
-    // get specific category based on ID
+    /**
+     * Gets a category by name using its ID
+     * @param $id is the category ID
+     * @return category
+     */
     public function getCategory($id) {
         $cat = Category::find($id);
-
+        // no category found by ID
         if(empty($cat)) {
             return new Response('Product not found', 404);
         }
 
-        // get each field if passing over to view
-        $cat_name = $cat->category_name;
-
-        // else return the entire object
-        return $cat;
+        return $cat->category_name;
     }
 
-    // get all categories in database
+
+    /**
+     * Gets all categories in database
+     * @return array of categories
+     */
     public function getCategories() {
         $categories = Category::all();
         return $categories->toArray();
     }
 
-
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Creates a new category in database
+     * @param Request $request is the request POSTed
+     * @return Response 400 if json POST request is malformed
      */
     public function create(Request $request)
     {
         // get the data from the POST request
         $cat_name = $request->input("category_name");
 
-        // POST new category
-        $new_category = new Category; 
-        $new_category->category_name = $cat_name;
-        $new_category->save();
+        // check if category name was posted correctly
+        if($cat_name) {
+            // save new category
+            $new_category = new Category;
+            $new_category->category_name = $cat_name;
+            $new_category->save();
+        }
+        else {
+            return new Response('Malformed json request', 400);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Updates existing category in database based on ID
+     * @param Request $request is the request POSTed
+     * @param $id is the category to update
+     * @return Response 404 if category is not found in database
      */
     public function update(Request $request, $id)
     {
-        // find cat to update
+        // find category to update
         $cat = Category::find($id);
         if(empty($cat)) {
             return new Response('Product not found', 404);
         }
-        // Update brand
+        // Update category
         $cat->category_name = $request->input("category_name");
         $cat->save();    
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Deletes existing category from database
+     * @param $id is the category ID
+     * @return Response 404 if category is not found
      */
     public function delete($id)
     {

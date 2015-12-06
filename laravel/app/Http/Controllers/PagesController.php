@@ -12,70 +12,94 @@ use Illuminate\Support\Facades\Auth;
 use App\Review;
 use App\Feature_Rating;
 
+/**
+ * Class PagesController
+ * Controls the retrieval of views within our web application
+ * @package App\Http\Controllers
+ */
 class PagesController extends Controller
 {
 
-    // give the admin ability to edit a product
+    // ADMIN Only: gives the admin ability to edit a product
     public function __construct()
     {
         $this->middleware('adminsOnly', ['only' => 'editProduct']);
     }
 
-    // returns page with passed in $page_name
+    /**
+     * Returns about page
+     * @return view About page
+     */
     public function about() {
     	$page_name = 'About The Team';
-
     	return view('misc.about', compact('page_name'));
     }
 
-    // returns static home page
+    /**
+     * Returns home page
+     * @return view home page
+     */
     public function home() {
-
         return view('welcome');
     }
 
+    /**
+     * Returns product search results page
+     * @return view for product search results
+     */
     public function searchResult() {
-
         $page_name = 'Product Search';
         return view('search_results');
     }
 
-    // testing adding product page
+    /**
+     * Returns the Add a product page
+     * @return view Add a product form
+     */
     public function addProduct() {
-        $categories = Category::all();
+        $categories = Category::all(); // get all categories
 
         $cat_array = array();
-        // populate category array with current ones in the database
+        // populate category array with current categories in the database
         foreach($categories as $cat) {
+            // get the name of each category
             $cat_array[$cat->category_name] = $cat->category_name;
         }
 
-        $brands = Brand::all();
+        $brands = Brand::all(); // get all brands
         $brand_array = array();
         // populate brand array with current ones in the database
         foreach($brands as $b) {
+            // get the name of each brand
             $brand_array[$b->brand_name] = $b->brand_name;
         }
 
         array_unshift($cat_array, 'Select a Category');
         array_unshift($brand_array, 'Select a Brand');
+        // returns view with all category and brand data for drop menus
         return view('add_product')->with('categories', $cat_array)->with('brands', $brand_array);
     }
 
-    // allows the admin to edit a product submission before approving
+    /**
+     * Returns view that allows the Admin to edit product submissions made by users
+     * @param $prod_id is the product ID
+     * @return view Edit Product Submission form
+     */
     public function editProduct($prod_id) {
-        $categories = Category::all();
+        $categories = Category::all(); // get all categories
 
         $cat_array = array();
         // populate category array with current ones in the database
         foreach($categories as $cat) {
+            // get category names
             $cat_array[$cat->category_name] = $cat->category_name;
         }
 
-        $brands = Brand::all();
+        $brands = Brand::all(); // get all brands
         $brand_array = array();
         // populate brand array with current ones in the database
         foreach($brands as $b) {
+            // get the name of each brand
             $brand_array[$b->brand_name] = $b->brand_name;
         }
 
@@ -90,13 +114,13 @@ class PagesController extends Controller
         $i = 1;
         foreach($current_features as $feature) {
             $feature_names[$i] = Feature::find($feature->feature_id)->feature_name;
-            $i = $i + 1;
+            $i++; // needed for array indexing
         }
 
         // undo feature and product linkage
         foreach($current_features as $feature) {
             Feature_Rating_Total::where(['prod_id' => $prod_id,
-                                                           'feature_id' => $feature->feature_id])->delete();
+                                        'feature_id' => $feature->feature_id])->delete();
         }
         
 
@@ -106,19 +130,21 @@ class PagesController extends Controller
         $category_name = Category::where('category_id', $product->prod_category)->first()->category_name;
         $more_prod_info = array('brand' => $brand_name, 
                                 'category' => $category_name);
-
-        return view('edit_submission')->with('categories', $cat_array)->with('brands', $brand_array)->with('product', $product)->with('prod_info', $more_prod_info)->with('features', $feature_names);
+        // return view and product data needed to output the edit form
+        return view('edit_submission')->with('categories', $cat_array)->with('brands', $brand_array)
+            ->with('product', $product)->with('prod_info', $more_prod_info)
+            ->with('features', $feature_names);
     }
 
-    public function product() {
-        $page_name = 'Product Page';
-        return view('product_page');
-    }
-
+    /**
+     * Returns view for reviewing a product
+     * @param $prod_id is the product ID
+     * @return view Review Product Form
+     */
     public function review($prod_id) {
         $page_name = 'Review Page';
         $product = Product::find($prod_id);
-        $product_name;
+        $product_name = null;
 
         // get product name if prod exist, otherwise return 404
         if(empty($product)) {
@@ -172,34 +198,18 @@ class PagesController extends Controller
         return view('review_page')->with('features', $feat_array)->with('product', $product_array)->with('scores', $feat_scores);
     }
 
-
-    public function productLoggedIn() {
-
-        $page_name = 'Product Logged In Page';
-        return view('product_page_log');
-    }
-
-    public function userAccount() {
-
-        $page_name = 'User Account';
-        return view('user_account');
-    }
-
-    public function userAccountAdmin() {
-
-        $page_name = 'Admin User Account';
-        return view('user_account_admin');
-    }
-
-    public function userAccountPublic() {
-
-        $page_name = 'User Account Public';
-        return view('user_account_public');
-    }
+    /**
+     * Returns resource not found page (404)
+     * @return view 404 page
+     */
     public function pageNotFound(){
         return view('errors.404');
     }
 
+    /**
+     * Returns view for server side checks... in case user by passes required fields client-side
+     * @return view for failed submissions
+     */
     public function submissionFailed() {
         return view('submission_failed');
     }
