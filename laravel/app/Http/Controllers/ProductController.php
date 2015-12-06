@@ -23,7 +23,11 @@ use Illuminate\Support\Facades\Redirect;
 use App\Admin;
 
 
-// 'php artisan tinker' to test the model classes
+/**
+ * Class ProductController
+ * Controls the creation, deletion, retrieval and updating of products
+ * @package App\Http\Controllers
+ */
 class ProductController extends ApiGuardController
 {
     // ADMIN only: gives the admin a preview of a product

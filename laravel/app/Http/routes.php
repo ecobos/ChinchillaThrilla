@@ -55,11 +55,7 @@ Route::group(['prefix' => 'profile'], function(){
 	// Display the logged in user's profile, otherwise should redirect to login page
 	Route::get('/', 'ProfileController@profile');
 
-	/*
-	// testing user account page
-	Route::get('/account/{user_id}', 'ProfileController@userAccount');
-	*/
-
+	// displays ADMIN panel
 	Route::group(['prefix' => 'admin'], function(){
 		Route::get('/', 'ProfileController@adminPanel');
 	});
@@ -92,10 +88,11 @@ Route::group(['prefix'=>'products'], function()
     });
 
     // view routes
+	// product page
     Route::get('{id}', ['uses'=>'ProductController@getProductView']);
     // route for admin to see a preview of prod to be published 
     Route::get('admin_prev/{id}', ['uses'=>'ProductController@adminProductPreview']); 
-    // approve product route
+    // approve a product
     Route::post('publish', ['uses'=>'ProductController@publishProduct']); 
     
 
@@ -177,7 +174,7 @@ Route::group(['prefix'=>'reviews'], function()
 });
 
 
-// Feature Stuff
+// Feature Routes
 Route::group(['prefix'=>'feature'], function()
 {
 	// Test form for review creation
@@ -189,12 +186,13 @@ Route::group(['prefix'=>'feature'], function()
 	// Used for getting product feature stats
 	Route::get('{prod_id}',['uses'=>'FeatureController@getFeatures']);
 
+	// used to create a review with API key
 	Route::post('submitreview/{prod_id}/{api_key}', 
 		['uses'=>'ReviewController@createReviewWithAPIKey']
 	);
 });
 
-
+// API controller routes to create, delete, and retrieve API keys
 Route::group(['prefix'=>'apikeys'], function()
 {
 	// API routes

@@ -14,15 +14,19 @@ use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
-
+/**
+ * Class ReviewController
+ * Controls the creation, deletion, updating, liking and flagging of reviews
+ * @package App\Http\Controllers
+ */
 class ReviewController extends ApiGuardController
 {
     // methods that don't need api key authentication
+    // ADMIN permissions are set in middleware
     protected $apiMethods = [
         'createReviewWithAPIKey' => [
             'keyAuthentication' => false
         ],
-
         'getProductReviews' => [
             'keyAuthentication' => false],
         'deleteReview' => [
@@ -33,14 +37,18 @@ class ReviewController extends ApiGuardController
             'keyAuthentication' => false]
     ];
 
+    // ADMIN only: gives Admin the ability to delete and moderate reviews
     public function __construct()
     {
         $this->middleware('adminsOnly', ['only' => ['deleteUserReview', 'moderateReview']]);
     }
 
+    /**
+     * Returns review with given test data
+     * @return view review test data
+     */
     public function index()
     {
-
         $users = DB::table('users')
                 ->select('user_id', 'name')
                 ->get();
@@ -48,7 +56,6 @@ class ReviewController extends ApiGuardController
         $products = DB::table('products')
                 ->select('prod_name', 'prod_id')
                 ->get();
-
         $data = 
         [   
             'users'     => $users,
@@ -60,7 +67,11 @@ class ReviewController extends ApiGuardController
     }
 
 
-    // Handle GET request for a user's reviews
+    /**
+     * Handle GET request for a user's reviews
+     * @param $user_id is the user ID
+     * @return mixed
+     */
     public function getUserReviews($user_id) 
     {
         //Note: this function also contains an implicit parameter "$limit"
@@ -68,8 +79,12 @@ class ReviewController extends ApiGuardController
         return $data;
     }
 
-
-    // Handle GET request for product reviews, starting at (int)$skip
+    /**
+     * Handle GET request for product reviews, starting at (int)$skip
+     * @param $product_id is the product ID
+     * @param $skip number of review to skip between API calls
+     * @return json array of review data for a given product
+     */
     public function getProductReviews($product_id, $skip) 
     {
         //Note: this function also contains an implicit parameter "$limit"
@@ -77,19 +92,27 @@ class ReviewController extends ApiGuardController
         return json_encode($data);
     }
 
-
-    // Creates a review based on information received from POST request (Developer)
+    /**
+     * Creates a review for a product (Developer)
+     * @param Request $request is the json request POSTed
+     */
     public function createReview(Request $request)
     {
-        // check for empty fields client side
+        // get needed data from request
         $product_id = $request->input('product_id');
         $user_id = $request->input('user_id');
         $review = $request->input('review_text');
         Review::createReview($product_id, $user_id, $review);
     }
 
-    // Creates a review based on information received from POST request (non-Developer)
-    // adds feature rated by user as well
+
+    /**
+     * Creates a review for a product and adds feature rated by user
+     * @param Request $request is the json request POSTed
+     * @param $prod_id is the product ID
+     * @param $api_key is the API key provided
+     * @return Response 401 if provided API key is invalid
+     */
     public function createReviewWithAPIKey(Request $request, $prod_id, $api_key)
     {
         // check if authorized to POST 
@@ -107,7 +130,7 @@ class ReviewController extends ApiGuardController
                     'status' => 'Please Login']);
         }
 
-        $user_id = Auth::id(); 
+        $user_id = Auth::id(); // get user ID
         $overall_rating = intval($request->input('rating'));
 
         // check for valid rating
@@ -118,18 +141,20 @@ class ReviewController extends ApiGuardController
             $overall_rating = 6; 
         }
 
+        // get the comment about the product
         $review = $request->input('review_text');
 
+        // get existing review for that product made by this user
         $exist_review = Review::where(['prod_id' => $prod_id,
                                         'user_id' => $user_id])->first();
 
-
-        // check for all fields required fields, 
+        // check for all fields required fields
         if($review == null || $overall_rating == null) {
             return Redirect::to('/submission_failed');
 
         }
 
+        // if not review exist, create it
         if(empty($exist_review)) {
             Review::createReview($prod_id, $user_id, $review, $overall_rating);
         }
@@ -144,7 +169,7 @@ class ReviewController extends ApiGuardController
 
         if($features != null) {
             foreach($features as $feat_id => $value) {
-                // rate feature using id, check for empty
+                // rate feature using id, do not rate any unchecked features
                 if(!is_null($value)) {
                     Feature::rate($user_id, $prod_id, $feat_id, intval($value));
                 }
@@ -160,12 +185,10 @@ class ReviewController extends ApiGuardController
         return Redirect::to('/products/' . $prod_id)->with([
                     'alert-type'=> 'alert-success',
                     'status' => 'Review Successfully Updated']);
-
     }
 
     /**
      * Deletes a specific review for a product created by the logged in user
-     *
      * @param Request $request product associated with the review
      * @author Edgar Cobos
      */
@@ -174,53 +197,77 @@ class ReviewController extends ApiGuardController
         Review::where('user_id', Auth::id())->where('prod_id', $prod_id)->delete();
     }
 
+    /**
+     * Gets the 6 star overall rating for a product
+     * @param $product_id is the product ID
+     */
     public function getOverallRating($product_id)
     {
-        var_dump(Review::getOverallRating($product_id));
+        Review::getOverallRating($product_id);
     }
 
-    // approves review (Admin only)
+    /**
+     * ADMIN only: allows the admin to approve reviews
+     * @param Request $request is the json POST request
+     */
     public function moderateReview(Request $request) {
+        // get user and product IDs
         $user_id = $request->input('user_id');
         $prod_id = $request->input('prod_id');
 
-
+        // approve review by changing needsAdminReview field to zero
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])
                   ->update(['needsAdminReview'  => 0]);
 
     }
 
-    // deletes review (Admin only)
+
+    /**
+     * ADMIN only: Delete a review
+     * @param Request $request is the json request POSTed
+     */
     public function deleteUserReview(Request $request) {
+        // get user and product IDs
         $user_id = $request->input('user_id');
         $prod_id = $request->input('prod_id');
 
+        // delete review
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->delete();
     }
 
-
-    // enables a user to flag a review
+    /**
+     * Allows users to flag offensive or erroneous reviews
+     * @param Request $request is the json POST request
+     */
     public function flagReview (Request $request)
     {
+        // get user and product IDs
         $user_id = $request->input('user_id');
         $prod_id = $request->input('prod_id');
 
+        // flag review by changing needsAdminReview field to 1
         Review::where(['prod_id' => $prod_id, 'user_id' => $user_id])->update(['needsAdminReview' => 1]);
     }
 
-    // Handle POST request to like a user's review for a product
+    /**
+     * Handle POST request to like a user's review for a product
+     * @param Request $request is the json POST request
+     */
     public function  likeReview(Request $request)
     {
+        // get user ID liking product, userID of user who left review and product
         $reviewer = $request->input('other_uid');
         $liker = $request->input('this_uid');
         $prod_id = $request->input('prod_id');
 
+        // get review votes
         $result = DB::table('review_votes')->where(
             ['other_uid' => $reviewer, 
             'this_uid' => $liker, 
             'prod_id'=>$prod_id,
         ])->first();
 
+        // insert a 1 in database if first like was entered
         if(!$result){
             DB::table('review_votes')->insert(
                 ['other_uid' => $reviewer, 
@@ -231,7 +278,11 @@ class ReviewController extends ApiGuardController
         }
     }
 
-    // Hanlde GET request for the amount of useful reviews a user has
+    /**
+     * Handle GET request for the amount of useful reviews a user has
+     * @param Request $request is the json request POSTed
+     * @return amount of helpful reviews made by a given users
+     */
     public function helpfulReviews(Request $request) {
         $user_id = $request->input('user_id');
         return Review::helpfulReviews($user_id);
