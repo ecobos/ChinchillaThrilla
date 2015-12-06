@@ -99,6 +99,7 @@ class ProductController extends ApiGuardController
         $logged_in = Auth::check();
         $reviewCount = Review::getProductReviewCount($id)->total;
 
+
         // return product page for this product
         return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in', 'reviewCount'));
     }
@@ -216,11 +217,11 @@ public function createWithAPIKey(Request $request, $api_key)
         return Redirect::to('/submission_failed');
     }
 
-    $prod_id;
+    $prod_id = null;
 
     // get brand id to check for existing record in database
     $brand_obj = Brand::where('brand_name', $brand)->first();
-    $existing_product;
+    $existing_product = null;
 
     // check if brand exists, check for product against database
     if($brand_obj) {
@@ -313,7 +314,7 @@ public function createWithAPIKey(Request $request, $api_key)
     
     // add features to database for this product
     $spec_details = "";
-    $feature_id;
+    $feature_id = null;
     // check all input boxes
     for($i = 1; $i<11; $i++) {
         $spec_details = $request->input('spec' . $i);
