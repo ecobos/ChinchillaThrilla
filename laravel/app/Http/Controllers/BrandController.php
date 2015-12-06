@@ -12,7 +12,7 @@ use DB;
 
 /**
  * Class BrandController
- * Allows us to retrieve, create, delete and find brands within database
+ * Controls the retrieval, creation, deletion, and searching of brands
  * @package App\Http\Controllers
  */
 class BrandController extends ApiGuardController

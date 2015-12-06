@@ -12,7 +12,7 @@ use DB;
 
 /**
  * Class CategoryController
- * Allows us to retrieve, create, delete and find categories within database
+ * Controls the retrieval, creation, deletion and searching of categories
  * @package App\Http\Controllers
  */
 class CategoryController extends ApiGuardController

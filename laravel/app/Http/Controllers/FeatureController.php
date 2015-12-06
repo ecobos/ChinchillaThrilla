@@ -10,7 +10,7 @@ use App\Feature;
 
 /**
  * Class FeatureController
- * Allows us to rate, get and create new features
+ * Controls the rating, retrieval and creation of features
  * @package App\Http\Controllers
  */
 class FeatureController extends Controller

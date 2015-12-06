@@ -13,7 +13,7 @@ use App\User;
 
 /**
  * Class APIController
- * Allows us to create, delete, and get API keys
+ * Controls the creation, deletion and retrieval of API keys
  * @package App\Http\Controllers
  */
 class APIController extends ApiGuardController
