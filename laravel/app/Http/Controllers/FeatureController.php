@@ -8,31 +8,50 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Feature;
 
+/**
+ * Class FeatureController
+ * Allows us to rate, get and create new features
+ * @package App\Http\Controllers
+ */
 class FeatureController extends Controller
 {
-
+    /**
+     * Gets a list of features for a given product
+     * @param $prod_id is the product ID
+     * @return array of features for a given product
+     */
 	public function getFeatures($prod_id)
 	{
 		return Feature::getFeatures($prod_id);
 	}
 
-	// The handle for rating a Product Feature
+    /**
+     * Rates a feature for a given product
+     * @param Request $request is the request POSTed
+     */
 	public function rate (Request $request)
 	{
+        // get all data from POST request needed to make rating
 		$user_id 	= $request->input('user_id');
 		$prod_id 	= $request->input('prod_id');
 		$feature_id = $request->input('feature_id');
 		$rating 	= $request->input('rating');
-		var_dump( Feature::rate($user_id, $prod_id, $feature_id, $rating));
+
+        // rate feature
+		Feature::rate($user_id, $prod_id, $feature_id, $rating);
 	}
 
-	// Add a feature to a product
+    /**
+     * Links a feature to a product
+     * @param Request $request is the request POSTed
+     */
 	public function createProductFeature(Request $request)
 	{
+        // get all data from POST request need to tie feature to product
 		$prod_id	= $request->input('prod_id');
 		$feature_id	= $request->input('feature_id');
+        // tie feature to product
 		Feature::createProductFeature($prod_id, $feature_id);
-		return "Should be new product feature";
 	}
 
 }
