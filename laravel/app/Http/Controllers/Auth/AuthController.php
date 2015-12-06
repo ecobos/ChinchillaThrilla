@@ -57,9 +57,9 @@ class AuthController extends Controller
      */
     public function handleFacebookCallback()
     {
-        try{
+        try {
             $user = Socialite::driver('facebook')->user();
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return Redirect::to('auth/facebook');
         }
 
@@ -77,9 +77,10 @@ class AuthController extends Controller
      * @param $aUser
      * @return static
      */
-    private function findOrCreateUser($aUser, $authProvider){
+    private function findOrCreateUser($aUser, $authProvider)
+    {
 
-        if($authUser = User::where('app_id', $aUser->id)->where('auth_provider', $authProvider)->first()){
+        if ($authUser = User::where('app_id', $aUser->id)->where('auth_provider', $authProvider)->first()) {
             return $authUser;
         }
 
@@ -87,9 +88,9 @@ class AuthController extends Controller
         $avatar = $aUser->avatar;
 
         // If Google is the auth provider, then update the URL to get the higher quality image
-        if($authProvider == 'Google') {
+        if ($authProvider == 'Google') {
             // if using google's avatar pic, change pic size to 300
-            $avatar = substr($avatar, 0, strlen($avatar)-2) . '300';
+            $avatar = substr($avatar, 0, strlen($avatar) - 2) . '300';
         }
 
         // Create and insert the user into the database
@@ -120,9 +121,9 @@ class AuthController extends Controller
     public function handleGoogleCallback()
     {
 
-        try{
+        try {
             $user = Socialite::driver('google')->user();
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return Redirect::to('auth/google');
         }
 
@@ -134,7 +135,8 @@ class AuthController extends Controller
         return Redirect::to('/profile');
     }
 
-    public function doLogout(){
+    public function doLogout()
+    {
         Auth::logout();
 
         return Redirect::to('/')->with([
@@ -143,7 +145,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function doLogin(){
+    public function doLogin()
+    {
         return view('auth.login_page');
     }
 }

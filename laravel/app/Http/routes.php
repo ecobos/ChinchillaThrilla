@@ -159,11 +159,9 @@ Route::group(['prefix'=>'reviews'], function()
 	Route::get('product/{product_id}/{skip}',['uses'=>'ReviewController@getProductReviews']);
 
 	// Get the reviews from a user
-
 	Route::get('user/{user_id}',['uses'=>'ReviewController@getUserReviews']);
 
 	// Create a new Review for ($prod_id, $user_id)
-
 	Route::post('', ['uses'=>'ReviewController@createReview']);
 
 	// Get the overall rating for a product and the total number of votes
