@@ -16,6 +16,7 @@ class FeatureController extends Controller
 		return Feature::getFeatures($prod_id);
 	}
 
+	// The handle for rating a Product Feature
 	public function rate (Request $request)
 	{
 		$user_id 	= $request->input('user_id');
@@ -25,6 +26,7 @@ class FeatureController extends Controller
 		var_dump( Feature::rate($user_id, $prod_id, $feature_id, $rating));
 	}
 
+	// Add a feature to a product
 	public function createProductFeature(Request $request)
 	{
 		$prod_id	= $request->input('prod_id');
