@@ -19,26 +19,7 @@ Route::get('/', 'PagesController@home');
 Route::get('submission_failed', 'PagesController@submissionFailed');
 Route::get('about', 'PagesController@about');
 
-
-// edit product submission page
-Route::get('edit_product/{prod_id}', 'PagesController@editProduct');
-
-// search results page
-Route::get('search', 'PagesController@searchResult');
-
-// product page
-Route::get('product', 'PagesController@product');
-
-// add product page
-Route::get('addProduct', 'PagesController@addProduct');
-
-// product page logged in
-Route::get('productLoggedIn', 'PagesController@productLoggedIn');
-
-// review page
-Route::get('review/{prod_id}', 'PagesController@review');
-
-
+// PROFILE ROUTES
 Route::group(['prefix' => 'profile'], function () {
     // Display the logged in user's profile, otherwise should redirect to login page
     Route::get('/', 'ProfileController@profile');
@@ -51,7 +32,7 @@ Route::group(['prefix' => 'profile'], function () {
 
 });
 
-// AUTHENTICATION
+// AUTHENTICATION ROUTES
 Route::group(['prefix' => 'auth'], function () {
     Route::get('facebook', 'Auth\AuthController@authRedirectToFacebook');
     Route::get('facebook/login-callback', 'Auth\AuthController@handleFacebookCallback');
@@ -74,11 +55,19 @@ Route::group(['prefix' => 'products'], function () {
     });
 
     // product page
+    Route::get('/', 'PagesController@product');
+    // a specific product page
     Route::get('{id}', ['uses' => 'ProductController@getProductView']);
     // route for admin to see a preview of prod to be published 
     Route::get('admin_prev/{id}', ['uses' => 'ProductController@adminProductPreview']);
     // approve a product
     Route::post('publish', ['uses' => 'ProductController@publishProduct']);
+    // add product page
+    Route::get('addProduct', 'PagesController@addProduct');
+    // product page logged in
+    Route::get('productLoggedIn', 'PagesController@productLoggedIn');
+    // edit product submission page
+    Route::get('edit_product/{prod_id}', 'PagesController@editProduct');
 
 
 });
@@ -123,14 +112,10 @@ Route::group(['prefix' => 'search'], function () {
 
 // REVIEW ROUTES
 Route::group(['prefix' => 'reviews'], function () {
-    // Added by Egar. Name used for discretion
     Route::post('rm', 'ReviewController@deleteReview');
 
     Route::get('{product_id}', ['uses' => 'ReviewController@getProductReviews']);
     Route::post('/', ['uses' => 'ReviewController@createReview']);
-
-    // Test form for review creation
-    Route::get('', ['uses' => 'ReviewController@index']);
 
     // Get the reviews for a product
     Route::get('product/{product_id}/{skip}', ['uses' => 'ReviewController@getProductReviews']);
@@ -138,22 +123,18 @@ Route::group(['prefix' => 'reviews'], function () {
     // Get the reviews from a user
     Route::get('user/{user_id}', ['uses' => 'ReviewController@getUserReviews']);
 
-    // Create a new Review for ($prod_id, $user_id)
-    Route::post('', ['uses' => 'ReviewController@createReview']);
-
-    // Get the overall rating for a product and the total number of votes
-    Route::get('{product_id}', ['uses' => 'ReviewController@getOverallRating']);
-
     Route::post('approve', ['uses' => 'ReviewController@moderateReview']);
     Route::post('delete', ['uses' => 'ReviewController@deleteUserReview']);
     Route::post('flag', ['uses' => 'ReviewController@flagReview']);
     Route::post('like', ['uses' => 'ReviewController@likeReview']);
     Route::get('helpful', ['uses' => 'ReviewController@helpfulReviews']);
+    // review page
+    Route::get('review/{prod_id}', 'PagesController@review');
 
 });
 
 
-// Feature Routes
+// FEATURE ROUTES
 Route::group(['prefix' => 'feature'], function () {
     // Test form for review creation
     Route::post('createProductFeature', ['uses' => 'FeatureController@createProductFeature']);

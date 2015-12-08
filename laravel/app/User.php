@@ -11,13 +11,13 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends Model implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
     // specifiy our primary key field
-    protected $primaryKey = 'user_id'; 
+    protected $primaryKey = 'user_id';
 
     /**
      * The database table used by the model.
@@ -41,8 +41,17 @@ class User extends Model implements AuthenticatableContract,
      */
     protected $hidden = ['auth_provider', 'app_id', 'remember_token'];
 
-    public function isAdmin(){
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool true if the user is also in the admin's table. False otherwise.
+     */
+    public function isAdmin()
+    {
+        // Check if the user 'hasOne' entry in the admins table
         $check = $this->hasOne('App\Admin')->first();
+
+        // If nothing is returned then false
         return is_null($check) ? false : true;
     }
 

@@ -36,11 +36,11 @@ class ProfileController extends Controller
         $user = null;
 
         // If a user ID was specified
-        if(isset($id)){
-            try{
+        if (isset($id)) {
+            try {
                 // Look up the user or fail
                 $user = User::findOrFail($id);
-            } catch (ModelNotFoundException $e){
+            } catch (ModelNotFoundException $e) {
                 // If the user is not found, alert the user
                 return Redirect::action('PagesController@pageNotFound');
             }
@@ -61,17 +61,16 @@ class ProfileController extends Controller
             $usefulness = Review::where('user_id', $id)->sum('total_usefulness');
 
             // Define the base user information retrieved from the database
-            $base_info = array( 'page_title' => "User Profile",
-                                'name' => $name,
-                                'avatar' => $user->avatar,
-                                'member_since_date' => $member_since_date,
-                                'total_reviews' => $total_reviews,
-                                'total_usefulness' => $usefulness
-                            );
+            $base_info = array('page_title' => "User Profile",
+                'name' => $name,
+                'avatar' => $user->avatar,
+                'member_since_date' => $member_since_date,
+                'total_reviews' => $total_reviews,
+                'total_usefulness' => $usefulness
+            );
             $reviews = array();
-        }
-        // If no ID was specified and a user is currently logged in
-        else if(Auth::check()){
+        } // If no ID was specified and a user is currently logged in
+        else if (Auth::check()) {
             // Define the view to be used
             $page = 'user_account';
 
@@ -85,30 +84,29 @@ class ProfileController extends Controller
             $member_since_date = $date_time->format('m-d-Y');
 
             // Returns an array of reviews and associated products
-            $reviews = DB::table('reviews')->select('products.prod_id','products.prod_name','products.prod_img_path','reviews.review_text','reviews.created_at')
-                                            ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
-                                            ->where('user_id', $id)->get();
+            $reviews = DB::table('reviews')->select('products.prod_id', 'products.prod_name', 'products.prod_img_path', 'reviews.review_text', 'reviews.created_at')
+                ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
+                ->where('user_id', $id)->get();
 
             // Get the number of useful reviews made by the user
             $usefulness = Review::where('user_id', $id)->sum('total_usefulness');
 
             // Define the base user information for the view
-            $base_info = array( 'page_title' => "My Profile",
-                                'name' => $user->name,
-                                'email' => $user->email,
-                                'auth_type' => $user->auth_provider,
-                                'avatar' => $user->avatar,
-                                'member_since_date' => $member_since_date,
-                                'total_reviews' => count($reviews),
-                                'total_usefulness' => $usefulness
-                            );
-        }
-        // if no ID was specified and the user is not logged in
-        else{
+            $base_info = array('page_title' => "My Profile",
+                'name' => $user->name,
+                'email' => $user->email,
+                'auth_type' => $user->auth_provider,
+                'avatar' => $user->avatar,
+                'member_since_date' => $member_since_date,
+                'total_reviews' => count($reviews),
+                'total_usefulness' => $usefulness
+            );
+        } // if no ID was specified and the user is not logged in
+        else {
             // Redirect them to the login page with an alert
             return Redirect::to('/auth/login')->with([
-                    'alert-type'=> 'alert-danger',
-                    'status' => 'Please Login']);
+                'alert-type' => 'alert-danger',
+                'status' => 'Please Login']);
         }
 
         // Display the appropriate page with proper user information
@@ -123,14 +121,15 @@ class ProfileController extends Controller
      * @param string $name a user's first or full name
      * @return string name with last name truncated to first character
      */
-    private function makeDiscrete($name){
+    private function makeDiscrete($name)
+    {
         // Split the name on the blank space
         $tmp_name = explode(" ", $name);
 
         // If a last name is set
-        if(isset($tmp_name[1]) && isNonEmptyString($tmp_name[1])){
+        if (isset($tmp_name[1]) && isNonEmptyString($tmp_name[1])) {
             // Truncate the last name to the first letter
-            $tmp_name[1] = substr($tmp_name[1], 0 ,1 );
+            $tmp_name[1] = substr($tmp_name[1], 0, 1);
             // Glue together the last name with the first name
             $name = implode(" ", $tmp_name);
         }
@@ -143,21 +142,22 @@ class ProfileController extends Controller
      *
      * @return View the administrator panel
      */
-    public function adminPanel(){
+    public function adminPanel()
+    {
         // Get the logged in user
         $user = Auth::user();
 
         // Define the base information to be sent to the view
-        $base_info = array( 'page_title' => "Administrator Account",
-                            'name' => $user->name,
-                            'email' => $user->email,
-                            'avatar' => $user->avatar );
+        $base_info = array('page_title' => "Administrator Account",
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->avatar);
 
         // Get the reviews the need admin review and their associated user information
         $reviews_for_approval = Review::select('reviews.user_id', 'name', 'reviews.prod_id', 'prod_name', 'review_text', 'reviews.updated_at', 'avatar')
-                    ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
-                    ->join('users', 'reviews.user_id', '=', 'users.user_id')
-                    ->where('needsAdminReview', 1)->get()->sortBy('updated_at');
+            ->join('products', 'products.prod_id', '=', 'reviews.prod_id')
+            ->join('users', 'reviews.user_id', '=', 'users.user_id')
+            ->where('needsAdminReview', 1)->get()->sortBy('updated_at');
 
 
         // Get any unpublished products
@@ -166,11 +166,11 @@ class ProfileController extends Controller
 
         // Send the information to the proper view to be displayed
         return view('user_account_admin')->with(['base_info' => $base_info,
-                                                'reviews' => $reviews_for_approval,
-                                                'reviews_count' => $reviews_for_approval->count(),
-                                                'products' => $products,
-                                                'prodcuts_count' => $products->count()
-                                            ]);
+            'reviews' => $reviews_for_approval,
+            'reviews_count' => $reviews_for_approval->count(),
+            'products' => $products,
+            'prodcuts_count' => $products->count()
+        ]);
 
     }
 

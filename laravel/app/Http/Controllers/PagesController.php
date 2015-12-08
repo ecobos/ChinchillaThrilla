@@ -33,9 +33,10 @@ class PagesController extends Controller
      *
      * @return view About page
      */
-    public function about() {
-    	$page_name = 'About The Team';
-    	return view('misc.about', compact('page_name'));
+    public function about()
+    {
+        $page_name = 'About The Team';
+        return view('misc.about', compact('page_name'));
     }
 
     /**
@@ -43,7 +44,8 @@ class PagesController extends Controller
      *
      * @return view home page
      */
-    public function home() {
+    public function home()
+    {
         return view('welcome');
     }
 
@@ -52,7 +54,8 @@ class PagesController extends Controller
      *
      * @return View for product search results
      */
-    public function searchResult() {
+    public function searchResult()
+    {
         return view('search_results');
     }
 
@@ -61,12 +64,13 @@ class PagesController extends Controller
      *
      * @return View Add a product form
      */
-    public function addProduct() {
+    public function addProduct()
+    {
         $categories = Category::all(); // get all categories
 
         $cat_array = array();
         // populate category array with current categories in the database
-        foreach($categories as $cat) {
+        foreach ($categories as $cat) {
             // get the name of each category
             $cat_array[$cat->category_name] = $cat->category_name;
         }
@@ -74,7 +78,7 @@ class PagesController extends Controller
         $brands = Brand::all(); // get all brands
         $brand_array = array();
         // populate brand array with current ones in the database
-        foreach($brands as $b) {
+        foreach ($brands as $b) {
             // get the name of each brand
             $brand_array[$b->brand_name] = $b->brand_name;
         }
@@ -91,12 +95,13 @@ class PagesController extends Controller
      * @param string $prod_id is the product ID
      * @return view Edit Product Submission form
      */
-    public function editProduct($prod_id) {
+    public function editProduct($prod_id)
+    {
         $categories = Category::all(); // get all categories
 
         $cat_array = array();
         // populate category array with current ones in the database
-        foreach($categories as $cat) {
+        foreach ($categories as $cat) {
             // get category names
             $cat_array[$cat->category_name] = $cat->category_name;
         }
@@ -104,7 +109,7 @@ class PagesController extends Controller
         $brands = Brand::all(); // get all brands
         $brand_array = array();
         // populate brand array with current ones in the database
-        foreach($brands as $b) {
+        foreach ($brands as $b) {
             // get the name of each brand
             $brand_array[$b->brand_name] = $b->brand_name;
         }
@@ -119,24 +124,26 @@ class PagesController extends Controller
         // get features by name
         $feature_names = array();
         $i = 1; // array index counter
-        foreach($current_features as $feature) {
+        foreach ($current_features as $feature) {
             $feature_names[$i] = Feature::find($feature->feature_id)->feature_name;
             $i++; // needed for array indexing
         }
 
         // undo feature and product linkage
-        foreach($current_features as $feature) {
+        foreach ($current_features as $feature) {
             Feature_Rating_Total::where(['prod_id' => $prod_id,
-                                        'feature_id' => $feature->feature_id])->delete();
+                'feature_id' => $feature->feature_id])->delete();
         }
-        
 
-        // get submitted product data
+
+        // Get submitted product data
         $product = Product::find($prod_id);
         $brand_name = Brand::where('brand_id', $product->prod_brand)->first()->brand_name;
         $category_name = Category::where('category_id', $product->prod_category)->first()->category_name;
-        $more_prod_info = array('brand' => $brand_name, 
-                                'category' => $category_name);
+
+        // Detailed information for a product
+        $more_prod_info = array('brand' => $brand_name, 'category' => $category_name);
+
         // return view and product data needed to output the edit form
         return view('edit_submission')->with('categories', $cat_array)->with('brands', $brand_array)
             ->with('product', $product)->with('prod_info', $more_prod_info)
@@ -144,80 +151,70 @@ class PagesController extends Controller
     }
 
     /**
-     * Returns view for reviewing a product
-     * @param $prod_id is the product ID
+     * Displays a form for reviewing a product.
+     *
+     * @param string $prod_id is the product ID
      * @return view Review Product Form
      */
-    public function review($prod_id) {
+    public function review($prod_id)
+    {
         $page_name = 'Review Page';
         $product = Product::find($prod_id);
         $product_name = null;
 
         // get product name if prod exist, otherwise return 404
-        if(empty($product)) {
-            return view('product404'); 
-        }
-        else {
+        if (empty($product)) {
+            return view('product404');
+        } else {
             $product_name = $product->prod_name;
         }
 
-        // get array of feature for product
+        // Get an array of feature for product
         $features = Feature_Rating_Total::select('feature_id')->where('prod_id', $prod_id)->get();
         $feat_array = array();
-        $feat_count = 0; 
-        foreach($features as $feat) {
-            //print $feat;
-            // get name of feature using id
-            //$feat_array[$feat->feature_id] = Feature::where('feature_id',$feat->feature_id)->first()->feature_name;
-            $feat_array[$feat->feature_id] = Feature::where('feature_id',$feat->feature_id)->first();
-            //$f = Feature::where('feature_id',$feat->feature_id)->first();
-            //print $f->feature_name; 
+        $feat_count = 0;
+        foreach ($features as $feat) {
+            $feat_array[$feat->feature_id] = Feature::where('feature_id', $feat->feature_id)->first();
             $feat_count++;
         }
 
-        // check if user already made a review for that product
+        // Check if user already made a review for that product
         $exist_review = Review::where(['prod_id' => $prod_id,
-                                        'user_id' => Auth::id()])->first();
+            'user_id' => Auth::id()])->first();
 
         $previous_review = "";
         $previous_overall_rating = 0;
         // output previous review and scores to user in case they wish to change it
         $feat_scores = array();
-        if($exist_review) {
+        if ($exist_review) {
             $previous_overall_rating = $exist_review->overal_rating;
             $previous_review = $exist_review->review_text;
             // get how the user scored each feature for this product
-            foreach($feat_array as $feat) {
+            foreach ($feat_array as $feat) {
                 $feat_scores[$feat->feature_id] = Feature_Rating::where(['prod_id' => $prod_id,
-                                                        'user_id' => Auth::id(), 
-                                                        'feature_id' => $feat->feature_id])->first()->rating;
-                //print $feat_scores[$feat->feature_id];
+                    'user_id' => Auth::id(),
+                    'feature_id' => $feat->feature_id])->first()->rating;
             }
         }
 
+        // Setup the data to be passed to the view
         $product_array = array(
             'product_name' => $product_name,
-            'prod_id'      => $prod_id,
-            'feat_count'   => $feat_count,
-            'review'       => $previous_review,
-            'rating'       => $previous_overall_rating);
+            'prod_id' => $prod_id,
+            'feat_count' => $feat_count,
+            'review' => $previous_review,
+            'rating' => $previous_overall_rating);
 
         return view('review_page')->with('features', $feat_array)->with('product', $product_array)->with('scores', $feat_scores);
     }
 
     /**
-     * Returns resource not found page (404)
+     * Returns resource not found page (HTTP code: 404)
      * @return view 404 page
      */
-    public function pageNotFound(){
+    public function pageNotFound()
+    {
         return view('errors.404');
     }
 
-    /**
-     * Returns view for server side checks... in case user by passes required fields client-side
-     * @return view for failed submissions
-     */
-    public function submissionFailed() {
-        return view('submission_failed');
-    }
 }

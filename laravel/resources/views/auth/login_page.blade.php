@@ -1,4 +1,4 @@
-
+<!-- Inherit from base class -->
 @extends('master_page')
 
 @section('specialized_css')
@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-
+    <!-- Show Facebook and Google Auth buttons here -->
     <div id="main_label" class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h1>Sign in with:</h1>

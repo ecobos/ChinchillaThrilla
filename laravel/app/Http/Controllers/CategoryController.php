@@ -89,6 +89,7 @@ class CategoryController extends ApiGuardController
 
     /**
      * Updates existing category in database based on ID
+     *
      * @param Request $request is the request POSTed
      * @param string $id the id of category to update
      * @return Response 404 if category is not found in database

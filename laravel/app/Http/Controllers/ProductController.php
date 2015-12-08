@@ -57,12 +57,13 @@ class ProductController extends ApiGuardController
      * Gets list of products based on search name
      *
      * @param string $name the name of the product
-     * @return Response 404 if product is not found
+     * @return Response|array retrieved product.
      */
-    public function getProductByName($name) {
-        // Query the database
+    public function getProductByName($name)
+    {
+        // Get products that match the provided name
         $products = Product::where('prod_name', 'like', '%' . $name . '%')->get();
-        if(empty($products)) {
+        if (empty($products)) {
             return new Response('Product not found', 404);
         }
         // return array of products
@@ -75,10 +76,11 @@ class ProductController extends ApiGuardController
      * @param string $id is the product ID
      * @return Response 404 if product is not found
      */
-    public function getProduct($id) {
+    public function getProduct($id)
+    {
         $product = Product::find($id);
-        
-        if(empty($product)) {
+
+        if (empty($product)) {
             // no product found, return 404 response
             return new Response('Product not found', 404);
         }
@@ -87,54 +89,58 @@ class ProductController extends ApiGuardController
     }
 
     /**
+     * Get the view for the specified product.
+     *
      * @param string $id is the product ID
      * @return view product page for a given product
      */
-    public function getProductView($id) {
+    public function getProductView($id)
+    {
         $product = Product::find($id); // find product
 
-        // check the product exists and that is already approved by admin
-        if(empty($product) || $product->isPublished==0) {
-            // return 404 view for product
+        // Check the product exists and that is already approved by admin
+        if (empty($product) || $product->isPublished == 0) {
+            // Let the user know that the product was not found
             return view('product404');
 
         }
 
-        // get all data to pass on over to viesw
+        // Set up the data to be passed to the view
         $prod_id = $id;
         $name = $product->prod_name;
         $model = $product->prod_model;
         $brand = $product->prod_brand;
-        $category = $product->prod_category;
         $desc = $product->prod_description;
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
+
         $features = Feature::getFeatures($id);
         $totalRating = Review::getOverallRating($id);
         $logged_in = Auth::check();
         $reviewCount = Review::getProductReviewCount($id)->total;
-
 
         // return product page for this product
         return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in', 'reviewCount'));
     }
 
     /**
-     * Returns a preview page for Admin to preview product
-     * @param $id is the product ID
-     * @return view product preview page; 404 product not found page if not found
+     * Display the product preview for the admin.
+     *
+     * @param string $id the product ID
+     * @return view product preview page
      */
-    public function adminProductPreview($id) {
+    public function adminProductPreview($id)
+    {
         $product = Product::find($id);
 
         // check product exists
-        if(empty($product)) {
-            // return 404 view
+        if (empty($product)) {
+            // Let the user know that the product was not found
             return view('product404');
 
         }
 
-        // get all data to pass on over to view
+        // Set up the data to be passed to the view
         $prod_id = $id;
         $name = $product->prod_name;
         $model = $product->prod_model;
@@ -143,33 +149,37 @@ class ProductController extends ApiGuardController
         $desc = $product->prod_description;
         $rating = $product->overall_rating;
         $img_path = $product->prod_img_path;
+
         $features = Feature::getFeatures($id);
         $totalRating = Review::getOverallRating($id);;
         $logged_in = false; // admin does not need to review a product
-        $reviewCount = 1;
+        $reviewCount = 1; // Needed as a view placeholder
 
-        // return product page for this product for admin to see
+        // Return product page for this product for admin to see
         return view('product_page', compact('prod_id', 'brand', 'name', 'model', 'desc', 'rating', 'img_path', 'features', 'totalRating', 'logged_in', 'reviewCount'));
     }
 
     /**
      * Returns all products in database
+     *
      * @return array of products
      */
-    public function getProducts() {
+    public function getProducts()
+    {
         $products = Product::all();
         return $products->toArray();
     }
 
 
     /**
-     * Creates a product based on information received from POST request  (Developer)
+     * Creates a product based on information received from POST request. Developer access level.
+     *
      * @param Request $request is the request POSTed by developer
      * @return Response 400 if json request is malformed
      */
     public function create(Request $request)
     {
-        // get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
+        // Get the data from the POST request (assuming JSON data was posted... keys need to match the ones in parantheses)
         $name = $request->input("prod_name");
         $model = $request->input("prod_model");
         $brand = $request->input("prod_brand");
@@ -178,14 +188,13 @@ class ProductController extends ApiGuardController
         $rating = $request->input("overall_rating");
         $img_path = $request->input("prod_img_path");
 
-        // check that all needed fields were posted
-        if($name == null || $model == null || $brand == null
-            || $category == null || $rating == null) {
+        // Check that all needed fields were posted
+        if ($name == null || $model == null || $brand == null || $category == null || $rating == null) {
             return new Response('Malformed json request', 400);
         }
 
-        // populate fields of new product and save in database
-        $product = new Product; // new instance of product
+        // Populate fields of new product and save in database
+        $product = new Product;
         $product->prod_name = $name;
         $product->prod_model = $model;
         $product->prod_brand = $brand;
@@ -193,13 +202,16 @@ class ProductController extends ApiGuardController
         $product->prod_description = $desc;
         $product->overall_rating = $rating;
         $product->prod_img_path = $img_path;
+
+        // Commit changes to the database
         $product->save();
     }
 
     /**
      * Creates a product based on information received from POST request
-     * @param Request $request is the requested posted
-     * @param $api_key is the API key provided
+     *
+     * @param Request $request the requested posted
+     * @param string $api_key the API key provided
      * @return Response 401 if API key provided is invalid
      */
     public function createWithAPIKey(Request $request, $api_key)
@@ -213,11 +225,11 @@ class ProductController extends ApiGuardController
         }
 
         // check if user is logged in
-        if(!Auth::check()) {
+        if (!Auth::check()) {
             // redirect user to login page if not logged in
             return Redirect::to('/auth/login')->with([
-                        'alert-type'=> 'alert-danger',
-                        'status' => 'Please Login']);
+                'alert-type' => 'alert-danger',
+                'status' => 'Please Login']);
         }
 
 
@@ -227,32 +239,30 @@ class ProductController extends ApiGuardController
         $brand = $request->input("prod_brand");
 
         // check for that all fields were entered
-        if($name == null || $model == null || $brand == null) {
+        if ($name == null || $model == null || $brand == null) {
             return Redirect::to('/submission_failed');
         }
-
-        $prod_id = null;
 
         // get brand id to check for existing record in database
         $brand_obj = Brand::where('brand_name', $brand)->first();
         $existing_product = null;
 
         // check if brand exists, check for product against database
-        if($brand_obj) {
+        if ($brand_obj) {
             // get brand_id
             $brand_id = $brand_obj->brand_id;
             // this brand exists, so we check if prod is in database already
             $existing_product = Product::where(['prod_name' => $name,
-                                            'prod_model' => $model,
-                                            'prod_brand' => $brand_id])->first();
+                'prod_model' => $model,
+                'prod_brand' => $brand_id])->first();
         }
 
-        // produt does not exist, add it
-        if(empty($existing_product)) {
+        // product does not exist, add it
+        if (empty($existing_product)) {
 
             // if brand does not exist, add it to brands table first
             $new_brand = Brand::where('brand_name', $brand)->first();
-            if(empty($new_brand)) {
+            if (empty($new_brand)) {
                 //print 'brand does not exist!';
                 $new_brand = new Brand;
                 $new_brand->brand_name = $brand;
@@ -265,30 +275,24 @@ class ProductController extends ApiGuardController
             $category = $request->input("prod_category");
 
             // check that category is not null
-            if($category == null) {
+            if ($category == null) {
                 return Redirect::to('/submission_failed');
             }
 
             $new_cat = Category::where('category_name', $category)->first();
-            if(empty($new_cat)) {
-                //print 'category does not exist';
+            if (empty($new_cat)) {
                 $new_cat = new Category;
                 $new_cat->category_name = $category;
-                //print 'category inserted: ' . $new_cat;
                 $new_cat->save();
             }
 
             // update ID on category being inserted to database
             $category = Category::where('category_name', $new_cat->category_name)->first()->category_id;
-
             $desc = $request->input("prod_description");
-
-            $image = '';
-            $image_url = '';
 
             // check if user uploaded an image for the product
             // upload to amazon S3
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $image = $request->file("image");
                 $image_file_name = time() . '_' . $image->getClientOriginalName();
 
@@ -298,10 +302,8 @@ class ProductController extends ApiGuardController
                 $bucket_name = "s3prod-images";
                 $region = "us-west-1";
                 // Generate URL
-                //https://s3-us-west-1.amazonaws.com/s3prod-images/Google-Nexus-10.jpg
                 $image_url = "https://s3-" . $region . ".amazonaws.com/" . $bucket_name . "/" . $image_file_name;
-            }
-            else {
+            } else {
                 // set image path to default image if no image provided
                 $image_url = 'http://www.trendmakina.com/wp-content/uploads/2014/05/empty-product-large.png';
             }
@@ -318,24 +320,21 @@ class ProductController extends ApiGuardController
 
             // get product id for newly added product
             $prod_id = $product->prod_id;
-        }
-        else {
+        } else {
             // product already exists, simply get the prod_id
-            //print 'prod already exists ' . $existing_product->prod_name;
             $prod_id = $existing_product->prod_id;
         }
 
-        // add features to database for this product
-        $spec_details = "";
+        // Add features to database for this product
         $feature_id = null;
-        // check all input boxes
-        for($i = 1; $i<11; $i++) {
+        // Check all input boxes
+        for ($i = 1; $i < 11; $i++) {
             $spec_details = $request->input('spec' . $i);
-            // check that the features are not empty
-            if(strcmp($spec_details, "") != 0) {
+            // Check that the features are not empty
+            if (strcmp($spec_details, "") != 0) {
                 $existing_feature = Feature::where('feature_name', $spec_details)->first();
-                // add feature to features table if none exists already
-                if(empty($existing_feature)) {
+                // Add feature to features table if none exists already
+                if (empty($existing_feature)) {
                     print 'feature ' . $spec_details . ' does not exist';
                     $add_feat = new Feature;
                     $add_feat->feature_name = $spec_details;
@@ -343,18 +342,17 @@ class ProductController extends ApiGuardController
 
                     // get feature_id of newly added feature
                     $feature_id = $add_feat->feature_id;
-                }
-                else {
+                } else {
                     // it does exist, simply get id of feat
                     $feature_id = $existing_feature->feature_id;
                 }
 
                 // check if this product already has this feature
                 $prod_feat = Feature_Rating_Total::where([
-                                        "prod_id"    => $prod_id,
-                                        "feature_id" => $feature_id])
-                                          ->first();
-                if(empty($prod_feat)) {
+                    "prod_id" => $prod_id,
+                    "feature_id" => $feature_id])
+                    ->first();
+                if (empty($prod_feat)) {
                     // tie product to that feature
                     $new_prod_feat = new Feature_Rating_Total;
                     $new_prod_feat->prod_id = $prod_id;
@@ -365,9 +363,9 @@ class ProductController extends ApiGuardController
         }
 
         // check if product was reviewed by admin
-        if(Admin::find(Auth::user()->user_id) != null) {
+        if (Admin::find(Auth::user()->user_id) != null) {
             // publish product on website
-            if($existing_product) {
+            if ($existing_product) {
                 $existing_product->isPublished = 1;
                 $existing_product->save();
             }
@@ -376,15 +374,16 @@ class ProductController extends ApiGuardController
 
         // show success message to user after adding product
         return Redirect::to('/addproduct')->with([
-                        'alert-type'=> 'alert-success',
-                        'status' => 'Successfully Added Product']);
+            'alert-type' => 'alert-success',
+            'status' => 'Successfully Added Product']);
     }
 
 
     /**
-     * Update a specific product
+     * Update a product.
+     *
      * @param Request $request is the request POSTed
-     * @param $id is the product ID
+     * @param string $id the product ID
      * @return Response 404 if product is not found; 400 if json was malformed
      */
     public function update(Request $request, $id)
@@ -392,7 +391,7 @@ class ProductController extends ApiGuardController
         // find product to update
         $product = Product::find($id);
         // check product exists
-        if(empty($product)) {
+        if (empty($product)) {
             return new Response('Product not found', 404);
         }
 
@@ -406,8 +405,9 @@ class ProductController extends ApiGuardController
         $img_path = $request->input("prod_img_path");
 
         // check that all needed fields were posted
-        if($name == null || $model == null || $brand == null
-            || $category == null || $rating == null) {
+        if ($name == null || $model == null || $brand == null
+            || $category == null || $rating == null
+        ) {
             return new Response('Malformed json request', 400);
         }
 
@@ -424,24 +424,27 @@ class ProductController extends ApiGuardController
     }
 
     /**
-     * Deletes a product
-     * @param $id is the product ID
+     * Deletes a product.
+     *
+     * @param string $id the product ID
      * @return Response 404 if product is not found
      */
     public function delete($id)
     {
         $product = Product::find($id);
-        if(empty($product)) {
+        if (empty($product)) {
             return new Response('Product not found', 404);
         }
         $product->delete();
     }
 
     /**
-     * Changes isPublished flag on product to be published and seen on site
+     * Changes isPublished flag on product to be published and seen on site.
+     *
      * @param Request $req is the POST request
      */
-    public function publishProduct(Request $req) {
+    public function publishProduct(Request $req)
+    {
         $prod_id = $req->input('productID');
         $product = Product::find($prod_id);
         $product->isPublished = 1;

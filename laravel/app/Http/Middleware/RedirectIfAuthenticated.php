@@ -18,7 +18,6 @@ class RedirectIfAuthenticated
      * Create a new filter instance.
      *
      * @param  Guard  $auth
-     * @return void
      */
     public function __construct(Guard $auth)
     {
@@ -34,11 +33,13 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        // bool check(): determine if the current user is authenticated
+        // Check if the current user is authenticated
         if ($this->auth->check()) {
+            // Redirect to the main page if the user is authenticated
             return redirect('/');
         }
 
+        // Otherwise, allow the request to go through
         return $next($request);
     }
 }

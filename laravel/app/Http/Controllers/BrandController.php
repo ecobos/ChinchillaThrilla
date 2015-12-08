@@ -23,9 +23,10 @@ class BrandController extends ApiGuardController
      * @param string $name is the brand name
      * @return mixed List of brands. Otherwise, 404 if no brand is found
      */
-    public function getBrandByName($name) {
+    public function getBrandByName($name)
+    {
         $brands = Brand::where('brand_name', 'like', '%' . $name . '%')->get();
-        if(empty($brands)) {
+        if (empty($brands)) {
             return new Response('Product not found', 404);
         }
         return $brands->toArray();
@@ -37,11 +38,12 @@ class BrandController extends ApiGuardController
      * @param string $id is the brand ID
      * @return mixed The desired brand. Otherwise, 404 if not brand is found with $id
      */
-    public function getBrand($id) {
+    public function getBrand($id)
+    {
         $brand = Brand::find($id);
 
         // if brand is not found, return 404
-        if(empty($brand)) {
+        if (empty($brand)) {
             return new Response('Product not found', 404);
         }
         return $brand->brand_name;
@@ -52,7 +54,8 @@ class BrandController extends ApiGuardController
      *
      * @return array of brands
      */
-    public function getBrands() {
+    public function getBrands()
+    {
         $brands = Brand::all();
         return $brands->toArray();
     }
@@ -69,13 +72,12 @@ class BrandController extends ApiGuardController
         // get brand name from the POST request
         $brand_name = $request->input("brand_name");
 
-        if($brand_name) {
+        if ($brand_name) {
             // save new brand
             $new_brand = new Brand;
             $new_brand->brand_name = $brand_name;
             $new_brand->save();
-        }
-        else {
+        } else {
             return new Response('Malformed json request', 400);
         }
     }
@@ -91,8 +93,8 @@ class BrandController extends ApiGuardController
     {
         // find brand to update
         $brand = Brand::find($id);
-        
-        if(empty($brand)) {
+
+        if (empty($brand)) {
             return new Response('Product not found', 404);
         }
         // Update brand
@@ -109,7 +111,7 @@ class BrandController extends ApiGuardController
     public function delete($id)
     {
         $brand = Brand::find($id);
-        if(empty($brand)) {
+        if (empty($brand)) {
             return new Response('Product not found', 404);
         }
         $brand->delete();

@@ -49,10 +49,9 @@ class APIController extends ApiGuardController
 
         if ($apiKey) {
             return new Response('This user already has an API key', 400);
-        }
-        else {
+        } else {
             $user = User::find($userID);
-            if(empty($user)) {
+            if (empty($user)) {
                 return new Response('This is not a valid user. Try again.', 404);
             }
         }
@@ -72,10 +71,11 @@ class APIController extends ApiGuardController
      * @param string $user_id is the ID of the user
      * @return Response 200 (ok) if API key is found; 404 otherwise
      */
-    public function get($user_id) {
+    public function get($user_id)
+    {
         print 'get ' . $user_id;
         $apiKey = ApiKey::where('user_id', $user_id);
-        if(empty($apiKey)) {
+        if (empty($apiKey)) {
             return new Response('API key for that ID not found');
         }
         return $apiKey;
@@ -90,7 +90,7 @@ class APIController extends ApiGuardController
     public function delete($user_id)
     {
         $apiKey = ApiKey::where('user_id', $user_id);
-        if(empty($apiKey)) {
+        if (empty($apiKey)) {
             return new Response('API key for that ID not found', 404);
         }
         $apiKey->delete(); // delete from database

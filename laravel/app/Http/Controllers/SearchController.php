@@ -42,6 +42,8 @@ class SearchController extends Controller
             // search Products
             if($request->input('type') == "product")        
             {
+                // Find the all products that match a given pattern and are published
+                // There are published by the admin account.
                 $db_result = DB::table('products')
                         -> select('*')
                         -> where('prod_name', 'LIKE', "%{$w}%")
