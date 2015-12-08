@@ -55,10 +55,12 @@ class ProductController extends ApiGuardController
 
     /**
      * Gets list of products based on search name
-     * @param $name is the name of the product
+     *
+     * @param string $name the name of the product
      * @return Response 404 if product is not found
      */
     public function getProductByName($name) {
+        // Query the database
         $products = Product::where('prod_name', 'like', '%' . $name . '%')->get();
         if(empty($products)) {
             return new Response('Product not found', 404);
@@ -69,7 +71,8 @@ class ProductController extends ApiGuardController
 
     /**
      * Returns product with specified ID
-     * @param $id is the product ID
+     *
+     * @param string $id is the product ID
      * @return Response 404 if product is not found
      */
     public function getProduct($id) {
@@ -84,7 +87,7 @@ class ProductController extends ApiGuardController
     }
 
     /**
-     * @param $id is the product ID
+     * @param string $id is the product ID
      * @return view product page for a given product
      */
     public function getProductView($id) {

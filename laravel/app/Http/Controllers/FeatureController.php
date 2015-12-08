@@ -17,7 +17,8 @@ class FeatureController extends Controller
 {
     /**
      * Gets a list of features for a given product
-     * @param $prod_id is the product ID
+	 *
+     * @param string $prod_id the product ID
      * @return array of features for a given product
      */
 	public function getFeatures($prod_id)
@@ -27,6 +28,7 @@ class FeatureController extends Controller
 
     /**
      * Rates a feature for a given product
+	 *
      * @param Request $request is the request POSTed
      */
 	public function rate (Request $request)
@@ -43,6 +45,7 @@ class FeatureController extends Controller
 
     /**
      * Links a feature to a product
+	 *
      * @param Request $request is the request POSTed
      */
 	public function createProductFeature(Request $request)

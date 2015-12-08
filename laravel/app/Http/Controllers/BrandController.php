@@ -19,8 +19,9 @@ class BrandController extends ApiGuardController
 {
     /**
      * Get list of brands based on search name
-     * @param $name is the brand name
-     * @return Response 404 if no brand is found
+     *
+     * @param string $name is the brand name
+     * @return mixed List of brands. Otherwise, 404 if no brand is found
      */
     public function getBrandByName($name) {
         $brands = Brand::where('brand_name', 'like', '%' . $name . '%')->get();
@@ -32,8 +33,9 @@ class BrandController extends ApiGuardController
 
     /**
      * Get specific brand name based on ID
-     * @param $id is the brand ID
-     * @return Response 404 if not brand is found with $id
+     *
+     * @param string $id is the brand ID
+     * @return mixed The desired brand. Otherwise, 404 if not brand is found with $id
      */
     public function getBrand($id) {
         $brand = Brand::find($id);
@@ -47,6 +49,7 @@ class BrandController extends ApiGuardController
 
     /**
      * Gets all brands in database
+     *
      * @return array of brands
      */
     public function getBrands() {
@@ -56,6 +59,7 @@ class BrandController extends ApiGuardController
 
     /**
      * Creates new brand in database
+     *
      * @param Request $request is the request POSTed
      * @return Response 400 Bad Request if request is missing fields
      */
@@ -78,8 +82,9 @@ class BrandController extends ApiGuardController
 
     /**
      * Updates an existing brand in database
+     *
      * @param Request $request is the request POSTed
-     * @param $id is the brand id
+     * @param string $id is the brand id
      * @return Response 404 if brand is not found
      */
     public function update(Request $request, $id)
@@ -97,7 +102,8 @@ class BrandController extends ApiGuardController
 
     /**
      * Deletes a brand from database
-     * @param $id is the brand ID
+     *
+     * @param string $id is the brand ID
      * @return Response 404 if brand is not found
      */
     public function delete($id)

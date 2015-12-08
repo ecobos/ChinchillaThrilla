@@ -30,9 +30,8 @@ class AuthController extends Controller
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
-     * Create a new authentication controller instance.
+     * Create a new authentication controller instance. Apply middleware.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -43,7 +42,7 @@ class AuthController extends Controller
     /**
      * Redirect the user to the Facebook authentication page.
      *
-     * @return Response
+     * @return Response status result of the redirect
      */
     public function authRedirectToFacebook()
     {
@@ -51,40 +50,45 @@ class AuthController extends Controller
     }
 
     /**
-     * Obtain the user information from Facebook.
+     * Handles the Facebook callback once the user has authenticated with Facebook.
+     * Obtains the user's information from Facebook.
      *
-     * @return Response
+     * @return Response redirect user to their profile page
      */
     public function handleFacebookCallback()
     {
         try {
             $user = Socialite::driver('facebook')->user();
         } catch (Exception $e) {
+            // In case of an error, have the user try again
             return Redirect::to('auth/facebook');
         }
 
-
+        // Check if the user is new or existing
         $authUser = $this->findOrCreateUser($user, 'Facebook');
 
+        // Log the user into our system
         Auth::login($authUser, true);
-
 
         return Redirect::to('/profile');
     }
 
     /**
+     * Check if a user exists in our database. If they exists, then restore that user.
+     * Otherwise, create the new user.
      *
-     * @param $aUser
-     * @return static
+     * @param User $aUser the user to check
+     * @return User the setup user
      */
     private function findOrCreateUser($aUser, $authProvider)
     {
 
+        // Check if the user already exists in our system
         if ($authUser = User::where('app_id', $aUser->id)->where('auth_provider', $authProvider)->first()) {
             return $authUser;
         }
 
-        // Order matters. Set avatar regarless of auth provider
+        // Order matters. Set avatar regardless of auth provider
         $avatar = $aUser->avatar;
 
         // If Google is the auth provider, then update the URL to get the higher quality image
@@ -106,7 +110,7 @@ class AuthController extends Controller
     /**
      * Redirect the user to the Google authentication page.
      *
-     * @return Response
+     * @return Response status result of the redirect
      */
     public function authRedirectToGoogle()
     {
@@ -114,9 +118,10 @@ class AuthController extends Controller
     }
 
     /**
-     * Obtain the user information from Google.
+     * Handles the Facebook callback once the user has authenticated with Google.
+     * Obtains the user's information from Google
      *
-     * @return Response
+     * @return Response redirect user to their profile page
      */
     public function handleGoogleCallback()
     {
@@ -124,27 +129,41 @@ class AuthController extends Controller
         try {
             $user = Socialite::driver('google')->user();
         } catch (Exception $e) {
+            // In case of an error, have the user try again
             return Redirect::to('auth/google');
         }
 
-
+        // Check if the user is new or existing
         $authUser = $this->findOrCreateUser($user, 'Google');
 
+        // Log the user into our system
         Auth::login($authUser, true);
 
         return Redirect::to('/profile');
     }
 
+    /**
+     * Log a user out of the system
+     *
+     * @return Response redirect to the main page with logout feedback
+     */
     public function doLogout()
     {
+        // Log the user out of the system
         Auth::logout();
 
+        // Redirect to the main page and provide feedback
         return Redirect::to('/')->with([
             'alert-type' => 'alert-success',
             'status' => 'Successfully Logged Out. See you later!'
         ]);
     }
 
+    /**
+     * Display the login page.
+     *
+     * @return View the login page
+     */
     public function doLogin()
     {
         return view('auth.login_page');

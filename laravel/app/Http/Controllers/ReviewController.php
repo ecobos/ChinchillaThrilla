@@ -24,20 +24,16 @@ class ReviewController extends ApiGuardController
     // methods that don't need api key authentication
     // ADMIN permissions are set in middleware
     protected $apiMethods = [
-        'createReviewWithAPIKey' => [
-            'keyAuthentication' => false
-        ],
-        'getProductReviews' => [
-            'keyAuthentication' => false],
-        'deleteReview' => [
-            'keyAuthentication' => false],
-        'moderateReview' => [
-            'keyAuthentication' => false],
-        'deleteUserReview' => [
-            'keyAuthentication' => false]
+        'createReviewWithAPIKey' => ['keyAuthentication' => false],
+        'getProductReviews' => ['keyAuthentication' => false],
+        'deleteReview' => ['keyAuthentication' => false],
+        'moderateReview' => ['keyAuthentication' => false],
+        'deleteUserReview' => ['keyAuthentication' => false]
     ];
 
-    // ADMIN only: gives Admin the ability to delete and moderate reviews
+    /**
+     * ReviewController constructor. Gives Admin the ability to delete and moderate reviews
+     */
     public function __construct()
     {
         $this->middleware('adminsOnly', ['only' => ['deleteUserReview', 'moderateReview']]);
@@ -45,7 +41,8 @@ class ReviewController extends ApiGuardController
 
     /**
      * Returns review with given test data
-     * @return view review test data
+     *
+     * @return View review test data
      */
     public function index()
     {

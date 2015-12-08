@@ -20,14 +20,17 @@ use App\Feature_Rating;
 class PagesController extends Controller
 {
 
-    // ADMIN Only: gives the admin ability to edit a product
+    /**
+     * PagesController constructor. Sets up the middleware
+     */
     public function __construct()
     {
         $this->middleware('adminsOnly', ['only' => 'editProduct']);
     }
 
     /**
-     * Returns about page
+     * Get the about page
+     *
      * @return view About page
      */
     public function about() {
@@ -36,7 +39,8 @@ class PagesController extends Controller
     }
 
     /**
-     * Returns home page
+     * Get the home page
+     *
      * @return view home page
      */
     public function home() {
@@ -45,16 +49,17 @@ class PagesController extends Controller
 
     /**
      * Returns product search results page
-     * @return view for product search results
+     *
+     * @return View for product search results
      */
     public function searchResult() {
-        $page_name = 'Product Search';
         return view('search_results');
     }
 
     /**
      * Returns the Add a product page
-     * @return view Add a product form
+     *
+     * @return View Add a product form
      */
     public function addProduct() {
         $categories = Category::all(); // get all categories
@@ -74,6 +79,7 @@ class PagesController extends Controller
             $brand_array[$b->brand_name] = $b->brand_name;
         }
 
+        // New array element will be inserted to the beginning of the list
         array_unshift($cat_array, 'Select a Category');
         array_unshift($brand_array, 'Select a Brand');
         // returns view with all category and brand data for drop menus
@@ -82,7 +88,7 @@ class PagesController extends Controller
 
     /**
      * Returns view that allows the Admin to edit product submissions made by users
-     * @param $prod_id is the product ID
+     * @param string $prod_id is the product ID
      * @return view Edit Product Submission form
      */
     public function editProduct($prod_id) {
@@ -103,6 +109,7 @@ class PagesController extends Controller
             $brand_array[$b->brand_name] = $b->brand_name;
         }
 
+        // New array element will be inserted to the beginning of the list
         array_unshift($cat_array, 'Select a Category');
         array_unshift($brand_array, 'Select a Brand');
 
@@ -111,7 +118,7 @@ class PagesController extends Controller
 
         // get features by name
         $feature_names = array();
-        $i = 1;
+        $i = 1; // array index counter
         foreach($current_features as $feature) {
             $feature_names[$i] = Feature::find($feature->feature_id)->feature_name;
             $i++; // needed for array indexing

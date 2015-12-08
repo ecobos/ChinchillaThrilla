@@ -35,6 +35,7 @@ class APIController extends ApiGuardController
 
     /**
      * Grant API access to a specific user by creating an API key for them
+     *
      * @param Request $request is the request POSTed
      * @return Response 200 (ok) if able to create API key; 404 if not a valid user; 400 if user has an API key already
      */
@@ -67,7 +68,8 @@ class APIController extends ApiGuardController
 
     /**
      * Retrieves the API key for a user
-     * @param $user_id is the ID of the user
+     *
+     * @param string $user_id is the ID of the user
      * @return Response 200 (ok) if API key is found; 404 otherwise
      */
     public function get($user_id) {
@@ -81,7 +83,8 @@ class APIController extends ApiGuardController
 
     /**
      * Revoke access to anyone who misuses API key
-     * @param $user_id is the id of the user
+     *
+     * @param string $user_id is the id of the user
      * @return Response 404 if user is not found
      */
     public function delete($user_id)

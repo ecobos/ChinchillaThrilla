@@ -26,7 +26,8 @@ class CategoryController extends ApiGuardController
 
     /**
      * Get list of categories based on search name
-     * @param $name is the brand name
+     *
+     * @param string $name is the brand name
      * @return array of brands; 404 if no brands by that name exists
      */
     public function getCategoryByName($name) {
@@ -39,8 +40,9 @@ class CategoryController extends ApiGuardController
 
     /**
      * Gets a category by name using its ID
-     * @param $id is the category ID
-     * @return category
+     *
+     * @param string $id is the category ID
+     * @return mixed the desired category name. Otherwise, 404 if no category by that name exists
      */
     public function getCategory($id) {
         $cat = Category::find($id);
@@ -52,9 +54,9 @@ class CategoryController extends ApiGuardController
         return $cat->category_name;
     }
 
-
     /**
      * Gets all categories in database
+     *
      * @return array of categories
      */
     public function getCategories() {
@@ -64,6 +66,7 @@ class CategoryController extends ApiGuardController
 
     /**
      * Creates a new category in database
+     *
      * @param Request $request is the request POSTed
      * @return Response 400 if json POST request is malformed
      */
@@ -87,7 +90,7 @@ class CategoryController extends ApiGuardController
     /**
      * Updates existing category in database based on ID
      * @param Request $request is the request POSTed
-     * @param $id is the category to update
+     * @param string $id the id of category to update
      * @return Response 404 if category is not found in database
      */
     public function update(Request $request, $id)
@@ -104,7 +107,8 @@ class CategoryController extends ApiGuardController
 
     /**
      * Deletes existing category from database
-     * @param $id is the category ID
+     *
+     * @param string $id the category ID
      * @return Response 404 if category is not found
      */
     public function delete($id)
