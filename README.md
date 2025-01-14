@@ -15,7 +15,6 @@ Check out the code for that. If you get an SSL error, do the following:
 <h2>API Key support added</h2>
 To test simply add the X-Authorization header to your request. Views do not require an API key since any user should be able to look at products and things
 of that such.
-Use this key for now: <strong>0720a8c75b24bc9de4d548587ac41c85de4d8020</strong>
 
 If you want to create a key for yourself, simply run this command:
 <em>php artisan api-key:generate --user-id=1 </em> where 1 is the userID you are tying that key to.
